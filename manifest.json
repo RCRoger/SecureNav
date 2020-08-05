@@ -4,5 +4,8 @@
     "default_locale": "ca",
     "version": "0.1",
     "description": "Intenta millorar la teva seguretat al navegar per la web.",
+    "permissions": [
+        "storage"
+      ],
     "options_page": "options/options.html"
 }

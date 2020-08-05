@@ -1,6 +1,24 @@
 {
-    "general": {
+    "general_tab": {
         "message": "General",
         "description": "Nom per a la tab de configuració general"
+    },
+    "download_tab":{
+        "message": "Control de descàrregues"
+    },
+    "malware_tab":{
+        "message": "Malware"
+    },
+    "sites_tab":{
+        "message": "Control de llocs web"
+    },
+    "popup_tab":{
+        "message": "Control de emergents"
+    },
+    "super_tab":{
+        "message": "Superusuari"
+    },
+    "general_title":{
+        "message": "Informació emmagatzemada"
     }
 }
