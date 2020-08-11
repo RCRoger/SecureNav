@@ -20,5 +20,8 @@
     },
     "general_title":{
         "message": "Informació emmagatzemada"
+    },
+    "dwl_title":{
+        "message": "Llista d'IPs"
     }
 }
