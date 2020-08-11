@@ -1,29 +1,31 @@
+var urls = undefined;
 
-  
-const webRequestFlags = [
-    'blocking',
-  ];
-
-  function page_blocker(page){
-    return {
-        cancel: true,
+function download_blocker(file){
+    chrome.downloads.pause(file.id);
+    console.log('Pausada');
+    if (urls.some(function(item){
+        if(item.exec(file.url) || item.exec(file.finalUrl))
+            return true;
+        
+    })){
+        chrome.downloads.cancel(file.id);
+        console.log('Cancelada');
+    }
+    else{
+        chrome.downloads.resume(file.id);
+        console.log('resumida');
     }
 }
 
-function get_url_list(){
-    let urls = [];
+function add_blocker_listener(){
+    urls = [];
     chrome.storage.local.get('download', function(data){
-        data.download.url_list.forEach(item => urls.push(item.str));
+        data.download.url_list.forEach(item => urls.push(url_regex(item)));
         if (Array.isArray(urls) && urls.length) {
-            var filter = { 'urls': urls }
-            window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
-            window.chrome.webRequest.onBeforeRequest.addListener(page_blocker,
-                filter,
-                webRequestFlags,
-            );
+            chrome.downloads.onCreated.removeListener(download_blocker);
+            chrome.downloads.onCreated.addListener(download_blocker);
         }
     });
 }
 
-get_url_list();
-
+add_blocker_listener();

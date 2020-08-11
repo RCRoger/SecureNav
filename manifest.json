@@ -5,7 +5,7 @@
     "version": "0.1",
     "description": "Intenta millorar la teva seguretat al navegar per la web.",
     "permissions": [
-        "storage", "webRequest", "webRequestBlocking", "*://*/*"
+        "storage", "webRequest", "webRequestBlocking", "*://*/*", "downloads"
       ],
       "background": {
         "scripts": ["background/download/items.js", "background/download/initial.js", "background/initial.js", "background/download/download.js"],
