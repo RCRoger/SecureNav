@@ -5,10 +5,10 @@
     "version": "0.1",
     "description": "Intenta millorar la teva seguretat al navegar per la web.",
     "permissions": [
-        "storage", "webRequest", "webRequestBlocking", "*://*/*", "downloads"
+        "storage", "webRequest", "webRequestBlocking", "*://*/*", "downloads", "tabs"
       ],
       "background": {
-        "scripts": ["background/download/items.js", "background/download/initial.js", "background/initial.js", "background/download/download.js"],
+        "scripts": ["background/urls/initial.js","background/urls/items.js", "background/download/items.js", "background/download/initial.js", "background/initial.js", "background/download/download.js"],
         "persistent": true
       },
     "options_page": "options/options.html"
