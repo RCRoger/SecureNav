@@ -23,5 +23,5 @@ function add_blocker_listener(){
     });
 }
 
-//add_blocker_listener();
+add_blocker_listener();
 
