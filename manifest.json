@@ -11,5 +11,11 @@
         "scripts": ["background/urls/initial.js","background/urls/items.js", "background/download/items.js", "background/download/initial.js", "background/initial.js", "background/download/download.js"],
         "persistent": true
       },
-    "options_page": "options/options.html"
+    "options_page": "options/options.html",
+    "icons": { "16": "secnav16.ico",
+      "48": "secnav48.ico",
+     "128": "secnav128.ico" },
+     "browser_action": {
+      "default_icon": "secnav128.png"
+     }
 }

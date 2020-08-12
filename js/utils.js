@@ -7,7 +7,7 @@ function create_table(id, headers, rows){
     var tbl = document.createElement('table');
     tbl.id = id;
     tbl.cellSpacing = 0;
-    tbl.classList.add('table', 'table-bordered');
+    tbl.classList.add('table', 'table-bordered', 'text-center');
     var thead = document.createElement('thead');
     tbl.appendChild(thead);
     var tr = document.createElement('tr');
