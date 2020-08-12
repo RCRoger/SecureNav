@@ -2,6 +2,9 @@ function init_download(){
     getMessage("download_tab", "download-tab");
     getMessage("dwl_title", "dwl-title-1");
 
+    $('#dwl-switch-1').change(save_type);
+
+    
     
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         if(e.target.id == 'download-tab')
@@ -9,75 +12,54 @@ function init_download(){
         });
 }
 
-function show_download(){
-    var tbl = document.createElement('table');
-    tbl.id = 'dwl-table';
-    tbl.classList.add('table', 'table-bordered');
-    var thead = document.createElement('thead');
-    tbl.appendChild(thead);
-    var tr = document.createElement('tr');
-    thead.appendChild(tr);
-    var th = document.createElement('th');
-    th.innerHTML = 'Protocol';
-    tr.appendChild(th);
-    th = document.createElement('th');
-    th.innerHTML = 'SubDomain';
-    tr.appendChild(th);
-    th = document.createElement('th');
-    th.innerHTML = 'Domain';
-    tr.appendChild(th);
-    th = document.createElement('th');
-    th.innerHTML = 'Page';
-    tr.appendChild(th);
 
-    var tbody = document.createElement('tbody');
-    tbl.appendChild(tbody);
+function save_type(){
+  $('#dwl-label-1').text(this.checked ? "WhiteList" : "BlackList");
+  var type = undefined;
+  if(this.checked)
+    type = 0;
+  else
+    type = 1;
+  chrome.storage.local.set({
+    'dwl_type': type 
+  });
+}
 
-    chrome.storage.local.get('download', function(data){
-        data.download.url_list.forEach((item) => {
-            for (let index = 0; index < 50; index++) {
-                
-            
-            var tr = document.createElement('tr');
-            tbody.appendChild(tr);
-            var td = document.createElement('td');
-            tr.appendChild(td);
-            td.innerHTML = item.protocol;
+function show_ip_list(){
 
-            td = document.createElement('td');
-            tr.appendChild(td);
-            td.innerHTML = item.host;
+  chrome.storage.local.get('dwl_type', function(data){
+    if(data.dwl_type == 0)
+      $('#dwl-switch-1').prop('checked', true);
+    else if (data.dwl_type == 1)
+      $('#dwl-switch-1').prop('checked', false);
+    $('#dwl-label-1').text($('#dwl-switch-1').is(':checked') ? "WhiteList" : "BlackList");
+  });
 
-            td = document.createElement('td');
-            tr.appendChild(td);
-            td.innerHTML = item.host;
-
-            td = document.createElement('td');
-            tr.appendChild(td);
-            td.innerHTML = item.page;
-            }
-        });
-
-        $('#dwl-text-1').html(tbl);
-        $('#dwl-table').dataTable({
-            "paging": false,
-            "fnInitComplete": function () {
-            var myCustomScrollbar = document.querySelector('#dt-vertical-scroll_wrapper .dataTables_scrollBody');
-            var ps = new PerfectScrollbar(myCustomScrollbar);
-            },
-            "scrollY": 350,
-            columnDefs: [{
-              orderable: false,
-              className: 'select-checkbox',
-              targets: 0
-            }],
-            select: {
-              style: 'multi',
-              selector: 'td:first-child'
-            }
-          });
-
+  chrome.storage.local.get('dwl_url_list', function(data){
+    var headers = ['Protocol', 'SubDomain', 'Domain', 'Page']
+    var id = 'dwl-table-1'
+    var rows = [];
+    data.dwl_url_list.forEach((item) => {
+        rows.push([item.protocol, item.host, item.host, item.page]);
     });
+    var tbl = create_table(id, headers, rows);
+    $('#dwl-text-1').html(tbl);
+    $('#dwl-table-1').dataTable({
+      "paging": false,
+      columnDefs: [{
+        orderable: false,
+        className: 'select-checkbox select-checkbox-all',
+        targets: 0
+      }],
+      select: {
+        style: 'multi',
+        selector: 'td:first-child'
+      }
+    });
+  });
+}
 
-    
+
+function show_download(){
+    show_ip_list();
 }
