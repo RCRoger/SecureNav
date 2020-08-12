@@ -21,7 +21,7 @@ function dwl_listener(file){
     if(type == 0){
         download_allower(file);
     }
-    else if(type == 0){
+    else if(type == 1){
         download_blocker(file);
     }
 }
@@ -57,11 +57,11 @@ function download_allower(file){
     }
 }
 
-function add_blocker_listener(){
+function add_dwl_blocker_listener(){
     urls = [];
     chrome.storage.local.get(['dwl_enabled', 'dwl_type', 'dwl_url_list', 'dwl_max_size'], function(data){
         chrome.downloads.onCreated.removeListener(dwl_listener);
-        if(!data.enabled){
+        if(!data.dwl_enabled){
             return;
         }
         type = data.dwl_type;
@@ -73,4 +73,10 @@ function add_blocker_listener(){
     });
 }
 
-add_blocker_listener();
+
+chrome.extension.onRequest.addListener(function(request) {
+    if (request && (request.id == "update_dwl"))
+        add_dwl_blocker_listener();
+  });
+
+add_dwl_blocker_listener();

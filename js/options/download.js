@@ -22,7 +22,7 @@ function save_type(){
     type = 1;
   chrome.storage.local.set({
     'dwl_type': type 
-  });
+  }, update_dwl_background);
 }
 
 function save_enabled(){
@@ -30,7 +30,7 @@ function save_enabled(){
   var enabled = undefined;
   chrome.storage.local.set({
     'dwl_enabled': this.checked 
-  });
+  }, update_dwl_background);
 }
 
 function show_ip_list(){
@@ -88,4 +88,8 @@ function show_ip_list(){
 
 function show_download(){
     show_ip_list();
+}
+
+function update_dwl_background(){
+  chrome.extension.sendRequest({id:"update_dwl"});
 }
