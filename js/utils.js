@@ -3,7 +3,7 @@ function getMessage(msg, item) {
     document.getElementById(item).innerHTML = message;
 }
 
-function create_table(id, headers, rows){
+function create_table(id, headers, rows) {
     var tbl = document.createElement('table');
     tbl.id = id;
     tbl.cellSpacing = 0;
@@ -21,7 +21,7 @@ function create_table(id, headers, rows){
         th.innerHTML = element;
     });
 
-    
+
     var tbody = document.createElement('tbody');
     tbl.appendChild(tbody);
 
@@ -41,7 +41,7 @@ function create_table(id, headers, rows){
     return tbl;
 }
 
-function add_card(section, num){
+function add_card(section, num) {
     var card = create_card();
 
     var header = create_card_header(card);
@@ -61,8 +61,8 @@ function add_card(section, num){
     $('#' + section + '-container').append(card);
 
 }
- 
-function create_checkbox(section, type, num, classList = []){
+
+function create_checkbox(section, type, num, classList = []) {
     var div = document.createElement('div');
     div.classList.add('custom-control');
     classList.forEach(item => {
@@ -71,7 +71,7 @@ function create_checkbox(section, type, num, classList = []){
     var input = document.createElement('input');
     input.classList.add('custom-control-input');
     input.id = section + '-' + type + '-' + num;
-    input.type  = "checkbox";
+    input.type = "checkbox";
     div.appendChild(input);
 
     var label = document.createElement('label');
@@ -83,34 +83,34 @@ function create_checkbox(section, type, num, classList = []){
     return div;
 }
 
-function create_card(){
+function create_card() {
     var card = document.createElement('div');
     card.classList.add('card');
     return card;
 }
 
-function create_card_header(card){
+function create_card_header(card) {
     var header = document.createElement('div');
     header.classList.add('card-header');
     card.appendChild(header);
     return header;
 }
 
-function create_card_body(card){
+function create_card_body(card) {
     var body = document.createElement('div');
     body.classList.add('card-body');
     card.appendChild(body);
     return body;
 }
 
-function create_card_title(body){
+function create_card_title(body) {
     var title = document.createElement('div');
     title.classList.add('card-title', 'mb-5');
     body.appendChild(title);
     return title;
 }
 
-function create_card_text(body){
+function create_card_text(body) {
     var text = document.createElement('div');
     text.classList.add('card-text');
     body.appendChild(text);

@@ -10,5 +10,6 @@ $(document).ready(function(){
 
 function init(){
     init_gral();
-    DownloadController.init_download();
+    var dc = new DownloadController();
+    dc.init_download();
 }
