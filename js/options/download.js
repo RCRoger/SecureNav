@@ -29,28 +29,28 @@ function DownloadController() {
     else
       type = 1;
     chrome.storage.local.set({
-      'dwl_type': type
+      'dwl_url_type': type
     }, update_dwl_background);
   }
 
   function save_enabled() {
     getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-1");
     chrome.storage.local.set({
-      'dwl_enabled': this.checked
+      'dwl_url_enabled': this.checked
     }, update_dwl_background);
   }
 
   DC.prototype.show_ip_list = function () {
 
-    chrome.storage.local.get(['dwl_enabled', 'dwl_url_list', 'dwl_type'], function (data) {
+    chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_list', 'dwl_url_type'], function (data) {
 
-      $('#dwl-enabled-1').prop('checked', data.dwl_enabled);
+      $('#dwl-enabled-1').prop('checked', data.dwl_url_enabled);
 
-      getMessage(data.dwl_enabled ? "enabled" : "disabled", "dwl-enabled-label-1");
+      getMessage(data.dwl_url_enabled ? "enabled" : "disabled", "dwl-enabled-label-1");
 
-      if (data.dwl_type == 0)
+      if (data.dwl_url_type == 0)
         $('#dwl-switch-1').prop('checked', true);
-      else if (data.dwl_type == 1)
+      else if (data.dwl_url_type == 1)
         $('#dwl-switch-1').prop('checked', false);
       getMessage($('#dwl-switch-1').is(':checked') ? "whiteList" : "blackList", "dwl-switch-label-1");
 
@@ -115,6 +115,6 @@ function DownloadController() {
   }
 
   function update_dwl_background() {
-    chrome.extension.sendRequest({ id: "update_dwl" });
+    chrome.extension.sendRequest({ id: "dwl_update" });
   }
 })(DownloadController);

@@ -1,4 +1,4 @@
 chrome.extension.onRequest.addListener(function (request) {
-    if (request && (request.id == "update_dwl"))
-        dwl_background.add_listener();
+    if (request && (request.id.toString().includes('dwl')))
+        dwl_background.request(request);
 });
