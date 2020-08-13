@@ -3,13 +3,13 @@ function DownloadBackground() {
     this.max_size = undefined;
     this.type = undefined;
     this.enabled = undefined;
-    this.add_dwl_blocker_listener();
+    this.add_listener();
 }
 
 (function (DB, undefined) {
     DB.prototype.url_block = function (file) {
         if (Array.isArray(this.urls) && this.urls.length) {
-            return urls.some(function (item) {
+            return this.urls.some(function (item) {
                 if (item.exec(file.url) || item.exec(file.finalUrl))
                     return true;
             });
@@ -19,6 +19,15 @@ function DownloadBackground() {
 
     DB.prototype.size_block = function (file) {
         return this.max_size > file.fileSize;
+    }
+
+    DB.prototype.block_action = function(file){
+        if (this.type == 0) {
+            this.download_allower(file);
+        }
+        else if (this.type == 1) {
+            this.download_blocker(file);
+        }
     }
 
     DB.prototype.download_blocker = function (file) {
@@ -52,7 +61,7 @@ function DownloadBackground() {
         }
     }
 
-    DB.prototype.add_dwl_blocker_listener = function () {
+    DB.prototype.add_listener = function () {
         var that = this;
         this.urls = [];
         chrome.storage.local.get(['dwl_enabled', 'dwl_type', 'dwl_url_list', 'dwl_max_size'], function (data) {
@@ -71,13 +80,8 @@ function DownloadBackground() {
     }
 })(DownloadBackground);
 
-var dwl = new DownloadBackground();
+var dwl_background = new DownloadBackground();
 
 var dwl_listener = function (file) {
-    if (dwl.type == 0) {
-        dwl.download_allower(file);
-    }
-    else if (dwl.type == 1) {
-        dwl.download_blocker(file);
-    }
+    dwl_background.block_action(file);
 }
