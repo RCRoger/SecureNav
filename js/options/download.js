@@ -1,10 +1,9 @@
+
+const section = 'dwl';
+var charged = false;
+
 function init_download(){
-    getMessage("download_tab", "download-tab");
-    getMessage("dwl_title", "dwl-title-1");
-
-    $('#dwl-switch-1').change(save_type);
-
-    $('#dwl-enabled-1').change(save_enabled);
+  getMessage("download_tab", "download-tab");
     
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
         if(e.target.id == 'download-tab')
@@ -14,7 +13,7 @@ function init_download(){
 
 
 function save_type(){
-  $('#dwl-switch-label-1').text(this.checked ? "WhiteList" : "BlackList");
+  getMessage(this.checked ? "whiteList" : "blackList", "dwl-switch-label-1");
   var type = undefined;
   if(this.checked)
     type = 0;
@@ -26,8 +25,7 @@ function save_type(){
 }
 
 function save_enabled(){
-  $('#dwl-enabled-label-1').text(this.checked ? "Habilitat" : "Deshabilitat");
-  var enabled = undefined;
+  getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-1");
   chrome.storage.local.set({
     'dwl_enabled': this.checked 
   }, update_dwl_background);
@@ -39,11 +37,13 @@ function show_ip_list(){
 
     $('#dwl-enabled-1').prop('checked', data.dwl_enabled);
 
+    getMessage(data.dwl_enabled ? "enabled" : "disabled", "dwl-enabled-label-1");
+
     if(data.dwl_type == 0)
       $('#dwl-switch-1').prop('checked', true);
     else if (data.dwl_type == 1)
       $('#dwl-switch-1').prop('checked', false);
-    $('#dwl-switch-label-1').text($('#dwl-switch-1').is(':checked') ? "WhiteList" : "BlackList");
+    getMessage($('#dwl-switch-1').is(':checked') ? "whiteList" : "blackList", "dwl-switch-label-1");
 
 
 
@@ -87,7 +87,29 @@ function show_ip_list(){
 
 
 function show_download(){
-    show_ip_list();
+  if(!charged)
+    init_urlist_components();
+  show_ip_list();
+}
+
+function init_urlist_components(){
+  charged = true;
+  add_card(section, 1);
+  var enabled_check = create_checkbox(section, 'enabled', 1, ['custom-checkbox']);
+  $('#dwl-header-1').html(enabled_check);
+  $('#dwl-enabled-1').change(save_enabled);
+
+  
+  var a = document.createElement('a');
+  a.classList.add('float-left');
+  a.id = "dwl-title-a-1";
+  $('#dwl-title-1').append(a);
+  getMessage("dwl_title", "dwl-title-a-1");
+
+  var switch_check = create_checkbox(section, 'switch', 1, ['custom-switch', 'float-right']);
+  $('#dwl-title-1').append(switch_check);
+  $('#dwl-switch-1').change(save_type);
+
 }
 
 function update_dwl_background(){

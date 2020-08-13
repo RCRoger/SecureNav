@@ -22,6 +22,18 @@
         "message": "Informació emmagatzemada"
     },
     "dwl_title":{
-        "message": "Llista d'IPs"
+        "message": "Llista d'URLs"
+    },
+    "enabled":{
+        "message": "Habilitat"
+    },
+    "disabled":{
+        "message": "Deshabilitat"
+    },
+    "whitelist": {
+        "message": "Llista blanca"
+    },
+    "blacklist": {
+        "message": "Llista negra"
     }
 }
