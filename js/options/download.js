@@ -28,16 +28,13 @@ function DownloadController() {
       type = 0;
     else
       type = 1;
-    chrome.storage.local.set({
-      'dwl_url_type': type
-    }, update_dwl_background);
+
+    chrome.extension.sendRequest({ id: "dwl_url_set_type", data: type });
   }
 
   function save_enabled() {
     getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-1");
-    chrome.storage.local.set({
-      'dwl_url_enabled': this.checked
-    }, update_dwl_background);
+    chrome.extension.sendRequest({ id: "dwl_url_set_enabled", data: this.checked });
   }
 
   DC.prototype.show_ip_list = function () {
@@ -56,30 +53,36 @@ function DownloadController() {
 
 
 
-      var headers = ['Protocol', 'Domain', 'Page']
+      var headers = ['Id', 'Protocol', 'Domain', 'Page']
       var id = 'dwl-table-1'
       var rows = [];
+      var i = 0;
       data.dwl_url_list.forEach((item) => {
-        rows.push([item.protocol, item.host, item.page]);
+        for (let index = 0; index < 10; index++) {
+          rows.push([i++, item.protocol, item.host, item.page]);
+        }
       });
       var tbl = create_table(id, headers, rows);
 
-      var edit_btn = document.createElement('span');
-      edit_btn.classList.add('table-add', 'float-right', 'mt-2', 'mb-3', 'mr-2');
+      var add_btn = document.createElement('span');
+      add_btn.classList.add('table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2');
 
       var a = document.createElement('a');
       a.classList.add('text-success');
       var icon = document.createElement('i');
       icon.classList.add('fas', 'fa-plus', 'fa-2x');
       a.appendChild(icon);
-      edit_btn.appendChild(a);
+      add_btn.appendChild(a);
 
       var div = document.createElement('div');
-      div.appendChild(edit_btn);
+      div.appendChild(add_btn);
       div.appendChild(tbl);
 
       $('#dwl-text-1').html(div);
       $('#dwl-table-1').dataTable({
+        "ordering": false,
+        "scrollY": "300px",
+        "scrollCollapse": true,
         "paging": false,
         columnDefs: [{
           orderable: false,
@@ -91,6 +94,8 @@ function DownloadController() {
           selector: 'td:first-child'
         }
       });
+      //FIX visual bug;
+      $('#dwl-table-1').find('th').removeClass('select-checkbox select-checkbox-all');
     });
   }
 
@@ -112,9 +117,5 @@ function DownloadController() {
     $('#dwl-title-1').append(switch_check);
     $('#dwl-switch-1').change(save_type);
 
-  }
-
-  function update_dwl_background() {
-    chrome.extension.sendRequest({ id: "dwl_update" });
   }
 })(DownloadController);

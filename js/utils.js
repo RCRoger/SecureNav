@@ -7,7 +7,7 @@ function create_table(id, headers, rows) {
     var tbl = document.createElement('table');
     tbl.id = id;
     tbl.cellSpacing = 0;
-    tbl.classList.add('table', 'table-bordered', 'text-center');
+    tbl.classList.add('table', 'table-bordered', 'text-center', 'table-striped');
     var thead = document.createElement('thead');
     tbl.appendChild(thead);
     var tr = document.createElement('tr');
@@ -22,7 +22,7 @@ function create_table(id, headers, rows) {
     });
 
 
-    var tbody = document.createElement('tbody');
+    var tfooter = document.createElement('tbody');
     tbl.appendChild(tbody);
 
     rows.forEach(element => {
@@ -37,6 +37,39 @@ function create_table(id, headers, rows) {
             tr.appendChild(td);
             td.innerHTML = item;
         }
+    });
+    return tbl;
+}
+
+function create_editable_table(id, headers) {
+    var tbl = document.createElement('table');
+    tbl.id = id;
+    tbl.cellSpacing = 0;
+    tbl.classList.add('table', 'table-bordered', 'text-center', 'table-striped');
+
+    var thead = document.createElement('thead');
+    tbl.appendChild(thead);
+    var tr = document.createElement('tr');
+    tr.classList.add('th-sm');
+    thead.appendChild(tr);
+
+    var th = undefined;
+    var td = undefined;
+
+    var tbody = document.createElement('tbody');
+    tbl.appendChild(tbody);
+    var tr1 = document.createElement('tr');
+    tbody.appendChild(tr1);
+
+
+    headers.forEach(element => {
+        th = document.createElement('th');
+        tr.appendChild(th);
+        th.innerHTML = element;
+
+        td = document.createElement('td');
+        td.setAttribute('contenteditable', 'true');
+        tr1.appendChild(td);
     });
     return tbl;
 }
@@ -115,4 +148,44 @@ function create_card_text(body) {
     text.classList.add('card-text');
     body.appendChild(text);
     return text;
+}
+
+function create_modal_large(id =undefined){
+
+    var modal = document.createElement('div');
+    modal.classList.add('modal fade');
+    modal.setAttribute('role', 'dialog');
+
+    var dialog = document.createElement('div');
+    dialog.classList.add('modal-dialog');
+    modal.appendChild(dialog);
+
+    var content = document.createElement('div');
+    content.classList.add('modal-content');
+    dialog.appendChild(content);
+
+    var header = document.createElement('div');
+    header.classList.add('modal-header');
+    content.appendChild(header);
+
+    var body = document.createElement('div');
+    body.classList.add('modal-body');
+    content.appendChild(body);
+
+    var footer = document.createElement('div');
+    footer.classList.add('modal-footer');
+    content.appendChild(footer);
+
+    if(!id)
+        return modal;
+
+    modal.id = id;
+    dialog.id = 'dialog-' + id;
+    content.id = 'content-' + id;
+    header.id = 'header-' + id;
+    body.id = 'body-' + id;
+    footer.id = 'footer-' + id;
+
+    return modal;
+
 }

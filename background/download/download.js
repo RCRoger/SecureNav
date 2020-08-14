@@ -3,7 +3,7 @@ function DownloadBackground(popUp = undefined) {
     this.max_size = new DownloadMaxSize();
     this.show_info = undefined;
     this.popUp = popUp;
-    this.add_listener();
+    this.loadData(true);
 }
 
 (function (DB, undefined) {
@@ -11,19 +11,19 @@ function DownloadBackground(popUp = undefined) {
     DB.prototype.request = function (request) {
         switch (request.id) {
             case 'dwl_update':
-                this.add_listener();
-                break;
-            case 'dwl_new_url':
-                this.urls.add_url(request.data.url.protocol, request.data.url.host, request.data.url.page);
-                this.add_listener();
-                break;
+                this.loadData(true);
+                return;
             case 'dwl_url_set_type':
-                this.urls.setType(request.data.url.type);
+                this.urls.setType(request.data);
                 break;
             case 'dwl_url_set_enabled':
-                this.urls.setEnabled(request.data.url.enabled);
+                this.urls.setEnabled(request.data);
+                break;
+            case 'dwl_url_add':
+                this.urls.add_url(request.data);
                 break;
         }
+        //this.add_listener();
     }
     DB.prototype.block_action = function (file) {
         chrome.downloads.pause(file.id);
@@ -40,15 +40,19 @@ function DownloadBackground(popUp = undefined) {
     }
 
     DB.prototype.add_listener = function () {
+        chrome.downloads.onCreated.removeListener(dwl_listener);
+        chrome.downloads.onCreated.addListener(dwl_listener);
+    }
+
+    DB.prototype.loadData = function (first = undefined) {
         var that = this;
         this.urls.urls = [];
         chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_type', 'dwl_url_list', 'dwl_size_enabled', 'dwl_max_size', 'dwl_show_info'], function (data) {
-            chrome.downloads.onCreated.removeListener(dwl_listener);
             that.urls.loadData(data);
             that.max_size.loadData(data);
             that.show_info = data.dwl_show_info;
-            chrome.downloads.onCreated.addListener(dwl_listener);
-
+            if(first)
+                that.add_listener();
         });
     }
 
@@ -89,16 +93,29 @@ function DownloadUrlList() {
     }
 
     UL.prototype.saveData = function () {
-        chrome.storage.local.set(download_url_item(this.enabled, this.type, this.list));
+        chrome.storage.local.set(download_url_item(this.enabled, this.type, this.urls));
+    }
+
+    UL.prototype.add_urls = function (data) {
+        data.forEach(item => {
+            this.add_url(item.protocol, item.host, item.page);
+        });
+        this.saveData();
     }
 
     UL.prototype.add_url = function (protocol, host, page) {
         this.list.push(url_item(host, protocol, page));
+    }
+
+    UL.prototype.remove_urls = function (urls) {
+        urls.forEach(index => {
+            this.urls.slice(index, 1);
+        });
         this.saveData();
     }
 
     UL.prototype.setType = function (type) {
-        if (type < 0 || type > 1) {
+        if (type != 0 && type != 1) {
             //TODO: send error
             return;
         }
@@ -107,6 +124,10 @@ function DownloadUrlList() {
     }
 
     UL.prototype.setEnabled = function (enabled) {
+        if (enabled !== true && enabled !== false) {
+            //TODO: send error
+            return;
+        }
         this.enabled = enabled;
         this.saveData();
     }
@@ -137,3 +158,10 @@ var dwl_background = new DownloadBackground();
 var dwl_listener = function (file) {
     dwl_background.block_action(file);
 }
+
+var desu = function (request) {
+    if (request && (request.id.toString().includes('dwl')))
+        dwl_background.request(request);
+}
+
+chrome.extension.onRequest.addListener(desu);
