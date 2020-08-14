@@ -3,7 +3,7 @@ function getMessage(msg, item) {
     document.getElementById(item).innerHTML = message;
 }
 
-function create_table(id, headers, rows) {
+function create_table(id, headers, rows, editable = undefined) {
     var tbl = document.createElement('table');
     tbl.id = id;
     tbl.cellSpacing = 0;
@@ -22,10 +22,11 @@ function create_table(id, headers, rows) {
     });
 
 
-    var tfooter = document.createElement('tbody');
+    var tbody = document.createElement('tbody');
     tbl.appendChild(tbody);
 
-    rows.forEach(element => {
+    for (let i = 0; i < rows.length; i++) {
+        const element = rows[i];
         tr = document.createElement('tr');
         tbody.appendChild(tr);
         var td = document.createElement('td');
@@ -34,10 +35,13 @@ function create_table(id, headers, rows) {
         for (let index = 0; index < element.length; index++) {
             const item = element[index];
             td = document.createElement('td');
+            if (editable)
+                if (editable[index])
+                    td.setAttribute('contenteditable', 'true');
             tr.appendChild(td);
             td.innerHTML = item;
         }
-    });
+    }
     return tbl;
 }
 
@@ -150,10 +154,10 @@ function create_card_text(body) {
     return text;
 }
 
-function create_modal_large(id =undefined){
+function create_modal_large(id = undefined) {
 
     var modal = document.createElement('div');
-    modal.classList.add('modal fade');
+    modal.classList.add('modal', 'fade');
     modal.setAttribute('role', 'dialog');
 
     var dialog = document.createElement('div');
@@ -176,15 +180,15 @@ function create_modal_large(id =undefined){
     footer.classList.add('modal-footer');
     content.appendChild(footer);
 
-    if(!id)
+    if (!id)
         return modal;
 
     modal.id = id;
-    dialog.id = 'dialog-' + id;
-    content.id = 'content-' + id;
-    header.id = 'header-' + id;
-    body.id = 'body-' + id;
-    footer.id = 'footer-' + id;
+    dialog.id = id + '-dialog';
+    content.id = id + '-content';
+    header.id = id + '-header';
+    body.id = id + '-body';
+    footer.id = id + '-footer';
 
     return modal;
 

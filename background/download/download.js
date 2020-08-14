@@ -74,6 +74,27 @@ function DownloadUrlList() {
 
     }
 
+    UL.prototype.edit_url = function(data){
+        if(!data.index || data.index > this.urls.length || data.index){
+            //TODO: add error
+            return;
+        }
+
+        if(data.protocol){
+            this.urls[data.index].protocol = data.protocol;
+        }
+
+        if(data.host){
+            this.urls[data.index].host = data.host;
+        }
+
+        if(data.page){
+            this.urls[data.index].page = data.page;
+        }
+
+        this.saveData();
+    }
+
     UL.prototype.contains_url = function (file) {
         if (Array.isArray(this.urls) && this.urls.length) {
             return this.urls.some(function (item) {

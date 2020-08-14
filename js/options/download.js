@@ -53,8 +53,8 @@ function DownloadController() {
 
 
 
-      var headers = ['Id', 'Protocol', 'Domain', 'Page']
-      var id = 'dwl-table-1'
+      var headers = ['Id', 'Protocol', 'Domain', 'Page'];
+      var id = 'dwl-table-1';
       var rows = [];
       var i = 0;
       data.dwl_url_list.forEach((item) => {
@@ -65,6 +65,7 @@ function DownloadController() {
       var tbl = create_table(id, headers, rows);
 
       var add_btn = document.createElement('span');
+      add_btn.id = 'dwl_url_add';
       add_btn.classList.add('table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2');
 
       var a = document.createElement('a');
@@ -96,7 +97,23 @@ function DownloadController() {
       });
       //FIX visual bug;
       $('#dwl-table-1').find('th').removeClass('select-checkbox select-checkbox-all');
+
+      $('#dwl_url_add').click(addRows);
     });
+  }
+
+  function addRows(){
+
+    var headers = ['Protocol', 'Domain', 'Page']
+
+    var id = 'dwl'+ '-url-add';
+    var modal = create_modal_large(id);
+    var edit_table = create_editable_table(id + '-table', headers);
+
+    $(document.body).append(modal);
+
+    $('#' + id + '-body').append(edit_table);
+    $('#' + id ).modal('show');
   }
 
   DC.prototype.init_urlist_components = function () {
