@@ -20,7 +20,10 @@ function DownloadBackground(popUp = undefined) {
                 this.urls.setEnabled(request.data);
                 break;
             case 'dwl_url_add_urls':
-                this.urls.add_urls(request.data);
+                this.urls.add_urls(request.data, request.update);
+                break;
+            case 'dwl_url_remove_urls':
+                this.urls.remove_urls(request.data.data, request.data.update);
                 break;
         }
         //this.add_listener();
@@ -50,7 +53,7 @@ function DownloadBackground(popUp = undefined) {
             that.urls.loadData(data);
             that.max_size.loadData(data);
             that.show_info = data.dwl_show_info;
-            if(first)
+            if (first)
                 that.add_listener();
         });
     }
@@ -62,6 +65,7 @@ function DownloadUrlList() {
     this.urls_regex = undefined;
     this.enabled = undefined;
     this.type = undefined;
+    this.update = undefined;
 }
 (function (UL, undefined) {
     UL.prototype.needBlock = function (file) {
@@ -74,21 +78,21 @@ function DownloadUrlList() {
 
     }
 
-    UL.prototype.edit_url = function(data){
-        if(!data.index || data.index > this.urls.length || data.index){
+    UL.prototype.edit_url = function (data) {
+        if (!data.index || data.index > this.urls.length || data.index) {
             //TODO: add error
             return;
         }
 
-        if(data.protocol){
+        if (data.protocol) {
             this.urls[data.index].protocol = data.protocol;
         }
 
-        if(data.host){
+        if (data.host) {
             this.urls[data.index].host = data.host;
         }
 
-        if(data.page){
+        if (data.page) {
             this.urls[data.index].page = data.page;
         }
 
@@ -112,7 +116,7 @@ function DownloadUrlList() {
         if (!this.enabled)
             return;
         this.type = data.dwl_url_type;
-        data.dwl_url_list.forEach(item =>{
+        data.dwl_url_list.forEach(item => {
             this.urls.push(item);
             this.urls_regex.push(url_regex(item));
         });
@@ -120,12 +124,15 @@ function DownloadUrlList() {
 
     UL.prototype.saveData = function () {
         chrome.storage.local.set(download_url_item(this.enabled, this.type, this.urls));
+        if(this.update)
+            this.update();
     }
 
-    UL.prototype.add_urls = function (data) {
+    UL.prototype.add_urls = function (data, update) {
         data.forEach(item => {
             this.add_url(item.protocol, item.host, item.page);
         });
+        this.update = update;
         this.saveData();
     }
 
@@ -135,11 +142,14 @@ function DownloadUrlList() {
         this.urls_regex.push(url_regex(item));
     }
 
-    UL.prototype.remove_urls = function (urls) {
+    UL.prototype.remove_urls = function (urls, update) {
+        var corrector = 0;
         urls.forEach(index => {
-            this.urls.slice(index, 1);
-            this.urls_regex.slice(index, 1);
+            this.urls.splice(index - corrector, 1);
+            this.urls_regex.splice(index - corrector, 1);
+            corrector ++;
         });
+        this.update = update;
         this.saveData();
     }
 

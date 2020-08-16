@@ -202,3 +202,46 @@ function create_modal_large(id = undefined) {
 
 
 }
+
+function create_add_btn(id){
+    var add_btn = document.createElement('span');
+    add_btn.id = id;
+    add_btn.classList.add('table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2');
+
+    var a = document.createElement('a');
+    a.classList.add('text-success');
+    var icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-plus', 'fa-2x');
+    a.appendChild(icon);
+    add_btn.appendChild(a);
+
+    return add_btn;
+}
+
+function create_save_btn(id){
+    var save_btn = document.createElement('span');
+    save_btn.classList.add('mt-2', 'mb-6', 'mr-2');
+    save_btn.id = id;
+    var a = document.createElement('a');
+    a.classList.add('text-primary');
+    var icon = document.createElement('i');
+    icon.classList.add('far', 'fa-save', 'fa-2x');
+    a.appendChild(icon);
+    save_btn.appendChild(a);
+
+    return save_btn;
+}
+
+function create_trash_btn(id){
+    var trash_btn = document.createElement('span');
+    trash_btn.classList.add('table-add', 'float-right', 'mt-2', 'mr-2');
+    trash_btn.id = id;
+    var a = document.createElement('a');
+    a.classList.add('text-danger');
+    var icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-trash', 'fa-2x');
+    a.appendChild(icon);
+    trash_btn.appendChild(a);
+
+    return trash_btn;
+}
