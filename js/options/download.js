@@ -1,17 +1,15 @@
-function DownloadController() {
-  this.section = 'dwl';
-  this.charged = false;
-};
 
-(function (DC, undef) {
+  var section = 'dwl';
+  var charged = false;
 
-  DC.prototype.show_download = function () {
-    if (!this.charged)
-      this.init_urlist_components();
-    this.show_ip_list();
+
+  var show_download = function () {
+    if (!charged)
+      init_urlist_components();
+    show_ip_list();
   }
 
-  DC.prototype.init_download = function () {
+  var init_download = function () {
     getMessage("download_tab", "download-tab");
     var that = this;
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -22,9 +20,9 @@ function DownloadController() {
 
 
   function save_type() {
-    getMessage(this.checked ? "whiteList" : "blackList", "dwl-switch-label-1");
+    getMessage(checked ? "whiteList" : "blackList", "dwl-switch-label-1");
     var type = undefined;
-    if (this.checked)
+    if (checked)
       type = 0;
     else
       type = 1;
@@ -33,15 +31,15 @@ function DownloadController() {
   }
 
   function save_enabled() {
-    getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-1");
-    chrome.extension.sendRequest({ id: "dwl_url_set_enabled", data: this.checked });
+    getMessage(checked ? "enabled" : "disabled", "dwl-enabled-label-1");
+    chrome.extension.sendRequest({ id: "dwl_url_set_enabled", data: checked });
   }
 
   function send_urls(data){
     chrome.extension.sendRequest({ id: "dwl_url_add_urls", data: data });
   }
 
-  DC.prototype.show_ip_list = function () {
+  var show_ip_list = function () {
 
     chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_list', 'dwl_url_type'], function (data) {
 
@@ -134,7 +132,7 @@ function DownloadController() {
     });
 
     $("#" + id + '-table tr td:eq(1)').focusout(function () {
-      if (this.innerHTML.length > 0) {
+      if (innerHTML.length > 0) {
         add_rows_edit($("#" + id + '-table'));
       }
     });
@@ -165,10 +163,10 @@ function DownloadController() {
 
   }
 
-  DC.prototype.init_urlist_components = function () {
-    this.charged = true;
-    add_card(this.section, 1);
-    var enabled_check = create_checkbox(this.section, 'enabled', 1, ['custom-checkbox']);
+  var init_urlist_components = function () {
+    charged = true;
+    add_card(section, 1);
+    var enabled_check = create_checkbox(section, 'enabled', 1, ['custom-checkbox']);
     $('#dwl-header-1').html(enabled_check);
     $('#dwl-enabled-1').change(save_enabled);
 
@@ -179,9 +177,8 @@ function DownloadController() {
     $('#dwl-title-1').append(a);
     getMessage("dwl_title", "dwl-title-a-1");
 
-    var switch_check = create_checkbox(this.section, 'switch', 1, ['custom-switch', 'float-right']);
+    var switch_check = create_checkbox(section, 'switch', 1, ['custom-switch', 'float-right']);
     $('#dwl-title-1').append(switch_check);
     $('#dwl-switch-1').change(save_type);
 
   }
-})(DownloadController);
