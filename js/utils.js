@@ -3,7 +3,7 @@ function getMessage(msg, item) {
     document.getElementById(item).innerHTML = message;
 }
 
-function create_table(id, headers, rows, editable = undefined) {
+function create_table(id, headers, rows) {
     var tbl = document.createElement('table');
     tbl.id = id;
     tbl.cellSpacing = 0;
@@ -35,9 +35,6 @@ function create_table(id, headers, rows, editable = undefined) {
         for (let index = 0; index < element.length; index++) {
             const item = element[index];
             td = document.createElement('td');
-            if (editable)
-                if (editable[index])
-                    td.setAttribute('contenteditable', 'true');
             tr.appendChild(td);
             td.innerHTML = item;
         }
@@ -49,7 +46,7 @@ function create_editable_table(id, headers) {
     var tbl = document.createElement('table');
     tbl.id = id;
     tbl.cellSpacing = 0;
-    tbl.classList.add('table', 'table-bordered', 'text-center', 'table-striped');
+    tbl.classList.add('table', 'table-sm', 'table-bordered', 'text-center', 'table-striped');
 
     var thead = document.createElement('thead');
     tbl.appendChild(thead);
@@ -76,6 +73,11 @@ function create_editable_table(id, headers) {
         tr1.appendChild(td);
     });
     return tbl;
+}
+
+function add_rows_edit($tableID){
+    const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
+    $tableID.append($clone).find('tbody tr').last().find('td').empty();
 }
 
 function add_card(section, num) {
@@ -168,6 +170,8 @@ function create_modal_large(id = undefined) {
     content.classList.add('modal-content');
     dialog.appendChild(content);
 
+    
+
     var header = document.createElement('div');
     header.classList.add('modal-header');
     content.appendChild(header);
@@ -179,6 +183,7 @@ function create_modal_large(id = undefined) {
     var footer = document.createElement('div');
     footer.classList.add('modal-footer');
     content.appendChild(footer);
+    
 
     if (!id)
         return modal;
@@ -190,6 +195,10 @@ function create_modal_large(id = undefined) {
     body.id = id + '-body';
     footer.id = id + '-footer';
 
+    
+
     return modal;
+
+
 
 }

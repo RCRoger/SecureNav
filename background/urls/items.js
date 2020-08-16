@@ -4,7 +4,8 @@ function url_str(protocol, host, page){
 
 function str_regex(text){
     let str = "";
-    str += text.replace(/\./g, '\\.').replace(/\*/g, '.*').replace(/[^(a-zA-Z1-9)\.\*\\ ]/g, '.');
+    if(text)
+        str += text.replace(/\./g, '\\.').replace(/\*/g, '.*').replace(/[^(a-zA-Z1-9)\.\*\\ ]/g, '.');
     return str;
 }
 

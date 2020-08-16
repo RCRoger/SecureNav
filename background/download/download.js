@@ -19,8 +19,8 @@ function DownloadBackground(popUp = undefined) {
             case 'dwl_url_set_enabled':
                 this.urls.setEnabled(request.data);
                 break;
-            case 'dwl_url_add':
-                this.urls.add_url(request.data);
+            case 'dwl_url_add_urls':
+                this.urls.add_urls(request.data);
                 break;
         }
         //this.add_listener();
@@ -46,7 +46,6 @@ function DownloadBackground(popUp = undefined) {
 
     DB.prototype.loadData = function (first = undefined) {
         var that = this;
-        this.urls.urls = [];
         chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_type', 'dwl_url_list', 'dwl_size_enabled', 'dwl_max_size', 'dwl_show_info'], function (data) {
             that.urls.loadData(data);
             that.max_size.loadData(data);
@@ -60,6 +59,7 @@ function DownloadBackground(popUp = undefined) {
 
 function DownloadUrlList() {
     this.urls = undefined;
+    this.urls_regex = undefined;
     this.enabled = undefined;
     this.type = undefined;
 }
@@ -96,8 +96,8 @@ function DownloadUrlList() {
     }
 
     UL.prototype.contains_url = function (file) {
-        if (Array.isArray(this.urls) && this.urls.length) {
-            return this.urls.some(function (item) {
+        if (Array.isArray(this.urls_regex) && this.urls_regex.length) {
+            return this.urls_regex.some(function (item) {
                 if (item.exec(file.url) || item.exec(file.finalUrl))
                     return true;
             });
@@ -106,11 +106,16 @@ function DownloadUrlList() {
     }
 
     UL.prototype.loadData = function (data) {
+        this.urls = [];
+        this.urls_regex = [];
         this.enabled = data.dwl_url_enabled;
         if (!this.enabled)
             return;
         this.type = data.dwl_url_type;
-        data.dwl_url_list.forEach(item => this.urls.push(url_regex(item)));
+        data.dwl_url_list.forEach(item =>{
+            this.urls.push(item);
+            this.urls_regex.push(url_regex(item));
+        });
     }
 
     UL.prototype.saveData = function () {
@@ -125,12 +130,15 @@ function DownloadUrlList() {
     }
 
     UL.prototype.add_url = function (protocol, host, page) {
-        this.list.push(url_item(host, protocol, page));
+        var item = url_item(host, protocol, page);
+        this.urls.push(item);
+        this.urls_regex.push(url_regex(item));
     }
 
     UL.prototype.remove_urls = function (urls) {
         urls.forEach(index => {
             this.urls.slice(index, 1);
+            this.urls_regex.slice(index, 1);
         });
         this.saveData();
     }

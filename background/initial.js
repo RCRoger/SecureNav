@@ -13,7 +13,7 @@ function init_db(){
 }
 
 chrome.runtime.onInstalled.addListener(function() {
-    init_db();
+    //init_db();
 });
 
 

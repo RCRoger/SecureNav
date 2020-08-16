@@ -37,6 +37,10 @@ function DownloadController() {
     chrome.extension.sendRequest({ id: "dwl_url_set_enabled", data: this.checked });
   }
 
+  function send_urls(data){
+    chrome.extension.sendRequest({ id: "dwl_url_add_urls", data: data });
+  }
+
   DC.prototype.show_ip_list = function () {
 
     chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_list', 'dwl_url_type'], function (data) {
@@ -58,9 +62,7 @@ function DownloadController() {
       var rows = [];
       var i = 0;
       data.dwl_url_list.forEach((item) => {
-        for (let index = 0; index < 10; index++) {
           rows.push([i++, item.protocol, item.host, item.page]);
-        }
       });
       var tbl = create_table(id, headers, rows);
 
@@ -102,18 +104,65 @@ function DownloadController() {
     });
   }
 
-  function addRows(){
+  function addRows() {
 
     var headers = ['Protocol', 'Domain', 'Page']
 
-    var id = 'dwl'+ '-url-add';
+    var id = 'dwl' + '-url-add';
     var modal = create_modal_large(id);
     var edit_table = create_editable_table(id + '-table', headers);
 
     $(document.body).append(modal);
 
+    var save_btn = document.createElement('span');
+    save_btn.id = 'dwl_url_save';
+    save_btn.classList.add('float-right', 'mt-2', 'mb-6', 'mr-2');
+
+    var a = document.createElement('a');
+    a.classList.add('text-primary');
+    var icon = document.createElement('i');
+    icon.classList.add('far', 'fa-save', 'fa-2x');
+    a.appendChild(icon);
+    save_btn.appendChild(a);
+
+    $('#' + id + '-header').append(save_btn);
+
     $('#' + id + '-body').append(edit_table);
-    $('#' + id ).modal('show');
+
+    $('#' + id).on('hide.bs.modal', function () {
+      $('#' + id).remove();
+    });
+
+    $("#" + id + '-table tr td:eq(1)').focusout(function () {
+      if (this.innerHTML.length > 0) {
+        add_rows_edit($("#" + id + '-table'));
+      }
+    });
+
+    $('#' + save_btn.id).click(function(){
+      var tr = $('#' + edit_table.id).find('tbody tr');
+
+      var data = [];
+      tr.each(function() {
+        var tds = $(this).find('td');
+        var item = {}
+        if(tds[1].innerHTML.length > 0){
+            item['host'] = tds[1].innerHTML;
+            item['protocol'] = tds[0].innerHTML.length <= 0 ? '*' : tds[0].innerHTML;
+            item['page'] = tds[2].innerHTML.length <= 0 ? '*' : tds[2].innerHTML;
+            data.push(item);
+        }
+
+      });
+      send_urls(data);
+      $('#' + id).modal('hide');
+    });
+    $('#' + id).modal('show');
+
+
+
+
+
   }
 
   DC.prototype.init_urlist_components = function () {
