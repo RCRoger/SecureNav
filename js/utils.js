@@ -42,6 +42,14 @@ function create_table(id, headers, rows) {
     return tbl;
 }
 
+function add_row_table($tableID, rows) {
+    var tr = $('<tr>');
+    rows.forEach(col => {
+        tr.append($('<td>').append($(col)));
+    });
+    $tableID.find('tbody').append(tr);
+}
+
 function create_editable_table(id, headers) {
     var tbl = document.createElement('table');
     tbl.id = id;
@@ -75,7 +83,7 @@ function create_editable_table(id, headers) {
     return tbl;
 }
 
-function add_rows_edit($tableID){
+function add_rows_edit($tableID) {
     const $clone = $tableID.find('tbody tr').last().clone(true).removeClass('hide table-line');
     $tableID.append($clone).find('tbody tr').last().find('td').empty();
 }
@@ -124,7 +132,7 @@ function create_checkbox(section, type, num, classList = []) {
 
 function create_card() {
     var card = document.createElement('div');
-    card.classList.add('card', 'mb-5');
+    card.classList.add('card', 'mb-5', 'mt-5');
     return card;
 }
 
@@ -170,7 +178,7 @@ function create_modal_large(id = undefined) {
     content.classList.add('modal-content');
     dialog.appendChild(content);
 
-    
+
 
     var header = document.createElement('div');
     header.classList.add('modal-header');
@@ -183,7 +191,7 @@ function create_modal_large(id = undefined) {
     var footer = document.createElement('div');
     footer.classList.add('modal-footer');
     content.appendChild(footer);
-    
+
 
     if (!id)
         return modal;
@@ -195,7 +203,7 @@ function create_modal_large(id = undefined) {
     body.id = id + '-body';
     footer.id = id + '-footer';
 
-    
+
 
     return modal;
 
@@ -203,7 +211,7 @@ function create_modal_large(id = undefined) {
 
 }
 
-function create_add_btn(id){
+function create_add_btn(id) {
     var add_btn = document.createElement('span');
     add_btn.id = id;
     add_btn.classList.add('table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2');
@@ -218,7 +226,7 @@ function create_add_btn(id){
     return add_btn;
 }
 
-function create_save_btn(id){
+function create_save_btn(id) {
     var save_btn = document.createElement('span');
     save_btn.classList.add('mt-2', 'mb-6', 'mr-2');
     save_btn.id = id;
@@ -232,7 +240,7 @@ function create_save_btn(id){
     return save_btn;
 }
 
-function create_trash_btn(id){
+function create_trash_btn(id) {
     var trash_btn = document.createElement('span');
     trash_btn.classList.add('table-add', 'float-right', 'mt-2', 'mr-2');
     trash_btn.id = id;
@@ -246,53 +254,92 @@ function create_trash_btn(id){
     return trash_btn;
 }
 
-function create_input_group(){
+function create_link_btn(id) {
+    var link_btn = document.createElement('span');
+    link_btn.id = id;
+    var a = document.createElement('a');
+    a.classList.add('text-default');
+    var icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-link', 'fa-lg');
+    a.appendChild(icon);
+    link_btn.appendChild(a);
+
+    return link_btn;
+}
+
+function create_check_btn(id) {
+    var check_btn = document.createElement('span');
+    check_btn.id = id;
+    var a = document.createElement('a');
+    a.classList.add('text-success');
+    var icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-check-circle', 'fa-lg');
+    a.appendChild(icon);
+    check_btn.appendChild(a);
+
+    return check_btn;
+}
+
+function create_cross_btn(id) {
+    var cross_btn = document.createElement('span');
+    cross_btn.id = id;
+    var a = document.createElement('a');
+    a.classList.add('text-danger');
+    var icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-times-circle', 'fa-lg');
+    a.appendChild(icon);
+    cross_btn.appendChild(a);
+
+    return cross_btn;
+}
+
+function create_input_group() {
     var div = document.createElement('div');
     div.classList.add('input-group');
-  
+
     return div;
-  }
-  
-  function add_group_prepend(group){
+}
+
+function add_group_prepend(group) {
     var div = document.createElement('div');
     div.classList.add('input-group-prepend');
     group.appendChild(div);
     return div;
-  }
+}
 
-  function add_prepend_text(prepend, text){
+function add_prepend_text(prepend, text) {
     var span = document.createElement('span');
     span.classList.add('input-group-text');
     span.innerHTML = text;
     prepend.appendChild(span);
     return span;
-  }
-  
-  function add_group_input(id, group, type, aria = undefined){
+}
+
+function add_group_input(id, group, type, aria = undefined) {
     var input = document.createElement('input');
     input.id = id;
     input.classList.add('form-control');
     if (aria)
-      input.setAttribute('aria-label', aria);
+        input.setAttribute('aria-label', aria);
     input.type = type;
     group.appendChild(input);
-  
-    return input;
-  }
 
-  function create_select(id, options, values = undefined){
+    return input;
+}
+
+function create_select(id, options, values = undefined) {
     var select = document.createElement('select');
     for (let index = 0; index < options.length; index++) {
         const element = options[index];
         var opt = document.createElement('option');
         opt.innerHTML = element;
         select.appendChild(opt);
-        if(values){
+        if (values) {
             opt.setAttribute('value', values[index]);
         }
     }
-        
+
     select.id = id;
 
     return select;
-  }
+}
