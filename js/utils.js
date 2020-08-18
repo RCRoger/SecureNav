@@ -124,7 +124,7 @@ function create_checkbox(section, type, num, classList = []) {
 
 function create_card() {
     var card = document.createElement('div');
-    card.classList.add('card');
+    card.classList.add('card', 'mb-5');
     return card;
 }
 
@@ -245,3 +245,54 @@ function create_trash_btn(id){
 
     return trash_btn;
 }
+
+function create_input_group(){
+    var div = document.createElement('div');
+    div.classList.add('input-group');
+  
+    return div;
+  }
+  
+  function add_group_prepend(group){
+    var div = document.createElement('div');
+    div.classList.add('input-group-prepend');
+    group.appendChild(div);
+    return div;
+  }
+
+  function add_prepend_text(prepend, text){
+    var span = document.createElement('span');
+    span.classList.add('input-group-text');
+    span.innerHTML = text;
+    prepend.appendChild(span);
+    return span;
+  }
+  
+  function add_group_input(id, group, type, aria = undefined){
+    var input = document.createElement('input');
+    input.id = id;
+    input.classList.add('form-control');
+    if (aria)
+      input.setAttribute('aria-label', aria);
+    input.type = type;
+    group.appendChild(input);
+  
+    return input;
+  }
+
+  function create_select(id, options, values = undefined){
+    var select = document.createElement('select');
+    for (let index = 0; index < options.length; index++) {
+        const element = options[index];
+        var opt = document.createElement('option');
+        opt.innerHTML = element;
+        select.appendChild(opt);
+        if(values){
+            opt.setAttribute('value', values[index]);
+        }
+    }
+        
+    select.id = id;
+
+    return select;
+  }

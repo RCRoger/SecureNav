@@ -16,3 +16,10 @@ function download_url_item(enabled = true, type = 0, list = []){
         'dwl_url_list':list,
     };
 }
+
+function download_max_size_item(enabled = true, value = undefined){
+    return {
+        'dwl_size_enabled':enabled,
+        'dwl_max_size':value,
+    };
+}

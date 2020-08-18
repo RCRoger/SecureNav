@@ -1,12 +1,14 @@
-
 var section = 'dwl';
 var charged = false;
 
 
 var show_download = function () {
-  if (!charged)
+  if (!charged){
     init_urlist_components();
-  show_url();
+    init_urlsize_components();
+  }
+  load_all();
+
 }
 
 var init_download = function () {
@@ -27,33 +29,44 @@ function save_type() {
   else
     type = 1;
 
-  chrome.extension.sendRequest({ id: "dwl_url_set_type", data: type });
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_set_type", data: type });
 }
 
-function save_enabled() {
+function load_all(){
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_get_data"}, show_all);
+}
+
+function save_url_enabled() {
   getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-1");
-  chrome.extension.sendRequest({ id: "dwl_url_set_enabled", data: this.checked });
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_set_enabled", data: this.checked });
+}
+
+function save_size_enabled() {
+  getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-2");
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_size_set_enabled", data: this.checked });
 }
 
 function send_urls_add(data) {
-  chrome.extension.sendRequest({ id: "dwl_url_add_urls", data: data },show_url);
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_add_urls", data: data }, show_url);
 }
 
 function send_urls_remove(data) {
-  chrome.extension.sendRequest({ id: "dwl_url_remove_urls", data: data, 'update': show_url });
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_remove_urls", data: data }, show_url);
 }
 
-var show_url = function () {
+function save_size_val(data){
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_size_set_val", data: data });
+}
 
-  chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_list', 'dwl_url_type'], function (data) {
+var show_url = function (data) {
 
-    $('#dwl-enabled-1').prop('checked', data.dwl_url_enabled);
+    $('#dwl-enabled-1').prop('checked', data.urls.enabled);
 
-    getMessage(data.dwl_url_enabled ? "enabled" : "disabled", "dwl-enabled-label-1");
+    getMessage(data.urls.enabled ? "enabled" : "disabled", "dwl-enabled-label-1");
 
-    if (data.dwl_url_type == 0)
+    if (data.urls.type == 0)
       $('#dwl-switch-1').prop('checked', true);
-    else if (data.dwl_url_type == 1)
+    else if (data.urls.type == 1)
       $('#dwl-switch-1').prop('checked', false);
     getMessage($('#dwl-switch-1').is(':checked') ? "whiteList" : "blackList", "dwl-switch-label-1");
 
@@ -63,7 +76,7 @@ var show_url = function () {
     var id = 'dwl-table-1';
     var rows = [];
     var i = 0;
-    data.dwl_url_list.forEach((item) => {
+    data.urls.urls.forEach((item) => {
       rows.push([i++, item.protocol, item.host, item.page]);
     });
     var tbl = create_table(id, headers, rows);
@@ -94,7 +107,6 @@ var show_url = function () {
     $('#dwl-table-1').find('th').removeClass('select-checkbox select-checkbox-all');
     show_url_events();
 
-  });
 }
 
 function show_url_events() {
@@ -130,7 +142,7 @@ function trash_event(){
 
 function trash_action(){
   var rows_selected = $('#dwl-table-1 tbody .selected');
-  var data = { data : [], update: show_url};
+  var data = { data : [] };
   rows_selected.each(function(){
     data.data.push($(this.childNodes[1]).text());
     $(this).remove();
@@ -199,7 +211,7 @@ var init_urlist_components = function () {
   add_card(section, 1);
   var enabled_check = create_checkbox(section, 'enabled', 1, ['custom-checkbox']);
   $('#dwl-header-1').html(enabled_check);
-  $('#dwl-enabled-1').change(save_enabled);
+  $('#dwl-enabled-1').change(save_url_enabled);
 
 
   var a = document.createElement('a');
@@ -213,3 +225,69 @@ var init_urlist_components = function () {
   $('#dwl-switch-1').change(save_type);
 
 }
+
+var init_urlsize_components = function () {
+  charged = true;
+  const num = 2;
+  add_card(section, num);
+  var enabled_check = create_checkbox(section, 'enabled', num, ['custom-checkbox']);
+  $('#dwl-header-' + num).html(enabled_check);
+  $('#dwl-enabled-' + num).change(save_size_enabled);
+
+
+  var a = document.createElement('a');
+  a.classList.add('float-left');
+  a.id = "dwl-title-a-" + num;
+  $('#dwl-title-' + num).append(a);
+  getMessage("dwl_title_1", a.id);
+
+
+}
+var show_all = function(data){
+  show_url(data);
+  show_size(data);
+
+}
+var show_size = function (data) {
+
+  $('#dwl-enabled-2').prop('checked', data.max_size.enabled);
+
+  getMessage(data.max_size.enabled ? "enabled" : "disabled", "dwl-enabled-label-2");
+
+  var group = create_input_group();
+
+  var pre = add_group_prepend(group);
+
+  var text = "";
+
+  if(data.max_size.max_size)
+    text = data.max_size.max_size;
+
+  text += ' Bytes';
+
+  var val = add_prepend_text(pre, text);
+
+  val.id = 'dwl-max_size-value';
+
+  var size = add_group_input('dwl-max_size-input', group, 'number');
+
+  var bytes = create_select('dwl-bytes-input', ['B (Bytes)', 'KB (KiloBytes)', 'MB (MegaBytes)','GB (GigaByte)', 'TB (TeraBytes)'], [1, 1024, 1024**2, 1024**3, 1024**4]);
+  bytes.classList.add('form-control');
+  group.appendChild(bytes);
+  $('#dwl-text-2').html(group);
+  
+  $('#' + size.id).change(change_max_size);
+  $('#' + bytes.id).change(change_max_size);
+
+}
+
+function change_max_size(){
+  var val = $('#dwl-max_size-input').val();
+  var convert = $('#dwl-bytes-input').children("option:selected").val();
+  var final_value = (val.toString().length > 0 && convert) ? (val * convert) : '';
+  var text = final_value + ' Bytes';
+  $('#dwl-max_size-value').text(text);
+  save_size_val(final_value);
+}
+
+

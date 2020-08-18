@@ -24,6 +24,9 @@
     "dwl_title":{
         "message": "Llista d'URLs"
     },
+    "dwl_title_1":{
+        "message" : "Tamany màxim d'arxiu"
+    },
     "enabled":{
         "message": "Habilitat"
     },
