@@ -33,7 +33,7 @@ function save_type() {
 }
 
 function load_all(){
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_get_data"}, show_all);
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: "DOWNLOAD.REQUEST.DWL_GET_DATA"}, show_all);
 }
 
 function save_url_enabled() {

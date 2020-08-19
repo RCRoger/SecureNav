@@ -13,7 +13,7 @@ function DownloadBackground(popUp = undefined) {
             case 'dwl_update':
                 this.loadData(true);
                 return;
-            case 'dwl_get_data':
+            case 'DOWNLOAD.REQUEST.DWL_GET_DATA':
                 return this.get_data();
             case 'dwl_url_set_type':
                 this.urls.setType(request.data);
