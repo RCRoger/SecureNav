@@ -1,13 +1,13 @@
-var charged = false;
+var dwl_changed = false;
 var show_download = function () {
-    if (!charged){
+    if (!dwl_changed){
       init_urlist_components();
     }
     load_info();
   }
 
   function init_urlist_components(){
-    charged = true;
+    dwl_changed = true;
     add_card('dwl', 1);
 
     var p = document.createElement('p');
