@@ -29,33 +29,33 @@ function save_type() {
   else
     type = 1;
 
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_set_type", data: type });
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_URL_SET_TYPE, data: type });
 }
 
 function load_all(){
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "DOWNLOAD.REQUEST.DWL_GET_DATA"}, show_all);
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_GET_DATA}, show_all);
 }
 
 function save_url_enabled() {
   getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-1");
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_set_enabled", data: this.checked });
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_URL_SET_ENABLED, data: this.checked });
 }
 
 function save_size_enabled() {
   getMessage(this.checked ? "enabled" : "disabled", "dwl-enabled-label-2");
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_size_set_enabled", data: this.checked });
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_SIZE_SET_ENABLED, data: this.checked });
 }
 
 function send_urls_add(data) {
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_add_urls", data: data }, show_url);
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_URL_ADD_URLS, data: data }, show_url);
 }
 
 function send_urls_remove(data) {
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_url_remove_urls", data: data }, show_url);
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_URL_REMOVE_URLS, data: data }, show_url);
 }
 
 function save_size_val(data){
-  chrome.runtime.sendMessage(chrome.runtime.id, { id: "dwl_size_set_val", data: data });
+  chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_SIZE_SET_VAL, data: data });
 }
 
 var show_url = function (data) {

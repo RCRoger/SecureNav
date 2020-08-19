@@ -1,7 +1,7 @@
 const DOWNLOAD = {
     REQUEST :{
         DWL_UPDATE:'dwl_update',
-        DWL_GET_DATA: 'DOWNLOAD.REQUEST.DWL_GET_DATA',
+        DWL_GET_DATA: 'dwl_get_data',
         DWL_URL_SET_TYPE: 'dwl_url_set_type',
         DWL_URL_SET_ENABLED: 'dwl_url_set_enabled',
         DWL_URL_ADD_URLS: 'dwl_url_add_urls',

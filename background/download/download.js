@@ -13,32 +13,32 @@ function DownloadBackground(popUp = undefined) {
             case 'dwl_update':
                 this.loadData(true);
                 return;
-            case 'DOWNLOAD.REQUEST.DWL_GET_DATA':
+            case DOWNLOAD.REQUEST.DWL_GET_DATA:
                 return this.get_data();
-            case 'dwl_url_set_type':
+            case DOWNLOAD.REQUEST.DWL_URL_SET_TYPE:
                 this.urls.setType(request.data);
                 break;
-            case 'dwl_url_set_enabled':
+            case DOWNLOAD.REQUEST.DWL_URL_SET_ENABLED:
                 this.urls.setEnabled(request.data);
                 break;
-            case 'dwl_url_add_urls':
+            case DOWNLOAD.REQUEST.DWL_URL_ADD_URLS:
                 this.urls.add_urls(request.data, request.update);
                 break;
-            case 'dwl_url_remove_urls':
+            case DOWNLOAD.REQUEST.DWL_URL_REMOVE_URLS:
                 this.urls.remove_urls(request.data.data, request.data.update);
                 break;
-            case 'dwl_size_set_enabled':
+            case DOWNLOAD.REQUEST.DWL_SIZE_SET_ENABLED:
                 this.max_size.setEnabled(request.data);
                 break;
-            case 'dwl_size_set_val':
+            case DOWNLOAD.REQUEST.DWL_SIZE_SET_VAL:
                 this.max_size.setMaxSize(request.data);
                 break;
-            case 'dwl_url_get_data':
+            case DOWNLOAD.REQUEST.DWL_URL_GET_DATA:
                 return this.urls.getData(request.data);
-            case 'dwl_add_url':
+            case DOWNLOAD.REQUEST.DWL_ADD_URL:
                 this.urls.add_url_from_str(request.data);
                 return this.urls.getData(request.data);
-            case 'dwl_url_set_enabled_lite':
+            case DOWNLOAD.REQUEST.DWL_URL_SET_ENABLED_LITE:
                 this.urls.setEnabled(request.data);
                 return this.urls.getData(request.data);
         }
