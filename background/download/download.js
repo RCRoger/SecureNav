@@ -32,9 +32,17 @@ function DownloadBackground(popUp = undefined) {
                 break;
             case 'dwl_size_set_val':
                 this.max_size.setMaxSize(request.data);
+                break;
+            case 'dwl_url_get_data':
+                return this.urls.getData(request.data);
+            case 'dwl_add_url':
+                this.urls.add_url_from_str(request.data);
+                return this.urls.getData(request.data);
+            case 'dwl_url_set_enabled_lite':
+                this.urls.setEnabled(request.data);
+                return this.urls.getData(request.data);
         }
         return this.get_data();
-        //this.add_listener();
     }
 
     DB.prototype.get_data = function () {
@@ -152,6 +160,15 @@ function DownloadUrlList() {
         this.urls_regex.push(url_regex(item));
     }
 
+    UL.prototype.add_url_from_str = function (data) {
+        var item = get_item_from_str(data.url);
+        this.urls.push(item);
+        this.urls_regex.push(url_regex(item));
+        this.saveData();
+    }
+
+
+
     UL.prototype.remove_urls = function (urls, update) {
         var corrector = 0;
         urls.forEach(index => {
@@ -161,6 +178,10 @@ function DownloadUrlList() {
         });
         this.update = update;
         this.saveData();
+    }
+
+    UL.prototype.getData = function (data) {
+        return { hasBlock: this.needBlock(data), type: this.type, enabled: this.enabled, url: data.url };
     }
 
     UL.prototype.setType = function (type) {
@@ -201,17 +222,17 @@ function DownloadMaxSize() {
         this.max_size = data.dwl_max_size;
     }
 
-    MS.prototype.saveData = function (data){
+    MS.prototype.saveData = function (data) {
         chrome.storage.local.set(download_max_size_item(this.enabled, this.max_size));
     }
 
-    MS.prototype.setEnabled = function (data){
+    MS.prototype.setEnabled = function (data) {
         this.enabled = data;
         this.saveData;
     }
 
-    MS.prototype.setMaxSize = function (data){
-        if(data > 0){
+    MS.prototype.setMaxSize = function (data) {
+        if (data > 0) {
             this.max_size = data;
             this.saveData();
         }

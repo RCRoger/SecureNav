@@ -3,6 +3,11 @@ function getMessage(msg, item) {
     document.getElementById(item).innerHTML = message;
 }
 
+function getMessageStr(msg) {
+    var message = chrome.i18n.getMessage(msg);
+    return message;
+}
+
 function create_table(id, headers, rows) {
     var tbl = document.createElement('table');
     tbl.id = id;
@@ -342,4 +347,13 @@ function create_select(id, options, values = undefined) {
     select.id = id;
 
     return select;
+}
+
+function create_button(id){
+    var btn = document.createElement('button');
+    btn.classList.add('btn');
+    btn.setAttribute('type', 'button');
+    btn.id = id;
+
+    return btn;
 }

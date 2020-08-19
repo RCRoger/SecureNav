@@ -3,40 +3,61 @@
         "message": "General",
         "description": "Nom per a la tab de configuració general"
     },
-    "download_tab":{
+    "download_tab": {
         "message": "Control de descàrregues"
     },
-    "malware_tab":{
+    "malware_tab": {
         "message": "Malware"
     },
-    "sites_tab":{
+    "sites_tab": {
         "message": "Control de llocs web"
     },
-    "popup_tab":{
+    "popup_tab": {
         "message": "Control de emergents"
     },
-    "super_tab":{
+    "super_tab": {
         "message": "Superusuari"
     },
-    "general_title":{
+    "general_title": {
         "message": "Idioma de l'extensió"
     },
-    "dwl_title":{
+    "dwl_title": {
         "message": "Llista d'URLs"
     },
-    "dwl_title_1":{
-        "message" : "Tamany màxim d'arxiu"
+    "dwl_title_1": {
+        "message": "Tamany màxim d'arxiu"
     },
-    "enabled":{
+    "enabled": {
         "message": "Habilitat"
     },
-    "disabled":{
+    "disabled": {
         "message": "Deshabilitat"
+    },
+    "enable": {
+        "message": "Habilita"
+    },
+    "disable": {
+        "message": "Deshabilita"
     },
     "whitelist": {
         "message": "Llista blanca"
     },
     "blacklist": {
         "message": "Llista negra"
+    },
+    "dwl_url_status_0": {
+        "message": "  Les descàrregues estan bloquejades en aquesta pàgina."
+    },
+    "dwl_url_status_1": {
+        "message": "  Les descàrregues estan habilitades en aquesta pàgina."
+    },
+    "dwl_url_mode": {
+        "message": "Mode actual: "
+    },
+    "block": {
+        "message": "Bloqueja"
+    },
+    "unblock": {
+        "message": "Desbloqueja"
     }
 }
