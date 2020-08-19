@@ -30,7 +30,7 @@ function PageUrlList(){
 
     DB.prototype.loadData = function (first = undefined) {
         var that = this;
-        chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_type', 'dwl_url_list', 'dwl_size_enabled', 'dwl_max_size', 'dwl_show_info'], function (data) {
+        chrome.storage.local.get([DOWNLOAD.DB.DWL_URL_ENABLED, 'dwl_url_type', 'dwl_url_list', 'dwl_size_enabled', 'dwl_max_size', 'dwl_show_info'], function (data) {
             that.urls.loadData(data);
             that.max_size.loadData(data);
             that.show_info = data.dwl_show_info;

@@ -13,32 +13,32 @@ function DownloadBackground(popUp = undefined) {
             case 'dwl_update':
                 this.loadData(true);
                 return;
-            case DOWNLOAD.REQUEST.DWL_GET_DATA:
+            case DOWNLOAD.REQUEST.GET_DATA:
                 return this.get_data();
-            case DOWNLOAD.REQUEST.DWL_URL_SET_TYPE:
+            case DOWNLOAD.REQUEST.URL_SET_TYPE:
                 this.urls.setType(request.data);
                 break;
-            case DOWNLOAD.REQUEST.DWL_URL_SET_ENABLED:
+            case DOWNLOAD.REQUEST.URL_SET_ENABLED:
                 this.urls.setEnabled(request.data);
                 break;
-            case DOWNLOAD.REQUEST.DWL_URL_ADD_URLS:
+            case DOWNLOAD.REQUEST.URL_ADD_URLS:
                 this.urls.add_urls(request.data, request.update);
                 break;
-            case DOWNLOAD.REQUEST.DWL_URL_REMOVE_URLS:
+            case DOWNLOAD.REQUEST.URL_REMOVE_URLS:
                 this.urls.remove_urls(request.data.data, request.data.update);
                 break;
-            case DOWNLOAD.REQUEST.DWL_SIZE_SET_ENABLED:
+            case DOWNLOAD.REQUEST.SIZE_SET_ENABLED:
                 this.max_size.setEnabled(request.data);
                 break;
-            case DOWNLOAD.REQUEST.DWL_SIZE_SET_VAL:
+            case DOWNLOAD.REQUEST.SIZE_SET_VAL:
                 this.max_size.setMaxSize(request.data);
                 break;
-            case DOWNLOAD.REQUEST.DWL_URL_GET_DATA:
+            case DOWNLOAD.REQUEST.URL_GET_DATA:
                 return this.urls.getData(request.data);
-            case DOWNLOAD.REQUEST.DWL_ADD_URL:
+            case DOWNLOAD.REQUEST.ADD_URL:
                 this.urls.add_url_from_str(request.data);
                 return this.urls.getData(request.data);
-            case DOWNLOAD.REQUEST.DWL_URL_SET_ENABLED_LITE:
+            case DOWNLOAD.REQUEST.URL_SET_ENABLED_LITE:
                 this.urls.setEnabled(request.data);
                 return this.urls.getData(request.data);
         }
@@ -70,7 +70,15 @@ function DownloadBackground(popUp = undefined) {
 
     DB.prototype.loadData = function (first = undefined) {
         var that = this;
-        chrome.storage.local.get(['dwl_url_enabled', 'dwl_url_type', 'dwl_url_list', 'dwl_size_enabled', 'dwl_max_size', 'dwl_show_info'], function (data) {
+        var params = [
+            DOWNLOAD.DB.URL_ENABLED,
+            DOWNLOAD.DB.URL_TYPE,
+            DOWNLOAD.DB.URL_LIST,
+            DOWNLOAD.DB.SIZE_ENABLED,
+            DOWNLOAD.DB.MAX_SIZE,
+            DOWNLOAD.DB.SHOW_INFO
+        ];
+        chrome.storage.local.get(params, function (data) {
             that.urls.loadData(data);
             that.max_size.loadData(data);
             that.show_info = data.dwl_show_info;
