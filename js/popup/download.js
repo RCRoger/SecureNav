@@ -35,7 +35,8 @@ var show_download = function () {
       btn.innerHTML = getMessageStr('enable');
       $('#dwl-text-1').html(btn);
       $('#dwl-url-enable').click(function(){
-        chrome.runtime.sendMessage(chrome.runtime.id, {id: DOWNLOAD.REQUEST.DWL_URL_SET_ENABLED_LITE, data : true }, show_url_info);
+        var id = DOWNLOAD.REQUEST.URL_SET_ENABLED_LITE;
+        chrome.runtime.sendMessage(chrome.runtime.id, {id: id, data : true }, show_url_info);
       });
       return;
     }
@@ -84,7 +85,7 @@ var show_download = function () {
     }
 
     $('#dwl-url-block').click(function(){
-      chrome.runtime.sendMessage(chrome.runtime.id, {id: DOWNLOAD.REQUEST.DWL_ADD_URL, data : {url: data.url}}, show_url_info);
+      chrome.runtime.sendMessage(chrome.runtime.id, {id: DOWNLOAD.REQUEST.ADD_URL, data : {url: data.url}}, show_url_info);
     });
 
   }
@@ -92,7 +93,8 @@ var show_download = function () {
   function load_info(){
     chrome.tabs.query({active: true, currentWindow: true}, tabs => {
       let url = tabs[0].url;
-      chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.DWL_URL_GET_DATA, data: {'url': url, 'urlFinal': url}}, show_url_info);
+      var id = DOWNLOAD.REQUEST.URL_GET_DATA;
+      chrome.runtime.sendMessage(chrome.runtime.id, { id: id, data: {'url': url, 'urlFinal': url}}, show_url_info);
   });
   }
 
