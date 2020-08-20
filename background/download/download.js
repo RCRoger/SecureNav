@@ -1,8 +1,7 @@
-function DownloadBackground(popUp = undefined) {
+function DownloadBackground() {
     this.urls = new DownloadUrlList();
     this.max_size = new DownloadMaxSize();
     this.show_info = undefined;
-    this.popUp = popUp;
     this.loadData(true);
 }
 
@@ -49,13 +48,13 @@ function DownloadBackground(popUp = undefined) {
         return { urls: this.urls, max_size: this.max_size };
     }
 
-    DB.prototype.block_action = function (file) {
+    DB.prototype.block_action = function (file, url) {
         chrome.downloads.pause(file.id);
         console.log('Pausada');
 
         if (this.urls.needBlock(file) || this.max_size.needBlock(file)) {
             chrome.downloads.cancel(file.id);
-            console.log('Cancelada');
+            PopUpController.show_info('Descarrega cancelada');
             return;
         }
         chrome.downloads.resume(file.id);
@@ -130,7 +129,7 @@ function DownloadUrlList() {
     UL.prototype.contains_url = function (file) {
         if (Array.isArray(this.urls_regex) && this.urls_regex.length) {
             return this.urls_regex.some(function (item) {
-                if (item.exec(file.url) || item.exec(file.finalUrl))
+                if (item.exec(file.url) || item.exec(file.finalUrl) || item.exec(file.referrer))
                     return true;
             });
         }
@@ -250,6 +249,7 @@ function DownloadMaxSize() {
 var dwl_background = new DownloadBackground();
 
 var dwl_listener = function (file) {
+    
     dwl_background.block_action(file);
 }
 

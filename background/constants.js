@@ -37,3 +37,9 @@ const PAGE = {
         SHOW_INFO: 'pg_show_info'
     }
 }
+
+const POP_UP = {
+    REQUEST: {
+        SHOW_INFO : 'pop_up_show_info'
+    }
+}

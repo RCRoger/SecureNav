@@ -211,91 +211,100 @@ function create_modal_large(id = undefined) {
 
 
     return modal;
-
-
-
 }
 
 function create_add_btn(id) {
-    var add_btn = document.createElement('span');
-    add_btn.id = id;
-    add_btn.classList.add('table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2');
-
-    var a = document.createElement('a');
-    a.classList.add('text-success');
-    var icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-plus', 'fa-2x');
-    a.appendChild(icon);
-    add_btn.appendChild(a);
-
-    return add_btn;
+    var params = {
+        span:{
+            classList: ['table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2']
+        },
+        a:{
+            classList: ['text-succes']
+        },
+        icon:{
+            classList: ['fas', 'fa-plus', 'fa-2x']
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
 }
 
 function create_save_btn(id) {
-    var save_btn = document.createElement('span');
-    save_btn.classList.add('mt-2', 'mb-6', 'mr-2');
-    save_btn.id = id;
-    var a = document.createElement('a');
-    a.classList.add('text-primary');
-    var icon = document.createElement('i');
-    icon.classList.add('far', 'fa-save', 'fa-2x');
-    a.appendChild(icon);
-    save_btn.appendChild(a);
-
-    return save_btn;
+    var params = {
+        span:{
+            classList: ['mt-2', 'mb-6', 'mr-2']
+        },
+        a:{
+            classList: ['text-primary']
+        },
+        icon:{
+            classList: ['far', 'fa-save', 'fa-2x']
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
 }
 
 function create_trash_btn(id) {
-    var trash_btn = document.createElement('span');
-    trash_btn.classList.add('table-add', 'float-right', 'mt-2', 'mr-2');
-    trash_btn.id = id;
-    var a = document.createElement('a');
-    a.classList.add('text-danger');
-    var icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-trash', 'fa-2x');
-    a.appendChild(icon);
-    trash_btn.appendChild(a);
-
-    return trash_btn;
+    var params = {
+        span:{
+            classList: ['table-add', 'float-right', 'mt-2', 'mr-2']
+        },
+        a:{
+            classList: ['text-danger']
+        },
+        icon:{
+            classList: ['fas', 'fa-trash', 'fa-2x']
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
 }
 
 function create_link_btn(id) {
-    var link_btn = document.createElement('span');
-    link_btn.id = id;
-    var a = document.createElement('a');
-    a.classList.add('text-default');
-    var icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-link', 'fa-lg');
-    a.appendChild(icon);
-    link_btn.appendChild(a);
-
-    return link_btn;
+    var params = {
+        a:{
+            classList: ['text-default']
+        },
+        icon:{
+            classList: ['fas', 'fa-link', 'fa-lg']
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
 }
 
 function create_check_btn(id) {
-    var check_btn = document.createElement('span');
-    check_btn.id = id;
-    var a = document.createElement('a');
-    a.classList.add('text-success');
-    var icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-check-circle', 'fa-lg');
-    a.appendChild(icon);
-    check_btn.appendChild(a);
-
-    return check_btn;
+    var params = {
+        a:{
+            classList: ['text-success']
+        },
+        icon:{
+            classList: ['fas', 'fa-check-circle', 'fa-lg']
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
 }
 
 function create_cross_btn(id) {
-    var cross_btn = document.createElement('span');
-    cross_btn.id = id;
-    var a = document.createElement('a');
-    a.classList.add('text-danger');
-    var icon = document.createElement('i');
-    icon.classList.add('fas', 'fa-times-circle', 'fa-lg');
-    a.appendChild(icon);
-    cross_btn.appendChild(a);
 
-    return cross_btn;
+    var params = {
+        a:{
+            classList: ['text-danger']
+        },
+        icon:{
+            classList: ['fas', 'fa-times-circle', 'fa-lg']
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
 }
 
 function create_input_group() {
@@ -356,4 +365,34 @@ function create_button(id){
     btn.id = id;
 
     return btn;
+}
+
+function create_icon(params = {}) {
+    var span = document.createElement('span');
+    add_params(span, params.span);
+    var a = document.createElement('a');
+    add_params(a, params.a);
+    var icon = document.createElement('i');
+    add_params(icon, params.icon);
+    a.appendChild(icon);
+    span.appendChild(a);
+    return span;
+}
+
+function add_params(item, params) {
+    if (params) {
+        if (params.classList)
+            params.classList.forEach(cls => {
+                item.classList.add(cls);
+            });
+
+
+        if (params.innerHTML)
+            item.innerHTML = params.innerHTML;
+
+        if (params.children)
+            params.children.forEach(child => {
+                item.appendChild(child);
+            });
+    }
 }

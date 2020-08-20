@@ -10,11 +10,13 @@
     "webRequestBlocking",
     "*://*/*",
     "downloads",
-    "tabs"
+    "tabs",
+    "activeTab"
   ],
   "background": {
     "scripts": [
       "background/constants.js",
+      "background/popup-controller.js",
       "background/urls/initial.js",
       "background/urls/items.js",
       "background/download/items.js",
@@ -25,6 +27,25 @@
     ],
     "persistent": true
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "css": [
+        "css/bootstrap.min.css",
+        "css/mdb.lite.min.css"
+      ],
+      "js": [
+        "js/jquery.min.js",
+        "js/bootstrap.min.js",
+        "js/mdb.min.js",
+        "background/constants.js",
+        "js/utils.js",
+        "content-scripts/popup.js"
+      ]
+    }
+  ],
   "options_page": "options/options.html",
   "icons": {
     "16": "secnav16.ico",
