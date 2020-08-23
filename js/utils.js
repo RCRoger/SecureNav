@@ -215,13 +215,13 @@ function create_modal_large(id = undefined) {
 
 function create_add_btn(id) {
     var params = {
-        span:{
+        span: {
             classList: ['table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2']
         },
-        a:{
-            classList: ['text-succes']
+        a: {
+            classList: ['text-success']
         },
-        icon:{
+        icon: {
             classList: ['fas', 'fa-plus', 'fa-2x']
         }
     }
@@ -232,13 +232,13 @@ function create_add_btn(id) {
 
 function create_save_btn(id) {
     var params = {
-        span:{
+        span: {
             classList: ['mt-2', 'mb-6', 'mr-2']
         },
-        a:{
+        a: {
             classList: ['text-primary']
         },
-        icon:{
+        icon: {
             classList: ['far', 'fa-save', 'fa-2x']
         }
     }
@@ -249,13 +249,13 @@ function create_save_btn(id) {
 
 function create_trash_btn(id) {
     var params = {
-        span:{
+        span: {
             classList: ['table-add', 'float-right', 'mt-2', 'mr-2']
         },
-        a:{
+        a: {
             classList: ['text-danger']
         },
-        icon:{
+        icon: {
             classList: ['fas', 'fa-trash', 'fa-2x']
         }
     }
@@ -266,10 +266,10 @@ function create_trash_btn(id) {
 
 function create_link_btn(id) {
     var params = {
-        a:{
+        a: {
             classList: ['text-default']
         },
-        icon:{
+        icon: {
             classList: ['fas', 'fa-link', 'fa-lg']
         }
     }
@@ -280,10 +280,10 @@ function create_link_btn(id) {
 
 function create_check_btn(id) {
     var params = {
-        a:{
+        a: {
             classList: ['text-success']
         },
-        icon:{
+        icon: {
             classList: ['fas', 'fa-check-circle', 'fa-lg']
         }
     }
@@ -295,10 +295,10 @@ function create_check_btn(id) {
 function create_cross_btn(id) {
 
     var params = {
-        a:{
+        a: {
             classList: ['text-danger']
         },
-        icon:{
+        icon: {
             classList: ['fas', 'fa-times-circle', 'fa-lg']
         }
     }
@@ -358,7 +358,7 @@ function create_select(id, options, values = undefined) {
     return select;
 }
 
-function create_button(id){
+function create_button(id) {
     var btn = document.createElement('button');
     btn.classList.add('btn');
     btn.setAttribute('type', 'button');

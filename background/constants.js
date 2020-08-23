@@ -43,3 +43,8 @@ const POP_UP = {
         SHOW_INFO : 'pop_up_show_info'
     }
 }
+
+const TYPE = {
+    WHITELIST : 0,
+    BLACKLIST : 1
+}

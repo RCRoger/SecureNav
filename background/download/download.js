@@ -140,8 +140,6 @@ function DownloadUrlList() {
         this.urls = [];
         this.urls_regex = [];
         this.enabled = data.dwl_url_enabled;
-        if (!this.enabled)
-            return;
         this.type = data.dwl_url_type;
         data.dwl_url_list.forEach(item => {
             this.urls.push(item);
@@ -252,11 +250,3 @@ var dwl_listener = function (file) {
     
     dwl_background.block_action(file);
 }
-
-var desu = function (request, sender, response) {
-    if (request && (request.id.toString().includes('dwl')))
-        response(dwl_background.request(request));
-    return true;
-}
-
-chrome.runtime.onMessage.addListener(desu);

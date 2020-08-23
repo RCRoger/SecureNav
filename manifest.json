@@ -21,8 +21,11 @@
       "background/urls/items.js",
       "background/download/items.js",
       "background/download/initial.js",
+      "background/page/items.js",
+      "background/page/initial.js",
       "background/initial.js",
       "background/download/download.js",
+      "background/page/page.js",
       "background/controller.js"
     ],
     "persistent": true
