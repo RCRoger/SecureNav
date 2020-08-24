@@ -1,9 +1,25 @@
+var init_services = function(){
+    Logger.getInstance();
+    DownloadBackground.getInstance();
+    PageBackground.getInstance();
+    chrome.runtime.onMessage.addListener(request);
+}
+
+var restart_services = function(){
+    Logger.restart();
+    DownloadBackground.restart();
+    PageBackground.restart();
+    chrome.runtime.onMessage.removeListener(request);
+    chrome.runtime.onMessage.addListener(request);
+}
+
+
 var request = function (request, sender, response) {
     if (request && (request.id.toString().includes('dwl')))
-        response(dwl_background.request(request));
+        response(DownloadBackground.getInstance().request(request));
     else if (request && (request.id.toString().includes('pg')))
-        response(page_background.request(request));
+        response(PageBackground.getInstance().request(request));
     return true;
 }
 
-chrome.runtime.onMessage.addListener(request);
+init_services();

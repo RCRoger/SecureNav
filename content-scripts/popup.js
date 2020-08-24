@@ -27,7 +27,7 @@ function PopUpScripts() {
                 classList: ['modal-notify', 'modal-info']
             },
             header: {
-                children: [create_icon(info_icon_params), create_exit_btn()]
+                children: [create_icon(info_icon_params)]
             },
             body: {
                 classList: ['text-info'],

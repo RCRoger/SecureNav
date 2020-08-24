@@ -16,6 +16,10 @@
   "background": {
     "scripts": [
       "background/constants.js",
+      
+      "background/logger/initial.js",
+      "background/logger/items.js",
+      "background/logger/logger.js",
       "background/popup-controller.js",
       "background/urls/initial.js",
       "background/urls/items.js",
@@ -23,10 +27,10 @@
       "background/download/initial.js",
       "background/page/items.js",
       "background/page/initial.js",
-      "background/initial.js",
       "background/download/download.js",
       "background/page/page.js",
-      "background/controller.js"
+      "background/controller.js",
+      "background/initial.js"
     ],
     "persistent": true
   },
@@ -35,6 +39,7 @@
       "matches": [
         "*://*/*"
       ],
+      "all_frames": true,
       "css": [
         "css/bootstrap.min.css",
         "css/mdb.lite.min.css"

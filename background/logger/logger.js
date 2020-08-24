@@ -5,8 +5,8 @@ class Logger {
     }
 
     log(msg, db = LOGGER.DB.LOG) {
-        var now = new Date.now();
-        var text = now.toISOString() + ': ' + msg;
+        var now = new Date();
+        var text = now.toLocaleString() + ': ' + msg;
         this.get_logger_obj(db).log(text);
     }
 
@@ -18,7 +18,7 @@ class Logger {
         return this.get_logger_obj(db).rows;
     }
 
-    get_last_n_rows(n, db = LOGGER.DB.LOG){
+    get_last_n_rows(n, db = LOGGER.DB.LOG) {
         return this.get_logger_obj(db).get_last_n_rows(n);
     }
 
@@ -29,25 +29,40 @@ class Logger {
             return this.dev;
     }
 
+    static getInstance() {
+        if (!Logger.instance)
+            Logger.instance = new Logger();
+        return Logger.instance;
+    }
+
+    static restart() {
+        if (Logger.instance)
+            delete Logger.instance;
+        Logger.instance = new Logger();
+    }
+
 }
 
 class LoggerObj {
     constructor(db_str) {
         this.text = undefined;
         this.rows = undefined;
-        this.temp = undefined;
+        this.temp = [];
         this.db_str = db_str;
         this.loadData();
     }
 
     loadData() {
+        var that = this;
         chrome.storage.local.get([this.db_str], function (data) {
-            this.text = data[this.db_str];
-            this.rows = this.text.split('\n');
-            if (this.temp) {
-                this.log(this.temp);
-                this.saveData();
-                this.temp = undefined;
+            that.text = data[that.db_str];
+            that.rows = that.text.split('\n');
+            if (that.temp) {
+                that.temp.forEach(element => {
+                    that.log(element);
+                });
+                that.saveData();
+                that.temp = [];
             }
         });
     }
@@ -68,17 +83,25 @@ class LoggerObj {
         return ret;
     }
 
+    check_max_rows() {
+        if (this.rows.length > LOGGER.MAX_ROWS) {
+            this.rows.splice(0, 1);
+            this.text = this.rows.join('\n');
+        }
+    }
+
     saveData() {
         if (this.text) {
+            this.check_max_rows();
             var ret = {};
             ret[this.db_str] = this.text;
-            chrome.storage.set(ret);
+            chrome.storage.local.set(ret);
         }
     }
 
     log(text) {
         if (this.text = undefined) {
-            this.temp = text;
+            this.temp.push(text);
         }
         else {
             this.text += '\n' + text;
@@ -86,7 +109,4 @@ class LoggerObj {
             this.saveData();
         }
     }
-
-
 }
-

@@ -45,6 +45,7 @@ const POP_UP = {
 }
 
 const LOGGER = {
+    MAX_ROWS: 10000,
     DB:{
         LOG : 'logger_msg',
         LOG_DEV: 'logger_dev'

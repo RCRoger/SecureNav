@@ -20,9 +20,6 @@ function PageBackground(popUp = undefined) {
 (function (PB, undefined) {
     PB.prototype.request = function (request) {
         switch (request.id) {
-            case 'dwl_update':
-                this.loadData(true);
-                return;
             case PAGE.REQUEST.GET_DATA:
                 return this.getData();
             case PAGE.REQUEST.URL_SET_TYPE:
@@ -57,6 +54,18 @@ function PageBackground(popUp = undefined) {
             if (first)
                 that.add_listener();
         });
+    }
+
+    PB.restart = function(){
+        if(PB.instance)
+            delete PB.instance;
+        PB.instance = new PB();;
+    }
+
+    PB.getInstance = function(){
+        if(!PB.instance)
+            PB.instance = new PB();
+        return PB.instance;
     }
 
 })(PageBackground);
@@ -188,6 +197,7 @@ function page_blocker(page) {
         return no_block;
     if (!page_background.urls.need_block(page))
         return no_block;
-    PopUpController.show_info('Aquesta URL està bloquejada');
+        
+    Logger.getInstance().log('Page blocked: ' + page.url);
     return block;
 }

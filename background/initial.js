@@ -1,4 +1,4 @@
-function init_db_superadmin(){
+function init_db_superadmin() {
     chrome.storage.local.set({
         'superadmin': {
             'enabled': false,
@@ -7,13 +7,19 @@ function init_db_superadmin(){
     });
 }
 
-function init_db(){
-    init_db_download();
-    init_db_superadmin();
-    init_db_page();
+function init_db() {
+    chrome.storage.local.get([''], function (data) {
+        if (!data[LOGGER.DB.LOG])
+            init_db_logger();
+        if (!data[DOWNLOAD.DB.MAX_SIZE])
+            init_db_download();
+        if (!data[PAGE.DB.SHOW_INFO])
+            init_db_page();    
+        restart_services();
+    });
 }
 
-chrome.runtime.onInstalled.addListener(function() {
-    //init_db();
+chrome.runtime.onInstalled.addListener(function (reason) {
+    init_db();
 });
 

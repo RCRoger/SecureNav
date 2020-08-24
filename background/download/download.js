@@ -9,9 +9,6 @@ function DownloadBackground() {
 
     DB.prototype.request = function (request) {
         switch (request.id) {
-            case 'dwl_update':
-                this.loadData(true);
-                return;
             case DOWNLOAD.REQUEST.GET_DATA:
                 return this.get_data();
             case DOWNLOAD.REQUEST.URL_SET_TYPE:
@@ -50,15 +47,18 @@ function DownloadBackground() {
 
     DB.prototype.block_action = function (file, url) {
         chrome.downloads.pause(file.id);
-        console.log('Pausada');
+        Logger.getInstance().log('Download Paused', LOGGER.DB.LOG_DEV);
 
         if (this.urls.needBlock(file) || this.max_size.needBlock(file)) {
             chrome.downloads.cancel(file.id);
+            Logger.getInstance().log('Download Canceled', LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log('Download Canceled');
             PopUpController.show_info('Descarrega cancelada');
             return;
         }
         chrome.downloads.resume(file.id);
-        console.log('resumida');
+        
+        Logger.getInstance().log('Download Resumed', LOGGER.DB.LOG_DEV);
 
     }
 
@@ -84,6 +84,18 @@ function DownloadBackground() {
             if (first)
                 that.add_listener();
         });
+    }
+
+    DB.restart = function(){
+        if(DB.instance)
+            delete DB.instance;
+        DB.instance = new DB();
+    }
+
+    DB.getInstance = function(){
+        if(!DB.instance)
+            DB.instance = new DB();
+        return DB.instance;
     }
 
 })(DownloadBackground);
@@ -244,9 +256,6 @@ function DownloadMaxSize() {
     }
 })(DownloadMaxSize);
 
-var dwl_background = new DownloadBackground();
-
 var dwl_listener = function (file) {
-    
-    dwl_background.block_action(file);
+    DownloadBackground.getInstance().block_action(file);
 }
