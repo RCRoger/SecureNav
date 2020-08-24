@@ -44,6 +44,13 @@ const POP_UP = {
     }
 }
 
+const LOGGER = {
+    DB:{
+        LOG : 'logger_msg',
+        LOG_DEV: 'logger_dev'
+    }
+}
+
 const TYPE = {
     WHITELIST : 0,
     BLACKLIST : 1

@@ -7,6 +7,7 @@ const all_urls = { 'urls': ["<all_urls>"] };
 const block = { cancel: true };
 const no_block = { cancel: false };
 
+const pages_unblockeables = [chrome.runtime.id, 'use.fontawesome.com', 'fonts.googleapis.com'];
 
 
 function PageBackground(popUp = undefined) {
@@ -183,7 +184,7 @@ var page_background = new PageBackground();
 
 function page_blocker(page) {
     var url = get_item_from_str(page.url);
-    if (url.protocol == 'chrome-extension')
+    if (pages_unblockeables.includes(url.host))
         return no_block;
     if (!page_background.urls.need_block(page))
         return no_block;
