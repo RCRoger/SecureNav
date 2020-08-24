@@ -46,6 +46,7 @@ class LoggerObj {
             this.rows = this.text.split('\n');
             if (this.temp) {
                 this.log(this.temp);
+                this.saveData();
                 this.temp = undefined;
             }
         });
@@ -82,6 +83,7 @@ class LoggerObj {
         else {
             this.text += '\n' + text;
             this.rows.push(text);
+            this.saveData();
         }
     }
 
