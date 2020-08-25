@@ -93,7 +93,7 @@ function add_rows_edit($tableID) {
     $tableID.append($clone).find('tbody tr').last().find('td').empty();
 }
 
-function add_card(section, num) {
+function add_card(section, num, parent = undefined) {
     var card = create_card();
 
     var header = create_card_header(card);
@@ -109,8 +109,10 @@ function add_card(section, num) {
     var text = create_card_text(body);
 
     text.id = section + '-text-' + num;
-
-    $('#' + section + '-container').append(card);
+    if(!parent)
+        $('#' + section + '-container').append(card);
+    else
+        $(parent).append(card);
 
 }
 
@@ -307,6 +309,34 @@ function create_cross_btn(id) {
     return btn;
 }
 
+function create_bell_icon(id) {
+    var params = {
+        a:{
+            classList:['amber-text']
+        },
+        icon: {
+            classList: ['fas', 'fa-bell', 'fa-lg'],
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
+}
+
+function create_bell_crossed_icon(id) {
+    var params = {
+        a:{
+            classList:['text-muted']
+        },
+        icon: {
+            classList: ['fas', 'fa-bell-slash', 'fa-lg'],
+        }
+    }
+    var btn = create_icon(params);
+    btn.id = id;
+    return btn;
+}
+
 function create_input_group() {
     var div = document.createElement('div');
     div.classList.add('input-group');
@@ -358,11 +388,12 @@ function create_select(id, options, values = undefined) {
     return select;
 }
 
-function create_button(id) {
+function create_button(id, params = {}) {
     var btn = document.createElement('button');
     btn.classList.add('btn');
     btn.setAttribute('type', 'button');
     btn.id = id;
+    add_params(btn, params);
 
     return btn;
 }
@@ -379,14 +410,23 @@ function create_icon(params = {}) {
     return span;
 }
 
+function create_elem(elem, params = {}){
+    var a = document.createElement(elem);
+    add_params(a, params);
+    return a;
+}
+
 function add_params(item, params) {
     if (params) {
         if (params.classList)
             params.classList.forEach(cls => {
                 item.classList.add(cls);
             });
-
-
+        if (params.attributes) {
+            params.attributes.forEach(att => {
+                item.setAttribute(att.key, att.value);
+            });
+        }
         if (params.innerHTML)
             item.innerHTML = params.innerHTML;
 

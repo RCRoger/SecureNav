@@ -1,11 +1,14 @@
 var dwl_section = 'dwl';
 var charged = false;
 var dwl_url = new UrlCardController(dwl_section, DOWNLOAD);
+var dwl_not = new NotiCardController(dwl_section, DOWNLOAD, 3);
 
 var show_download = function () {
   if (!charged) {
-    dwl_url.init_urlist_components();
+    dwl_url.init_components();
+    init_dwl_components();
     init_urlsize_components();
+    dwl_not.init_components('#dwl-col-not');
   }
   load_all();
 
@@ -29,12 +32,29 @@ var save_size_enabled = function () {
   chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_ENABLED, data: this.checked });
 }
 
+var init_dwl_components = function(){
+  var div_params = {
+    classList:['row']
+  }
+  var div = create_elem('div', div_params);
+  div.id = 'dwl-row-2';
 
+  var col = create_elem('div', {classList:['col']});
+  col.id = 'dwl-col-size';
+  div.appendChild(col);
+
+  var col1 = create_elem('div', {classList:['col']});
+  col1.id = 'dwl-col-not';
+  div.appendChild(col1);
+  
+  $('#' + dwl_section + '-container').append(div);
+
+}
 
 var init_urlsize_components = function () {
   charged = true;
   const num = 2;
-  add_card(dwl_section, num);
+  add_card(dwl_section, num, '#dwl-col-size');
   var enabled_check = create_checkbox(dwl_section, 'enabled', num, ['custom-checkbox']);
   $('#' + dwl_section + '-header-' + num).html(enabled_check);
   $('#' + dwl_section + '-enabled-' + num).change(save_size_enabled);
@@ -45,12 +65,12 @@ var init_urlsize_components = function () {
   a.id = dwl_section + "-title-a-" + num;
   $('#' + dwl_section + '-title-' + num).append(a);
   getMessage(dwl_section + "_title_1", a.id);
-
-
 }
+
 var show_all = function (data) {
-  dwl_url.show_url(data);
+  dwl_url.show(data);
   show_size(data);
+  dwl_not.show(data);
 
 }
 var show_size = function (data) {

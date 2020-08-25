@@ -2,6 +2,8 @@ function DownloadBackground() {
     this.urls = new DownloadUrlList();
     this.max_size = new DownloadMaxSize();
     this.show_info = undefined;
+    this.checks = undefined;
+    this.blocks = undefined;
     this.loadData(true);
 }
 
@@ -37,28 +39,58 @@ function DownloadBackground() {
             case DOWNLOAD.REQUEST.URL_SET_ENABLED_LITE:
                 this.urls.setEnabled(request.data);
                 return this.urls.getData(request.data);
+            case DOWNLOAD.REQUEST.SET_SHOW_INFO:
+                this.setShowInfo(request.data);
+                break;
         }
         return this.get_data();
     }
 
     DB.prototype.get_data = function () {
-        return { urls: this.urls, max_size: this.max_size };
+        return this;
     }
 
-    DB.prototype.block_action = function (file, url) {
-        chrome.downloads.pause(file.id);
-        Logger.getInstance().log('Download Paused', LOGGER.DB.LOG_DEV);
-
-        if (this.urls.needBlock(file) || this.max_size.needBlock(file)) {
-            chrome.downloads.cancel(file.id);
-            Logger.getInstance().log('Download Canceled', LOGGER.DB.LOG_DEV);
-            Logger.getInstance().log('Download Canceled');
-            PopUpController.show_info('Descarrega cancelada');
+    DB.prototype.setShowInfo = function (data) {
+        if (data !== true && data !== false) {
+            //TODO: send error
             return;
         }
-        chrome.downloads.resume(file.id);
-        
-        Logger.getInstance().log('Download Resumed', LOGGER.DB.LOG_DEV);
+        this.show_info = data;
+        this.saveData();
+    }
+
+    DB.prototype.block_action = function (file) {
+        let logger = Logger.getInstance();
+        chrome.downloads.pause(file.id);
+        logger.log('Download Paused', LOGGER.DB.LOG_DEV);
+        this.checks++;
+        var need_block = false;
+        let status = '';
+        if (this.urls.needBlock(file)) {
+            need_block = true;
+            status = 'url_block';
+        }
+        else if (this.max_size.needBlock(file)) {
+            chrome.downloads.cancel(file.id);
+            need_block = true;
+            status = 'size_block';
+        }
+        if (need_block) {
+            chrome.downloads.cancel(file.id);
+            this.blocks++;
+            logger.log('Download Canceled', LOGGER.DB.LOG_DEV);
+            logger.log('Download Canceled');
+            if (this.show_info)
+                PopUpController.show_info('dwl_cancel ' + status);
+
+        }
+        else {
+            chrome.downloads.resume(file.id);
+
+            logger.log('Download Resumed', LOGGER.DB.LOG_DEV);
+        }
+
+        this.saveDataLite();
 
     }
 
@@ -75,25 +107,34 @@ function DownloadBackground() {
             DOWNLOAD.DB.URL_LIST,
             DOWNLOAD.DB.SIZE_ENABLED,
             DOWNLOAD.DB.MAX_SIZE,
-            DOWNLOAD.DB.SHOW_INFO
+            DOWNLOAD.DB.SHOW_INFO,
+            DOWNLOAD.DB.BLOCKS,
+            DOWNLOAD.DB.CHECKS
         ];
         chrome.storage.local.get(params, function (data) {
             that.urls.loadData(data);
             that.max_size.loadData(data);
             that.show_info = data.dwl_show_info;
+            that.checks = data[DOWNLOAD.DB.CHECKS];
+            that.blocks = data[DOWNLOAD.DB.BLOCKS];
+
             if (first)
                 that.add_listener();
         });
     }
 
-    DB.restart = function(){
-        if(DB.instance)
+    DB.prototype.saveDataLite = function () {
+        chrome.storage.local.set(download_item_lite(this.show_info, this.blocks, this.checks));
+    }
+
+    DB.restart = function () {
+        if (DB.instance)
             delete DB.instance;
         DB.instance = new DB();
     }
 
-    DB.getInstance = function(){
-        if(!DB.instance)
+    DB.getInstance = function () {
+        if (!DB.instance)
             DB.instance = new DB();
         return DB.instance;
     }
@@ -107,9 +148,10 @@ function DownloadUrlList() {
     this.type = undefined;
 }
 (function (UL, undefined) {
-    UL.prototype.needBlock = function (file) {
+    UL.prototype.needBlock = function (file, status = '') {
         if (!this.enabled)
             return false;
+        status = 'URL';
         if (this.type == 0)
             return !this.contains_url(file);
 
@@ -226,9 +268,10 @@ function DownloadMaxSize() {
     this.enabled = false;
 }
 (function (MS, undefined) {
-    MS.prototype.needBlock = function (file) {
+    MS.prototype.needBlock = function (file, status = '') {
         if (!this.enabled)
             return false;
+        status = 'URL';
         return this.max_size > file.fileSize;
     }
 

@@ -7,7 +7,7 @@ function UrlCardController(section, dB) {
 }
 
 (function (UCC, undefined) {
-    UCC.prototype.show_url = function (data) {
+    UCC.prototype.show = function (data) {
         if (this instanceof UrlCardController) {
             that = this;
         }
@@ -130,7 +130,7 @@ function UrlCardController(section, dB) {
         });
     }
 
-    UCC.prototype.init_urlist_components = function () {
+    UCC.prototype.init_components = function () {
         if (this.charged)
             return;
         this.charged = true;

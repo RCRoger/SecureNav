@@ -10,7 +10,8 @@ const DOWNLOAD = {
         SIZE_SET_VAL: 'dwl_size_set_val',
         URL_GET_DATA: 'dwl_url_get_data',
         ADD_URL: 'dwl_add_url',
-        URL_SET_ENABLED_LITE: 'dwl_url_set_enabled_lite'
+        URL_SET_ENABLED_LITE: 'dwl_url_set_enabled_lite',
+        SET_SHOW_INFO: 'dwl_set_show_info'
     },
     DB:{
         URL_ENABLED: 'dwl_url_enabled',
@@ -18,7 +19,9 @@ const DOWNLOAD = {
         URL_LIST: 'dwl_url_list',
         SIZE_ENABLED: 'dwl_size_enabled',
         MAX_SIZE: 'dwl_max_size',
-        SHOW_INFO: 'dwl_show_info'
+        SHOW_INFO: 'dwl_show_info',
+        CHECKS: 'dwl_checks',
+        BLOCKS: 'dwl_blocks'
     }
 }
 
@@ -34,7 +37,8 @@ const PAGE = {
         URL_ENABLED: 'pg_url_enabled',
         URL_TYPE: 'pg_url_type',
         URL_LIST: 'pg_url_list',
-        SHOW_INFO: 'pg_show_info'
+        SHOW_INFO: 'pg_show_info',
+        BLOCKS: 'pg_blocks'
     }
 }
 

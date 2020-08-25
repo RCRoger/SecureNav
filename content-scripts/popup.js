@@ -11,15 +11,27 @@ function PopUpScripts() {
         }
     }
 
+    PC.prototype.get_msg = function(text){
+        var split = text.split(' ');
+        var msg = '';
+        split.forEach(item => {
+            msg += getMessageStr(item) + ' ';
+        });
+        return msg;
+    }
+
     PC.prototype.create_info_msg = function (data) {
 
-        var info_icon_params = {
-            a:{
-                classList: ['text-dark']
-            },
-            icon:{
-                classList: ['fas', 'fa-info-circle', 'fa-lg']
-            }
+        var btn_params = {
+            classList:['btn-sm', 'btn-info'],
+            attributes: [{key: 'data-dismiss', value: 'modal'}],
+            innerHTML: 'OK'
+        }
+
+        var a_params = {
+            classList:['text-sm', 'text-muted'],
+            innerHTML: getMessageStr('unable_notifications'),
+            attributes: [{key: 'style', value: 'font-size:8px;'}],
         }
 
         var params = {
@@ -27,19 +39,20 @@ function PopUpScripts() {
                 classList: ['modal-notify', 'modal-info']
             },
             header: {
-                children: [create_icon(info_icon_params)]
+                classList:['text-uppercase'],
+                innerHTML: 'Info'
             },
             body: {
                 classList: ['text-info'],
-                innerHTML: data
+                innerHTML: this.get_msg(data)
             },
             footer: {
-                innerHTML: 'OK crack'
+                children: [create_elem('a', a_params), create_button('close', btn_params)]
             }
         };
 
-        var id = 'pop_up-info';
 
+        var id = 'pop_up-info';
         var $id = '#' + id;
         var modal = create_modal(id, params);
         $('body').append($(modal));
