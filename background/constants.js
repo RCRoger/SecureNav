@@ -49,6 +49,9 @@ const POP_UP = {
 }
 
 const LOGGER = {
+    REQUEST:{
+        LAST_ROWS:'log_get_last_rows'
+    },
     MAX_ROWS: 10000,
     DB:{
         LOG : 'logger_msg',

@@ -74,5 +74,8 @@
     },
     "notification_title":{
         "message": "Notificacions"
+    },
+    "recent_logs":{
+        "message": "Activitat recent"
     }
 }

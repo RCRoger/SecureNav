@@ -62,7 +62,7 @@ function DownloadBackground() {
     DB.prototype.block_action = function (file) {
         let logger = Logger.getInstance();
         chrome.downloads.pause(file.id);
-        logger.log('Download Paused', LOGGER.DB.LOG_DEV);
+        logger.log('dwl_paused', LOGGER.DB.LOG_DEV);
         this.checks++;
         var need_block = false;
         let status = '';
@@ -78,8 +78,8 @@ function DownloadBackground() {
         if (need_block) {
             chrome.downloads.cancel(file.id);
             this.blocks++;
-            logger.log('Download Canceled', LOGGER.DB.LOG_DEV);
-            logger.log('Download Canceled');
+            logger.log('dwl_cancel ' + status, LOGGER.DB.LOG_DEV);
+            logger.log('dwl_cancel ' + status);
             if (this.show_info)
                 PopUpController.show_info('dwl_cancel ' + status);
 
@@ -87,7 +87,7 @@ function DownloadBackground() {
         else {
             chrome.downloads.resume(file.id);
 
-            logger.log('Download Resumed', LOGGER.DB.LOG_DEV);
+            logger.log('dwl_resume', LOGGER.DB.LOG_DEV);
         }
 
         this.saveDataLite();

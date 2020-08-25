@@ -4,6 +4,13 @@ class Logger {
         this.dev = new LoggerObj(LOGGER.DB.LOG_DEV);
     }
 
+    request(request){
+        switch(request.id){
+            case LOGGER.REQUEST.LAST_ROWS:
+                return {rows: this.get_last_n_rows()}
+        }
+    }
+
     log(msg, db = LOGGER.DB.LOG) {
         var now = new Date();
         var text = now.toLocaleString() + ': ' + msg;
