@@ -1,6 +1,6 @@
 const DOWNLOAD = {
-    REQUEST :{
-        DWL_UPDATE:'dwl_update',
+    REQUEST: {
+        DWL_UPDATE: 'dwl_update',
         GET_DATA: 'dwl_get_data',
         URL_SET_TYPE: 'dwl_url_set_type',
         URL_SET_ENABLED: 'dwl_url_set_enabled',
@@ -13,7 +13,7 @@ const DOWNLOAD = {
         URL_SET_ENABLED_LITE: 'dwl_url_set_enabled_lite',
         SET_SHOW_INFO: 'dwl_set_show_info'
     },
-    DB:{
+    DB: {
         URL_ENABLED: 'dwl_url_enabled',
         URL_TYPE: 'dwl_url_type',
         URL_LIST: 'dwl_url_list',
@@ -26,14 +26,14 @@ const DOWNLOAD = {
 }
 
 const PAGE = {
-    REQUEST:{
+    REQUEST: {
         GET_DATA: 'pg_get_data',
         URL_SET_TYPE: 'pg_url_set_type',
         URL_SET_ENABLED: 'pg_url_set_enabled',
         URL_ADD_URLS: 'pg_url_add_urls',
         URL_REMOVE_URLS: 'pg_url_remove_urls',
     },
-    DB:{
+    DB: {
         URL_ENABLED: 'pg_url_enabled',
         URL_TYPE: 'pg_url_type',
         URL_LIST: 'pg_url_list',
@@ -44,22 +44,23 @@ const PAGE = {
 
 const POP_UP = {
     REQUEST: {
-        SHOW_INFO : 'pop_up_show_info'
+        SHOW_INFO: 'pop_up_show_info'
     }
 }
 
 const LOGGER = {
-    REQUEST:{
-        LAST_ROWS:'log_get_last_rows'
+    REQUEST: {
+        LAST_ROWS: 'log_get_last_rows'
     },
+    N_ROWS: 30,
     MAX_ROWS: 10000,
-    DB:{
-        LOG : 'logger_msg',
+    DB: {
+        LOG: 'logger_msg',
         LOG_DEV: 'logger_dev'
     }
 }
 
 const TYPE = {
-    WHITELIST : 0,
-    BLACKLIST : 1
+    WHITELIST: 0,
+    BLACKLIST: 1
 }

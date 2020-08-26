@@ -63,19 +63,28 @@
     "dwl_cancel": {
         "message": "La descàrrega ha estat bloquejada: "
     },
-    "size_block":{
+    "size_block": {
         "message": "El fitxer fitxer excedeix el màxim tamany permès per SecNav."
     },
-    "url_block":{
+    "url_block": {
         "message": "El fitxer s'intenta descàrregar des d'una URL no autoritzada per SecNav."
     },
-    "unable_notifications":{
+    "unable_notifications": {
         "message": "Les notificacions es poden desactivar des de l'apartat de configuració de SecNav."
     },
-    "notification_title":{
+    "notification_title": {
         "message": "Notificacions"
     },
-    "recent_logs":{
+    "recent_logs": {
         "message": "Activitat recent"
+    },
+    "acc_stats": {
+        "message": "Activitat acumulada"
+    },
+    "nothing_show": {
+        "message": "No hi ha res a mostrar."
+    },
+    "pg_block": {
+        "message": "La següent pàgina ha estat bloquejada per SecNav"
     }
 }

@@ -8,18 +8,17 @@ function init_db_superadmin() {
 }
 
 function init_db() {
-    chrome.storage.local.get([''], function (data) {
-        if (!data[LOGGER.DB.LOG])
+    chrome.storage.local.get(null, function(data) {
+        if (undefined === data[LOGGER.DB.LOG])
             init_db_logger();
-        if (!data[DOWNLOAD.DB.MAX_SIZE])
+        if (undefined === data[DOWNLOAD.DB.MAX_SIZE])
             init_db_download();
-        if (!data[PAGE.DB.SHOW_INFO])
-            init_db_page();    
+        if (undefined === data[PAGE.DB.SHOW_INFO])
+            init_db_page();
         restart_services();
     });
 }
 
-chrome.runtime.onInstalled.addListener(function (reason) {
+chrome.runtime.onInstalled.addListener(function(reason) {
     init_db();
 });
-

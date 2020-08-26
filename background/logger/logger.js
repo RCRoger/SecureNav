@@ -4,10 +4,10 @@ class Logger {
         this.dev = new LoggerObj(LOGGER.DB.LOG_DEV);
     }
 
-    request(request){
-        switch(request.id){
+    request(request) {
+        switch (request.id) {
             case LOGGER.REQUEST.LAST_ROWS:
-                return {rows: this.get_last_n_rows()}
+                return { rows: this.get_last_n_rows() }
         }
     }
 
@@ -26,7 +26,7 @@ class Logger {
     }
 
     get_last_n_rows(n, db = LOGGER.DB.LOG) {
-        return this.get_logger_obj(db).get_last_n_rows(n);
+        return this.get_logger_obj(db).get_last_n_rows(LOGGER.N_ROWS);
     }
 
     get_logger_obj(db) {
@@ -61,9 +61,15 @@ class LoggerObj {
 
     loadData() {
         var that = this;
-        chrome.storage.local.get([this.db_str], function (data) {
-            that.text = data[that.db_str];
-            that.rows = that.text.split('\n');
+        chrome.storage.local.get([this.db_str], function(data) {
+            if (data[that.db_str])
+                that.text = data[that.db_str];
+            else
+                that.text = '';
+            if (that.text.length != 0)
+                that.rows = that.text.split('\n');
+            else
+                that.rows = [];
             if (that.temp) {
                 that.temp.forEach(element => {
                     that.log(element);
@@ -82,9 +88,8 @@ class LoggerObj {
                     const element = this.rows[index];
                     ret.push(element);
                 }
-            }
-            else {
-                ret = this.rows;
+            } else {
+                ret = this.rows.slice(0).reverse();
             }
         }
         return ret;
@@ -109,8 +114,7 @@ class LoggerObj {
     log(text) {
         if (this.text = undefined) {
             this.temp.push(text);
-        }
-        else {
+        } else {
             this.text += '\n' + text;
             this.rows.push(text);
             this.saveData();

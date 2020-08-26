@@ -17,8 +17,8 @@ function PageBackground(popUp = undefined) {
     this.loadData(true);
 }
 
-(function (PB, undefined) {
-    PB.prototype.request = function (request) {
+(function(PB, undefined) {
+    PB.prototype.request = function(request) {
         switch (request.id) {
             case PAGE.REQUEST.GET_DATA:
                 return this.getData();
@@ -38,17 +38,17 @@ function PageBackground(popUp = undefined) {
         return this.getData();
     }
 
-    PB.prototype.getData = function () {
+    PB.prototype.getData = function() {
         return { urls: this.urls };
     }
 
-    PB.prototype.add_listener = function () {
+    PB.prototype.add_listener = function() {
         this.urls.add_listener();
     }
 
-    PB.prototype.loadData = function (first = undefined) {
+    PB.prototype.loadData = function(first = undefined) {
         var that = this;
-        chrome.storage.local.get([PAGE.DB.URL_LIST, PAGE.DB.URL_ENABLED, PAGE.DB.URL_TYPE], function (data) {
+        chrome.storage.local.get([PAGE.DB.URL_LIST, PAGE.DB.URL_ENABLED, PAGE.DB.URL_TYPE], function(data) {
             that.urls.loadData(data);
             that.show_info = data.dwl_show_info;
             if (first)
@@ -56,14 +56,14 @@ function PageBackground(popUp = undefined) {
         });
     }
 
-    PB.restart = function(){
-        if(PB.instance)
+    PB.restart = function() {
+        if (PB.instance)
             delete PB.instance;
         PB.instance = new PB();;
     }
 
-    PB.getInstance = function(){
-        if(!PB.instance)
+    PB.getInstance = function() {
+        if (!PB.instance)
             PB.instance = new PB();
         return PB.instance;
     }
@@ -78,9 +78,9 @@ function PageUrlList() {
     this.enabled = undefined;
 }
 
-(function (PU, undefined) {
+(function(PU, undefined) {
 
-    PU.prototype.add_listener = function () {
+    PU.prototype.add_listener = function() {
         if (!this.enabled) {
             window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
             return;
@@ -88,15 +88,14 @@ function PageUrlList() {
         if (this.type == TYPE.WHITELIST) {
             window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
             window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, all_urls, webRequestFlags);
-        }
-        else if (this.type == TYPE.BLACKLIST) {
+        } else if (this.type == TYPE.BLACKLIST) {
             var filter = { 'urls': this.urls_str };
             window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
             window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, filter, webRequestFlags);
         }
     }
 
-    PU.prototype.loadData = function (data) {
+    PU.prototype.loadData = function(data) {
         this.urls_str = [];
         this.urls_regex = [];
         this.enabled = data[PAGE.DB.URL_ENABLED];
@@ -107,17 +106,16 @@ function PageUrlList() {
                 this.urls_str.push(item.str);
                 this.urls_regex.push(url_regex(item));
             });
-        }
-        else
+        } else
             this.urls = [];
     }
 
-    PU.prototype.saveData = function () {
+    PU.prototype.saveData = function() {
         this.add_listener();
         chrome.storage.local.set(page_url_item(this.enabled, this.type, this.urls));
     }
 
-    PU.prototype.add_urls = function (data, update) {
+    PU.prototype.add_urls = function(data, update) {
         data.forEach(item => {
             this.add_url(item.protocol, item.host, item.page);
         });
@@ -125,20 +123,20 @@ function PageUrlList() {
         this.saveData();
     }
 
-    PU.prototype.add_url = function (protocol, host, page) {
+    PU.prototype.add_url = function(protocol, host, page) {
         var item = url_item(host, protocol, page);
         this.urls.push(item);
         this.urls_str.push(item.str);
         this.urls_regex.push(url_regex(item));
     }
 
-    PU.prototype.add_url_from_str = function (data) {
+    PU.prototype.add_url_from_str = function(data) {
         var item = get_item_from_str(data.url);
         this.add_url(item.protocol, item.host, item.page);
         this.saveData();
     }
 
-    PU.prototype.remove_urls = function (urls) {
+    PU.prototype.remove_urls = function(urls) {
         var corrector = 0;
         urls.forEach(index => {
             this.urls.splice(index - corrector, 1);
@@ -149,7 +147,7 @@ function PageUrlList() {
         this.saveData();
     }
 
-    PU.prototype.setType = function (type) {
+    PU.prototype.setType = function(type) {
         if (type != 0 && type != 1) {
             //TODO: send error
             return;
@@ -158,7 +156,7 @@ function PageUrlList() {
         this.saveData();
     }
 
-    PU.prototype.setEnabled = function (enabled) {
+    PU.prototype.setEnabled = function(enabled) {
         if (enabled !== true && enabled !== false) {
             //TODO: send error
             return;
@@ -167,9 +165,9 @@ function PageUrlList() {
         this.saveData();
     }
 
-    PU.prototype.contains_url = function (page) {
+    PU.prototype.contains_url = function(page) {
         if (Array.isArray(this.urls_regex) && this.urls_regex.length) {
-            return this.urls_regex.some(function (item) {
+            return this.urls_regex.some(function(item) {
                 if (item.exec(page.url))
                     return true;
             });
@@ -177,7 +175,7 @@ function PageUrlList() {
         return false;
     }
 
-    PU.prototype.need_block = function (page) {
+    PU.prototype.need_block = function(page) {
         if (this.type == TYPE.WHITELIST) {
             return !this.contains_url(page);
         }
@@ -197,7 +195,7 @@ function page_blocker(page) {
         return no_block;
     if (!page_background.urls.need_block(page))
         return no_block;
-        
-    Logger.getInstance().log('Page blocked: ' + page.url);
+
+    Logger.getInstance().log('pg_block ' + page.url);
     return block;
 }

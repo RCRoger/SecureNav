@@ -5,7 +5,9 @@ function getMessage(msg, item) {
 
 function getMessageStr(msg) {
     var message = chrome.i18n.getMessage(msg);
-    return message;
+    if (message)
+        return message;
+    return ' ' + msg;
 }
 
 function create_table(id, headers, rows) {
@@ -109,7 +111,7 @@ function add_card(section, num, parent = undefined) {
     var text = create_card_text(body);
 
     text.id = section + '-text-' + num;
-    if(!parent)
+    if (!parent)
         $('#' + section + '-container').append(card);
     else
         $(parent).append(card);
@@ -311,8 +313,8 @@ function create_cross_btn(id) {
 
 function create_bell_icon(id) {
     var params = {
-        a:{
-            classList:['amber-text']
+        a: {
+            classList: ['amber-text']
         },
         icon: {
             classList: ['fas', 'fa-bell', 'fa-lg'],
@@ -325,8 +327,8 @@ function create_bell_icon(id) {
 
 function create_bell_crossed_icon(id) {
     var params = {
-        a:{
-            classList:['text-muted']
+        a: {
+            classList: ['text-muted']
         },
         icon: {
             classList: ['fas', 'fa-bell-slash', 'fa-lg'],
@@ -410,7 +412,7 @@ function create_icon(params = {}) {
     return span;
 }
 
-function create_elem(elem, params = {}){
+function create_elem(elem, params = {}) {
     var a = document.createElement(elem);
     add_params(a, params);
     return a;
