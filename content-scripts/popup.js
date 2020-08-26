@@ -2,16 +2,19 @@ function PopUpScripts() {
 
 }
 
-(function (PC, undefined) {
+(function(PC, undefined) {
 
-    PC.prototype.request = function (request) {
+    PC.prototype.request = function(request) {
         switch (request.id) {
             case POP_UP.REQUEST.SHOW_INFO:
                 this.create_info_msg(request.data);
+                break;
+            case POP_UP.REQUEST.SHOW_ERROR:
+                this.create_error_msg(request.data);
         }
     }
 
-    PC.prototype.get_msg = function(text){
+    PC.prototype.get_msg = function(text) {
         var split = text.split(' ');
         var msg = '';
         split.forEach(item => {
@@ -20,18 +23,18 @@ function PopUpScripts() {
         return msg;
     }
 
-    PC.prototype.create_info_msg = function (data) {
+    PC.prototype.create_info_msg = function(data) {
 
         var btn_params = {
-            classList:['btn-sm', 'btn-info'],
-            attributes: [{key: 'data-dismiss', value: 'modal'}],
+            classList: ['btn-sm', 'btn-info'],
+            attributes: [{ key: 'data-dismiss', value: 'modal' }],
             innerHTML: 'OK'
         }
 
         var a_params = {
-            classList:['text-sm', 'text-muted'],
+            classList: ['text-sm', 'text-muted'],
             innerHTML: getMessageStr('unable_notifications'),
-            attributes: [{key: 'style', value: 'font-size:8px;'}],
+            attributes: [{ key: 'style', value: 'font-size:8px;' }],
         }
 
         var params = {
@@ -39,7 +42,7 @@ function PopUpScripts() {
                 classList: ['modal-notify', 'modal-info']
             },
             header: {
-                classList:['text-uppercase'],
+                classList: ['text-uppercase'],
                 innerHTML: 'Info'
             },
             body: {
@@ -59,12 +62,50 @@ function PopUpScripts() {
 
         $($id).modal('show');
 
-        $($id).on('hide.bs.modal', function () {
+        $($id).on('hide.bs.modal', function() {
             $($id).remove();
         });
     }
 
-    
+    PC.prototype.create_error_msg = function(data) {
+
+        var btn_params = {
+            classList: ['btn-sm', 'btn-danger'],
+            attributes: [{ key: 'data-dismiss', value: 'modal' }],
+            innerHTML: 'OK'
+        }
+
+        var params = {
+            content: {
+                classList: ['modal-notify', 'modal-danger']
+            },
+            header: {
+                classList: ['text-uppercase'],
+                innerHTML: 'Error'
+            },
+            body: {
+                classList: ['text-danger'],
+                innerHTML: this.get_msg(data)
+            },
+            footer: {
+                children: [create_button('close', btn_params)]
+            }
+        };
+
+
+        var id = 'pop_up-error';
+        var $id = '#' + id;
+        var modal = create_modal(id, params);
+        $('body').append($(modal));
+
+        $($id).modal('show');
+
+        $($id).on('hide.bs.modal', function() {
+            $($id).remove();
+        });
+    }
+
+
 
     function create_modal(id, params) {
         var modal = document.createElement('div');
@@ -116,7 +157,7 @@ function PopUpScripts() {
 var popUpController = new PopUpScripts();
 
 
-var desu = function (request, sender, response) {
+var desu = function(request, sender, response) {
     if (request && (request.id.toString().includes('pop_up')))
         response(popUpController.request(request));
     return true;

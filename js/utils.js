@@ -438,3 +438,23 @@ function add_params(item, params) {
             });
     }
 }
+
+var extract_message = function(elem, text) {
+    var span = create_elem('span', { classList: ['text-dark'] });
+    var a = create_elem('a');
+    elem.appendChild(span);
+    elem.appendChild(a);
+    var i = text.indexOf(':', 17);
+    var ret = '';
+    if (i != -1) {
+        span.innerHTML = text.substring(0, i + 1) + ' ';
+        var split = text.substring(i + 1).split(' ');
+        split.forEach(key => {
+            if (key.includes('_'))
+                ret += getMessageStr(key);
+            else
+                ret += ' ' + key;
+        });
+    }
+    a.innerText = ret;
+}

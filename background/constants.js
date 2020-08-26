@@ -32,19 +32,22 @@ const PAGE = {
         URL_SET_ENABLED: 'pg_url_set_enabled',
         URL_ADD_URLS: 'pg_url_add_urls',
         URL_REMOVE_URLS: 'pg_url_remove_urls',
+        SET_SHOW_INFO: 'pg_set_show_info'
     },
     DB: {
         URL_ENABLED: 'pg_url_enabled',
         URL_TYPE: 'pg_url_type',
         URL_LIST: 'pg_url_list',
         SHOW_INFO: 'pg_show_info',
-        BLOCKS: 'pg_blocks'
+        BLOCKS: 'pg_blocks',
+        CHECKS: 'pg_checks'
     }
 }
 
 const POP_UP = {
     REQUEST: {
-        SHOW_INFO: 'pop_up_show_info'
+        SHOW_INFO: 'pop_up_show_info',
+        SHOW_ERROR: 'pop_up_show_error'
     }
 }
 
@@ -63,4 +66,10 @@ const LOGGER = {
 const TYPE = {
     WHITELIST: 0,
     BLACKLIST: 1
+}
+
+const CONTROLLER = {
+    REQUEST: {
+        GET_DATA: 'ctr_get_data'
+    }
 }

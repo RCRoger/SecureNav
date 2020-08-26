@@ -7,28 +7,58 @@ function init_gral() {
 
 var show_general = function() {
     if (!grl_charged) {
-        init_bell_components();
+        init_info_components();
+        init_count_components();
     }
     load_grl();
 }
 
 
-var init_bell_components = function() {
+var init_info_components = function() {
     grl_charged = true;
     const num = 1;
     add_card(grl_section, num);
-
-    var a = document.createElement('a');
-    a.classList.add('float-left');
-    a.id = grl_section + "-title-a-" + num;
-    $('#' + grl_section + '-title-' + num).append(a);
-    getMessage('recent_logs', a.id);
+    getMessage('recent_logs', 'grl-header-1');
 
 
 }
 
+var init_count_components = function() {
+    grl_charged = true;
+
+    var col_block = create_elem('div', {
+        classList: ['col']
+    });
+
+    col_block.id = 'grl_block';
+
+    var col_check = create_elem('div', {
+        classList: ['col']
+    });
+
+    col_check.id = 'grl_check';
+
+    var row = create_elem('div', {
+        classList: ['row', 'row-cols-2', 'text-center'],
+        children: [col_block, col_check]
+    });
+
+    $('#grl-container').append(row);
+
+    add_card('grl', 2, col_block);
+    add_card('grl', 3, col_check);
+
+    $('#grl-header-2').html(getMessageStr('num_blocked'));
+    $('#grl-header-3').html(getMessageStr('num_checked'));
+    $('#grl-title-2').addClass('text-default');
+    $('#grl-title-3').addClass('text-default');
+}
+
+
+
 var load_grl = function() {
     chrome.runtime.sendMessage(chrome.runtime.id, { id: LOGGER.REQUEST.LAST_ROWS }, show);
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: CONTROLLER.REQUEST.GET_DATA }, show_grl_count);
 }
 
 var show = function(data) {
@@ -47,22 +77,13 @@ var show = function(data) {
 
 }
 
-var extract_message = function(elem, text) {
-    var span = create_elem('span', { classList: ['text-dark'] });
-    var a = create_elem('a');
-    elem.appendChild(span);
-    elem.appendChild(a);
-    var i = text.indexOf(':', 17);
-    var ret = '';
-    if (i != -1) {
-        span.innerHTML = text.substring(0, i + 1) + ' ';
-        var split = text.substring(i + 1).split(' ');
-        split.forEach(key => {
-            if (key.includes('_'))
-                ret += getMessageStr(key);
-            else
-                ret += ' ' + key;
-        });
+
+function show_grl_count(data) {
+    if (data.blocks !== undefined) {
+        $('#grl-title-2').html(data.blocks);
     }
-    a.innerText = ret;
+
+    if (data.checks !== undefined) {
+        $('#grl-title-3').html(data.checks);
+    }
 }

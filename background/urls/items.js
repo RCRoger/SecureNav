@@ -1,24 +1,24 @@
-function url_str(protocol, host, page){
+function url_str(protocol, host, page) {
     return protocol + "://" + host + "/" + page;
 }
 
-function str_regex(text){
+function str_regex(text) {
     let str = "";
-    if(text)
+    if (text)
         str += text.replace(/\./g, '\\.').replace(/\*/g, '.*').replace(/[^(a-zA-Z1-9)\.\*\\ ]/g, '.');
     return str;
 }
 
-function url_item(host, protocol = '*', page = '*'){
+function url_item(host, protocol = '*', page = '*') {
     return {
-            'protocol': protocol,
-            'host': host,
-            'page': page,
-            'str': url_str(protocol, host, page)
-        };
+        'protocol': protocol,
+        'host': host,
+        'page': page,
+        'str': url_str(protocol, host, page)
+    };
 }
 
-function url_regex(item){
+function url_regex(item) {
     let str = "";
     str += str_regex(item.protocol);
     str += "\:\\/\\/";
@@ -29,9 +29,9 @@ function url_regex(item){
     return new RegExp(str);
 }
 
-function get_item_from_str(url){
+function get_item_from_str(url) {
     var aux = url;
-    var protocol_patt =  /.*\:\/\//;
+    var protocol_patt = /.*\:\/\//;
     var host_patt = /.*?\//;
 
     var protocol = protocol_patt.exec(aux).toString();
@@ -43,4 +43,20 @@ function get_item_from_str(url){
     var page = aux;
 
     return url_item(host, protocol, page);
+}
+
+function is_pattern_valid(text) {
+    var item = get_item_from_str(text);
+
+    return is_scheme_valid(item.protocol) && is_host_valid(item.host);
+}
+
+function is_scheme_valid(text) {
+    const scheme = ['http', 'https', 'ftp', '*', 'file'];
+    return scheme.includes(text);
+}
+
+function is_host_valid(text) {
+    let pattern = /(.+\*|\*[^\.])/g;
+    return !pattern.exec(text);
 }

@@ -2,8 +2,8 @@ function DownloadBackground() {
     this.urls = new DownloadUrlList();
     this.max_size = new DownloadMaxSize();
     this.show_info = undefined;
-    this.checks = undefined;
-    this.blocks = undefined;
+    this.checks = 0;
+    this.blocks = 0;
     this.loadData(true);
 }
 
@@ -52,7 +52,8 @@ function DownloadBackground() {
 
     DB.prototype.setShowInfo = function(data) {
         if (data !== true && data !== false) {
-            //TODO: send error
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
             return;
         }
         this.show_info = data;
@@ -60,8 +61,8 @@ function DownloadBackground() {
     }
 
     DB.prototype.block_action = function(file) {
-        let logger = Logger.getInstance();
         chrome.downloads.pause(file.id);
+        let logger = Logger.getInstance();
         logger.log('dwl_paused', LOGGER.DB.LOG_DEV);
         this.checks++;
         var need_block = false;
@@ -159,7 +160,8 @@ function DownloadUrlList() {
 
     UL.prototype.edit_url = function(data) {
         if (!data.index || data.index > this.urls.length || data.index) {
-            //TODO: add error
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
             return;
         }
 
@@ -243,7 +245,8 @@ function DownloadUrlList() {
 
     UL.prototype.setType = function(type) {
         if (type != 0 && type != 1) {
-            //TODO: send error
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
             return;
         }
         this.type = type;
@@ -252,7 +255,8 @@ function DownloadUrlList() {
 
     UL.prototype.setEnabled = function(enabled) {
         if (enabled !== true && enabled !== false) {
-            //TODO: send error
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
             return;
         }
         this.enabled = enabled;

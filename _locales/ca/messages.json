@@ -86,5 +86,17 @@
     },
     "pg_block": {
         "message": "La següent pàgina ha estat bloquejada per SecNav"
+    },
+    "num_checked": {
+        "message": "Elements analitzats"
+    },
+    "num_blocked": {
+        "message": "Elements bloquejats"
+    },
+    "invalid_pattern": {
+        "message": "La url introduida no és vàlida, per més informació consulta https://developer.chrome.com/extensions/match_patterns ."
+    },
+    "invalid_format": {
+        "message": "Sembla que la dada aportada no té el format esperat."
     }
 }

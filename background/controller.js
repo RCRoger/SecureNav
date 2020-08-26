@@ -14,6 +14,24 @@ var restart_services = function() {
     chrome.runtime.onMessage.addListener(request);
 }
 
+var count_blocks = function() {
+    return DownloadBackground.getInstance().blocks + PageBackground.getInstance().blocks;
+}
+
+var count_checks = function() {
+    return DownloadBackground.getInstance().checks + PageBackground.getInstance().checks;
+}
+
+var get_count = function() {
+    return { blocks: count_blocks(), checks: count_checks() }
+}
+
+var request_ctrl = function(request) {
+    switch (request.id) {
+        case CONTROLLER.REQUEST.GET_DATA:
+            return get_count();
+    }
+}
 
 var request = function(request, sender, response) {
     if (request && (request.id.toString().includes('dwl')))
@@ -22,6 +40,8 @@ var request = function(request, sender, response) {
         response(PageBackground.getInstance().request(request));
     else if (request && (request.id.toString().includes('log')))
         response(Logger.getInstance().request(request));
+    else if (request && (request.id.toString().includes('ctr')))
+        response(request_ctrl(request));
     return true;
 }
 

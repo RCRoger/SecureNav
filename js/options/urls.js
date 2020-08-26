@@ -113,7 +113,7 @@ function UrlCardController(section, dB) {
 
         $('#' + save_id).click(function() {
             var tr = $("#" + table_id).find('tbody tr');
-
+            var cancel = false;
             var data = [];
             tr.each(function() {
                 var tds = $(this).find('td');
@@ -122,12 +122,19 @@ function UrlCardController(section, dB) {
                     item['host'] = tds[1].innerHTML;
                     item['protocol'] = tds[0].innerHTML.length <= 0 ? '*' : tds[0].innerHTML;
                     item['page'] = tds[2].innerHTML.length <= 0 ? '*' : tds[2].innerHTML;
+                    if (!is_host_valid(item.host) || !is_scheme_valid(item.protocol)) {
+                        cancel = true;
+                        popUpController.create_error_msg('invalid_pattern');
+                        return;
+                    }
                     data.push(item);
                 }
 
             });
-            that.send_urls_add(data);
-            $('#' + id).modal('hide');
+            if (!cancel) {
+                that.send_urls_add(data);
+                $('#' + id).modal('hide');
+            }
         });
     }
 
@@ -187,11 +194,11 @@ function UrlCardController(section, dB) {
 
 
     UCC.prototype.send_urls_add = function(data) {
-        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_ADD_URLS, data: data }, this.show_url);
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_ADD_URLS, data: data }, this.show);
     }
 
     UCC.prototype.send_urls_remove = function(data) {
-        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_REMOVE_URLS, data: data }, this.show_url);
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_REMOVE_URLS, data: data }, this.show);
     }
 
     UCC.prototype.save_type = function() {

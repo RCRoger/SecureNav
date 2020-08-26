@@ -12,6 +12,8 @@ const pages_unblockeables = [chrome.runtime.id, 'use.fontawesome.com', 'fonts.go
 
 function PageBackground(popUp = undefined) {
     this.urls = new PageUrlList();
+    this.blocks = 0;
+    this.checks = 0;
     this.show_info = undefined;
     this.popUp = popUp;
     this.loadData(true);
@@ -34,6 +36,9 @@ function PageBackground(popUp = undefined) {
             case PAGE.REQUEST.URL_REMOVE_URLS:
                 this.urls.remove_urls(request.data.data);
                 break;
+            case PAGE.REQUEST.SET_SHOW_INFO:
+                this.setShowInfo(request.data);
+                break;
         }
         return this.getData();
     }
@@ -46,14 +51,30 @@ function PageBackground(popUp = undefined) {
         this.urls.add_listener();
     }
 
+    PB.prototype.setShowInfo = function(data) {
+        if (data !== true && data !== false) {
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
+            return;
+        }
+        this.show_info = data;
+        this.saveData();
+    }
+
     PB.prototype.loadData = function(first = undefined) {
         var that = this;
-        chrome.storage.local.get([PAGE.DB.URL_LIST, PAGE.DB.URL_ENABLED, PAGE.DB.URL_TYPE], function(data) {
+        chrome.storage.local.get([PAGE.DB.URL_LIST, PAGE.DB.URL_ENABLED, PAGE.DB.URL_TYPE, PAGE.DB.CHECKS, PAGE.DB.BLOCKS], function(data) {
             that.urls.loadData(data);
             that.show_info = data.dwl_show_info;
+            that.checks = data[PAGE.DB.CHECKS];
+            that.blocks = data[PAGE.DB.BLOCKS];
             if (first)
                 that.add_listener();
         });
+    }
+
+    PB.prototype.saveData = function() {
+        chrome.storage.local.set(page_item_lite(this.show_info, this.checks, this.blocks));
     }
 
     PB.restart = function() {
@@ -149,7 +170,8 @@ function PageUrlList() {
 
     PU.prototype.setType = function(type) {
         if (type != 0 && type != 1) {
-            //TODO: send error
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
             return;
         }
         this.type = type;
@@ -158,7 +180,8 @@ function PageUrlList() {
 
     PU.prototype.setEnabled = function(enabled) {
         if (enabled !== true && enabled !== false) {
-            //TODO: send error
+            Logger.getInstance().log('invalid_format');
+            PopUpController.show_error('invalid_format');
             return;
         }
         this.enabled = enabled;
@@ -186,17 +209,18 @@ function PageUrlList() {
 
 })(PageUrlList);
 
-var page_background = new PageBackground();
-
 
 function page_blocker(page) {
     var url = get_item_from_str(page.url);
+    let pB = PageBackground.getInstance();
+    pB.checks++;
     if (pages_unblockeables.includes(url.host))
         return no_block;
-    if (!page_background.urls.need_block(page))
+    if (!pB.urls.need_block(page))
         return no_block;
-
     Logger.getInstance().log('pg_block ' + page.url);
+    pB.blocks++;
+    pB.saveData();
     PopUpController.show_badge_text();
     return block;
 }
