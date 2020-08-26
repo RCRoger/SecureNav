@@ -5,6 +5,7 @@ var init_services = function() {
     chrome.runtime.onMessage.addListener(request);
 }
 
+
 var restart_services = function() {
     Logger.restart();
     DownloadBackground.restart();

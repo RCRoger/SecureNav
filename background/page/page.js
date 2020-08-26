@@ -197,5 +197,6 @@ function page_blocker(page) {
         return no_block;
 
     Logger.getInstance().log('pg_block ' + page.url);
+    PopUpController.show_badge_text();
     return block;
 }

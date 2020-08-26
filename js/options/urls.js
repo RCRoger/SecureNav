@@ -1,4 +1,5 @@
 var that = undefined;
+
 function UrlCardController(section, dB) {
     this.section = section;
     this.charged = false;
@@ -6,8 +7,8 @@ function UrlCardController(section, dB) {
     that = this;
 }
 
-(function (UCC, undefined) {
-    UCC.prototype.show = function (data) {
+(function(UCC, undefined) {
+    UCC.prototype.show = function(data) {
         if (this instanceof UrlCardController) {
             that = this;
         }
@@ -60,21 +61,21 @@ function UrlCardController(section, dB) {
 
     }
 
-    UCC.prototype.trash_event = function () {
+    UCC.prototype.trash_event = function() {
         $('#' + this.section + '-table-1-trash').click(this.trash_action);
     }
 
-    UCC.prototype.trash_action = function () {
+    UCC.prototype.trash_action = function() {
         var rows_selected = $('#' + that.section + '-table-1 tbody .selected');
         var data = { data: [] };
-        rows_selected.each(function () {
+        rows_selected.each(function() {
             data.data.push($(this.childNodes[1]).text());
             $(this).remove();
         });
         that.send_urls_remove(data);
     }
 
-    UCC.prototype.addRows = function () {
+    UCC.prototype.addRows = function() {
 
         var headers = ['scheme', 'host', 'page'];
 
@@ -99,22 +100,22 @@ function UrlCardController(section, dB) {
     }
 
 
-    UCC.prototype.add_rows_events = function (id, table_id, save_id) {
-        $('#' + id).on('hide.bs.modal', function () {
+    UCC.prototype.add_rows_events = function(id, table_id, save_id) {
+        $('#' + id).on('hide.bs.modal', function() {
             $('#' + id).remove();
         });
 
-        $("#" + table_id + ' tr td:eq(1)').focusout(function () {
+        $("#" + table_id + ' tr td:eq(1)').focusout(function() {
             if (this.innerHTML.length > 0) {
                 add_rows_edit($("#" + table_id));
             }
         });
 
-        $('#' + save_id).click(function () {
+        $('#' + save_id).click(function() {
             var tr = $("#" + table_id).find('tbody tr');
 
             var data = [];
-            tr.each(function () {
+            tr.each(function() {
                 var tds = $(this).find('td');
                 var item = {}
                 if (tds[1].innerHTML.length > 0) {
@@ -130,7 +131,7 @@ function UrlCardController(section, dB) {
         });
     }
 
-    UCC.prototype.init_components = function () {
+    UCC.prototype.init_components = function() {
         if (this.charged)
             return;
         this.charged = true;
@@ -153,26 +154,24 @@ function UrlCardController(section, dB) {
 
     }
 
-    UCC.prototype.show_url_events = function () {
+    UCC.prototype.show_url_events = function() {
         $('#' + this.section + '_url_add').click(this.addRows);
-        $('#' + this.section + '-table-1 .select-checkbox').click(function () {
+        $('#' + this.section + '-table-1 .select-checkbox').click(function() {
             var rows_selected = $('#' + that.section + '-table-1 tbody .selected');
             if (rows_selected.length == 0) {
                 $('#' + that.section + '-text-1').first().prepend(create_trash_btn(that.section + '-table-1-trash'));
                 that.trash_event();
-            }
-            else if (rows_selected.length == 1 && $(that).parent().hasClass('selected')) {
+            } else if (rows_selected.length == 1 && $(this).parent().hasClass('selected')) {
                 $('#' + that.section + '-table-1-trash').remove();
             }
         });
 
-        $('#' + this.section + '-text-1 thead .select-checkbox-all').click(function () {
+        $('#' + this.section + '-text-1 thead .select-checkbox-all').click(function() {
             var rows_selected = $('#' + that.section + '-table-1 tbody .selected');
             var rows = $('#' + that.section + '-table-1 tbody tr');
             if (rows_selected.length == rows.length) {
                 $('#' + that.section + '-table-1-trash').remove();
-            }
-            else if ($('#' + that.section + '-table-1-trash').length == 0) {
+            } else if ($('#' + that.section + '-table-1-trash').length == 0) {
                 $('#' + that.section + '-text-1').first().prepend(create_trash_btn(that.section + '-table-1-trash'));
                 that.trash_event();
             }
@@ -180,22 +179,22 @@ function UrlCardController(section, dB) {
 
     }
 
-    UCC.prototype.save_url_enabled = function () {
+    UCC.prototype.save_url_enabled = function() {
         getMessage(this.checked ? "enabled" : "disabled", that.section + "-enabled-label-1");
         chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_ENABLED, data: this.checked });
     }
 
 
 
-    UCC.prototype.send_urls_add = function (data) {
+    UCC.prototype.send_urls_add = function(data) {
         chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_ADD_URLS, data: data }, this.show_url);
     }
 
-    UCC.prototype.send_urls_remove = function (data) {
+    UCC.prototype.send_urls_remove = function(data) {
         chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_REMOVE_URLS, data: data }, this.show_url);
     }
 
-    UCC.prototype.save_type = function () {
+    UCC.prototype.save_type = function() {
         getMessage(this.checked ? "whiteList" : "blackList", that.section + "-switch-label-1");
         var type = undefined;
         if (this.checked)
@@ -208,6 +207,3 @@ function UrlCardController(section, dB) {
 
 
 })(UrlCardController);
-
-
-
