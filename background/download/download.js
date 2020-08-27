@@ -147,10 +147,9 @@ function DownloadUrlList() {
     this.type = undefined;
 }
 (function(UL, undefined) {
-    UL.prototype.needBlock = function(file, status = '') {
+    UL.prototype.needBlock = function(file) {
         if (!this.enabled)
             return false;
-        status = 'URL';
         if (this.type == 0)
             return !this.contains_url(file);
 
@@ -215,14 +214,16 @@ function DownloadUrlList() {
 
     UL.prototype.add_url = function(protocol, host, page) {
         var item = url_item(host, protocol, page);
-        this.urls.push(item);
-        this.urls_regex.push(url_regex(item));
+        var includes = this.urls.includes(item);
+        if (!includes) {
+            this.urls.push(item);
+            this.urls_regex.push(url_regex(item));
+        }
     }
 
     UL.prototype.add_url_from_str = function(data) {
         var item = get_item_from_str(data.url);
-        this.urls.push(item);
-        this.urls_regex.push(url_regex(item));
+        this.add_url(item.protocol, item.host, item.page);
         this.saveData();
     }
 
@@ -270,10 +271,9 @@ function DownloadMaxSize() {
     this.enabled = false;
 }
 (function(MS, undefined) {
-    MS.prototype.needBlock = function(file, status = '') {
+    MS.prototype.needBlock = function(file) {
         if (!this.enabled)
             return false;
-        status = 'URL';
         return this.max_size > file.fileSize;
     }
 

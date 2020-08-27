@@ -4,12 +4,12 @@ class Export {
     }
 }
 
-function exporter(data) {
+function exporter(data, filename = 'secnav_data') {
     var result = JSON.stringify(data);
 
     var url = 'data:application/json;base64,' + btoa(result);
     chrome.downloads.download({
         url: url,
-        filename: 'secnav_data.json'
+        filename: filename + '.json'
     });
 }

@@ -458,3 +458,16 @@ var extract_message = function(elem, text) {
     }
     a.innerText = ret;
 }
+
+var load_file = function(file, callback) {
+    var reader = new FileReader();
+    reader.onload = function() {
+        var output = reader.result;
+        callback(output, file);
+    };
+    reader.readAsText(file);
+}
+
+var get_file_extension = function(filename) {
+    return filename.split('.').pop();
+}

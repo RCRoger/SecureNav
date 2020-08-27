@@ -1,4 +1,5 @@
 var not_that = undefined;
+
 function NotiCardController(section, dB, num) {
     this.section = section;
     this.charged = false;
@@ -7,8 +8,8 @@ function NotiCardController(section, dB, num) {
     not_that = this;
 }
 
-(function (NCC, undefined) {
-    NCC.prototype.show = function (data) {
+(function(NCC, undefined) {
+    NCC.prototype.show = function(data) {
         if (this instanceof NCC) {
             not_that = this;
         }
@@ -17,7 +18,7 @@ function NotiCardController(section, dB, num) {
 
         getMessage(data.show_info ? "enabled" : "disabled", not_that.section + "-bell-label");
     }
-    NCC.prototype.init_components = function (container = undefined) {
+    NCC.prototype.init_components = function(container = undefined) {
         if (this.charged)
             return;
         this.charged = true;
@@ -28,8 +29,8 @@ function NotiCardController(section, dB, num) {
         a.id = this.section + '-bell-label';
         var enabled_check = create_checkbox(this.section, 'enabled', this.num, []);
         $('#' + this.section + '-header' + '-' + not_that.num).html(enabled_check);
-        $('#' + this.section + '-enabled-label' + '-' + not_that.num).removeClass().addClass('ml-0').append(notification_icon,'&nbsp;', a);
-        $('#' + this.section + '-enabled' + '-' + not_that.num).css({'position': 'absolute', 'margin-top':'100000000000000'}).change(this.save_enabled);
+        $('#' + this.section + '-enabled-label' + '-' + not_that.num).removeClass().addClass('ml-0').append(notification_icon, '&nbsp;', a);
+        $('#' + this.section + '-enabled' + '-' + not_that.num).change(this.save_enabled);
 
 
         var a = document.createElement('a');
@@ -40,10 +41,10 @@ function NotiCardController(section, dB, num) {
 
     }
 
-    NCC.prototype.show_events = function () {
+    NCC.prototype.show_events = function() {
 
     }
-    NCC.prototype.change_bell = function (checked) {
+    NCC.prototype.change_bell = function(checked) {
         if (checked)
             $('#' + not_that.section + '-container .fa-bell-slash').addClass('fa-bell').removeClass('fa-bell-slash').parent().removeClass('text-muted').addClass('amber-text');
         else {
@@ -52,7 +53,7 @@ function NotiCardController(section, dB, num) {
 
     }
 
-    NCC.prototype.save_enabled = function () {
+    NCC.prototype.save_enabled = function() {
         not_that.change_bell(this.checked);
         getMessage(this.checked ? "enabled" : "disabled", not_that.section + "-bell-label");
         chrome.runtime.sendMessage(chrome.runtime.id, { id: not_that.dB.REQUEST.SET_SHOW_INFO, data: this.checked });
@@ -60,6 +61,3 @@ function NotiCardController(section, dB, num) {
 
 
 })(NotiCardController);
-
-
-

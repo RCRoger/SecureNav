@@ -212,5 +212,100 @@ function UrlCardController(section, dB) {
         chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_TYPE, data: type });
     }
 
+    UCC.prototype.import_urls = function(data, file) {
+        var rows = [];
+        switch (get_file_extension(file.name)) {
+            case 'json':
+                that.import_urls_json(data, rows);
+                break;
+            case 'csv':
+                that.import_urls_csv(data, rows);
+                break;
+            case 'txt':
+                that.import_urls_txt(data, rows);
+                break;
+            default:
+                popUpController.create_error_msg('invalid_format');
+                break;
+        }
+        that.send_urls_add(rows);
+    }
+
+    UCC.prototype.import_urls_json = function(data, rows) {
+        var status = 'OK';
+        try {
+            var json = JSON.parse(data);
+            var list = json[this.dB.DB.URL_LIST];
+            if (list && Array.isArray(list)) {
+                list.forEach(item => {
+
+                    var scheme = item['protocol'];
+                    var host = item['host'];
+                    var page = item['page'];
+                    var str = item['str']
+                    if (scheme === undefined || host === undefined || page === undefined || str === undefined) {
+                        status = 'invalid_format';
+                    } else if (!is_scheme_valid(scheme) || !is_host_valid(host)) {
+                        status = 'invalid_pattern'
+                    }
+                    if (status != 'OK') {
+                        rows.splice(0, rows.length);
+                        throw new Error(status);
+                    }
+                    rows.push(item);
+                });
+            } else {
+                status = 'invalid_format';
+                throw new Error(status);
+            }
+
+
+        } catch (e) {
+            popUpController.create_error_msg(e.message);
+        }
+    }
+
+    UCC.prototype.import_urls_csv = function(data, rows) {
+        try {
+            var csv = data.split(/(\,|\;)/);
+            if (csv.length > 0) {
+                csv.forEach(url => {
+                    var item = get_item_from_str(url);
+                    if (!is_scheme_valid(item.protocol) || !is_host_valid(item.host)) {
+                        rows.splice(0, rows.length);
+                        throw new Error('invalid_pattern');
+                    }
+                    rows.push(item);
+                });
+            } else {
+                throw new Error('invalid_format');
+            }
+        } catch (e) {
+            popUpController.create_error_msg(e.message);
+        }
+    }
+
+    UCC.prototype.import_urls_txt = function(data, rows) {
+        try {
+            var txt = data.split('\n');
+            if (txt.length > 0) {
+                txt.forEach(url => {
+                    var item = get_item_from_str(url);
+                    if (!is_scheme_valid(item.protocol) || !is_host_valid(item.host)) {
+                        rows.splice(0, rows.length);
+                        throw new Error('invalid_pattern');
+                    }
+                    rows.push(item);
+                });
+            } else {
+                throw new Error('invalid_format');
+            }
+        } catch (e) {
+            popUpController.create_error_msg(e.message);
+        }
+    }
+
+
+
 
 })(UrlCardController);
