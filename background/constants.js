@@ -33,7 +33,8 @@ const PAGE = {
         URL_SET_ENABLED: 'pg_url_set_enabled',
         URL_ADD_URLS: 'pg_url_add_urls',
         URL_REMOVE_URLS: 'pg_url_remove_urls',
-        SET_SHOW_INFO: 'pg_set_show_info'
+        SET_SHOW_INFO: 'pg_set_show_info',
+        EXPORT: 'pg_export'
     },
     DB: {
         URL_ENABLED: 'pg_url_enabled',

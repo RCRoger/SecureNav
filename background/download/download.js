@@ -155,6 +155,8 @@ function DownloadUrlList() {
     UL.prototype.needBlock = function(file) {
         if (!this.enabled)
             return false;
+        if (file.url.startsWith('data:application'))
+            return false;
         if (this.type == 0)
             return !this.contains_url(file);
 
@@ -235,14 +237,13 @@ function DownloadUrlList() {
 
 
 
-    UL.prototype.remove_urls = function(urls, update) {
+    UL.prototype.remove_urls = function(urls) {
         var corrector = 0;
         urls.forEach(index => {
             this.urls.splice(index - corrector, 1);
             this.urls_regex.splice(index - corrector, 1);
             corrector++;
         });
-        this.update = update;
         this.saveData();
     }
 

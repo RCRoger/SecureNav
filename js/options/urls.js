@@ -80,7 +80,7 @@ function UrlCardController(section, dB) {
 
         var headers = ['scheme', 'host', 'page'];
 
-        var id = this.section + '' + '-url-add';
+        var id = that.section + '' + '-url-add';
         var table_id = id + '-table';
         var save_id = id + '-save';
         var modal = create_modal_large(id);

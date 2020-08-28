@@ -31,13 +31,16 @@ function PageBackground(popUp = undefined) {
                 this.urls.setEnabled(request.data);
                 break;
             case PAGE.REQUEST.URL_ADD_URLS:
-                this.urls.add_urls(request.data);
+                this.urls.add_urls(request.data.data, request.data.reset);
                 break;
             case PAGE.REQUEST.URL_REMOVE_URLS:
                 this.urls.remove_urls(request.data.data);
                 break;
             case PAGE.REQUEST.SET_SHOW_INFO:
                 this.setShowInfo(request.data);
+                break;
+            case PAGE.REQUEST.EXPORT:
+                Export.export_items(get_dict_values(PAGE.DB), 'pg_data');
                 break;
         }
         return this.getData();
@@ -136,11 +139,12 @@ function PageUrlList() {
         chrome.storage.local.set(page_url_item(this.enabled, this.type, this.urls));
     }
 
-    PU.prototype.add_urls = function(data, update) {
+    PU.prototype.add_urls = function(data, reset) {
+        if (reset)
+            this.urls = [];
         data.forEach(item => {
             this.add_url(item.protocol, item.host, item.page);
         });
-        this.update = update;
         this.saveData();
     }
 
