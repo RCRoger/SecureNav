@@ -98,5 +98,20 @@
     },
     "invalid_format": {
         "message": "Sembla que la dada aportada no té el format esperat."
+    },
+    "help_json": {
+        "message": "L'arxiu JSON ha de tenir la mateixa estructura que el fitxer d'exportació."
+    },
+    "help_csv": {
+        "message": "L'arxiu csv només permet importar les URL que han d'estar separades per ',' o per ';'."
+    },
+    "help_txt": {
+        "message": "L'arxiu txt només permet importar les URL que hi ha d'haver com a màxim 1 per fila."
+    },
+    "import_title": {
+        "message": "Els formats d'arxiu admesos són: "
+    },
+    "override": {
+        "message": "Sobreescriure"
     }
 }

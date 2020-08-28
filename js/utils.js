@@ -97,6 +97,7 @@ function add_rows_edit($tableID) {
 
 function add_card(section, num, parent = undefined) {
     var card = create_card();
+    card.id = section + '-card-' + num;
 
     var header = create_card_header(card);
 
@@ -220,7 +221,7 @@ function create_modal_large(id = undefined) {
 function create_add_btn(id) {
     var params = {
         span: {
-            classList: ['table-add', 'float-right', 'mt-2', 'mb-6', 'mr-2']
+            classList: ['float-right', 'ml-5', 'mb-2', 'mr-2']
         },
         a: {
             classList: ['text-success']
@@ -254,7 +255,7 @@ function create_save_btn(id) {
 function create_trash_btn(id) {
     var params = {
         span: {
-            classList: ['table-add', 'float-right', 'mt-2', 'mr-2']
+            classList: ['table-add', 'float-right', 'mr-2']
         },
         a: {
             classList: ['text-danger']
@@ -459,11 +460,11 @@ var extract_message = function(elem, text) {
     a.innerText = ret;
 }
 
-var load_file = function(file, callback) {
+var load_file = function(file, override, callback) {
     var reader = new FileReader();
     reader.onload = function() {
         var output = reader.result;
-        callback(output, file);
+        callback(output, file, override);
     };
     reader.readAsText(file);
 }

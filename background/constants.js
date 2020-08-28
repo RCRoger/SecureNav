@@ -11,7 +11,8 @@ const DOWNLOAD = {
         URL_GET_DATA: 'dwl_url_get_data',
         ADD_URL: 'dwl_add_url',
         URL_SET_ENABLED_LITE: 'dwl_url_set_enabled_lite',
-        SET_SHOW_INFO: 'dwl_set_show_info'
+        SET_SHOW_INFO: 'dwl_set_show_info',
+        EXPORT: 'dwl_export'
     },
     DB: {
         URL_ENABLED: 'dwl_url_enabled',
@@ -21,7 +22,7 @@ const DOWNLOAD = {
         MAX_SIZE: 'dwl_max_size',
         SHOW_INFO: 'dwl_show_info',
         CHECKS: 'dwl_checks',
-        BLOCKS: 'dwl_blocks'
+        BLOCKS: 'dwl_blocks',
     }
 }
 
@@ -72,4 +73,10 @@ const CONTROLLER = {
     REQUEST: {
         GET_DATA: 'ctr_get_data'
     }
+}
+
+const get_dict_values = function(a) {
+    return Object.keys(a).map(function(key) {
+        return a[key];
+    });
 }

@@ -112,7 +112,7 @@ class LoggerObj {
     }
 
     log(text) {
-        if (this.text = undefined) {
+        if (this.text === undefined) {
             this.temp.push(text);
         } else {
             this.text += '\n' + text;

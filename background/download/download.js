@@ -20,10 +20,10 @@ function DownloadBackground() {
                 this.urls.setEnabled(request.data);
                 break;
             case DOWNLOAD.REQUEST.URL_ADD_URLS:
-                this.urls.add_urls(request.data, request.update);
+                this.urls.add_urls(request.data.data, request.data.reset);
                 break;
             case DOWNLOAD.REQUEST.URL_REMOVE_URLS:
-                this.urls.remove_urls(request.data.data, request.data.update);
+                this.urls.remove_urls(request.data.data);
                 break;
             case DOWNLOAD.REQUEST.SIZE_SET_ENABLED:
                 this.max_size.setEnabled(request.data);
@@ -42,6 +42,9 @@ function DownloadBackground() {
             case DOWNLOAD.REQUEST.SET_SHOW_INFO:
                 this.setShowInfo(request.data);
                 break;
+            case DOWNLOAD.REQUEST.EXPORT:
+                Export.export_items(get_dict_values(DOWNLOAD.DB), 'dwl_data');
+                return;
         }
         return this.get_data();
     }
@@ -49,6 +52,8 @@ function DownloadBackground() {
     DB.prototype.get_data = function() {
         return this;
     }
+
+
 
     DB.prototype.setShowInfo = function(data) {
         if (data !== true && data !== false) {
@@ -204,11 +209,12 @@ function DownloadUrlList() {
         chrome.storage.local.set(download_url_item(this.enabled, this.type, this.urls));
     }
 
-    UL.prototype.add_urls = function(data, update) {
+    UL.prototype.add_urls = function(data, reset = false) {
+        if (reset)
+            this.urls = [];
         data.forEach(item => {
             this.add_url(item.protocol, item.host, item.page);
         });
-        this.update = update;
         this.saveData();
     }
 
@@ -274,7 +280,7 @@ function DownloadMaxSize() {
     MS.prototype.needBlock = function(file) {
         if (!this.enabled)
             return false;
-        return this.max_size > file.fileSize;
+        return this.max_size < file.fileSize;
     }
 
     MS.prototype.loadData = function(data) {

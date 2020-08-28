@@ -1,15 +1,17 @@
 class Export {
-    static export_items(query = null) {
-        chrome.storage.local.get(query, exporter);
+    static export_items(query = null, filename = undefined) {
+        chrome.storage.local.get(query, function(data) {
+            Export.exporter(data, filename);
+        });
     }
-}
 
-function exporter(data, filename = 'secnav_data') {
-    var result = JSON.stringify(data);
+    static exporter(data, filename = 'secnav_data') {
+        var result = JSON.stringify(data);
 
-    var url = 'data:application/json;base64,' + btoa(result);
-    chrome.downloads.download({
-        url: url,
-        filename: filename + '.json'
-    });
+        var url = 'data:application/json;base64,' + btoa(result);
+        chrome.downloads.download({
+            url: url,
+            filename: filename + '.json'
+        });
+    }
 }
