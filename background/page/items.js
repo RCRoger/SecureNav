@@ -9,7 +9,7 @@ function page_item(enabled = false, type = 1, list = [], show_info = true, check
     return ret;
 }
 
-function page_url_item(enabled = false, type = 1, list = [], show_info = true) {
+function page_url_item(enabled = false, type = 1, list = []) {
     var ret = {};
     ret[PAGE.DB.URL_ENABLED] = enabled;
     ret[PAGE.DB.URL_TYPE] = type;

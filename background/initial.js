@@ -15,6 +15,8 @@ function init_db() {
             init_db_download();
         if (undefined === data[PAGE.DB.SHOW_INFO])
             init_db_page();
+        if (undefined === data[EMERGENT.DB.SHOW_INFO])
+            init_db_emergent();
         controller.restart_services();
     });
 }

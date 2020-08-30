@@ -7,6 +7,7 @@ class Controller {
         this.logger = Logger.getInstance();
         this.dwl = DownloadBackground.getInstance();
         this.pg = PageBackground.getInstance();
+        this.eme = EmergentBackground.getInstance();
         chrome.runtime.onMessage.addListener(request);
     }
 
@@ -15,6 +16,7 @@ class Controller {
         Logger.restart();
         DownloadBackground.restart();
         PageBackground.restart();
+        EmergentBackground.restart();
         chrome.runtime.onMessage.removeListener(request);
         this.init_services();
     }
@@ -58,6 +60,8 @@ class Controller {
             response(this.logger.request(request));
         else if (request && (request.id.toString().includes('ctr')))
             response(this.request_ctrl(request));
+        else if (request && (request.id.toString().includes('eme')))
+            response(this.eme.request(request));
         return true;
     }
 }

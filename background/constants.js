@@ -52,6 +52,30 @@ const PAGE = {
     }
 }
 
+const EMERGENT = {
+    REQUEST: {
+        GET_DATA: 'eme_get_data',
+        URL_SET_TYPE: 'eme_url_set_type',
+        URL_SET_ENABLED: 'eme_url_set_enabled',
+        URL_ADD_URLS: 'eme_url_add_urls',
+        URL_REMOVE_URLS: 'eme_url_remove_urls',
+        SET_SHOW_INFO: 'eme_set_show_info',
+        URL_GET_DATA: 'eme_url_get_data',
+        ADD_URL: 'eme_add_url',
+        URL_SET_ENABLED_LITE: 'eme_url_set_enabled_lite',
+        EXPORT: 'eme_export',
+        IMPORT: 'eme_import'
+    },
+    DB: {
+        URL_ENABLED: 'eme_url_enabled',
+        URL_TYPE: 'eme_url_type',
+        URL_LIST: 'eme_url_list',
+        SHOW_INFO: 'eme_show_info',
+        BLOCKS: 'eme_blocks',
+        CHECKS: 'eme_checks'
+    }
+}
+
 const POP_UP = {
     REQUEST: {
         SHOW_INFO: 'pop_up_show_info',
