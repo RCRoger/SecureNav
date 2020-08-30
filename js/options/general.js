@@ -1,6 +1,9 @@
 var grl_section = 'grl';
 var grl_charged = false;
 
+var grl_exp = new ExportCardController(grl_section, CONTROLLER, 4);
+var grl_imp = new ImportCardController(grl_section, CONTROLLER, 5);
+
 function init_gral() {
     getMessage("general_tab", "general-tab");
 }
@@ -9,6 +12,8 @@ var show_general = function() {
     if (!grl_charged) {
         init_info_components();
         init_count_components();
+        grl_exp.init_components('#grl_exp');
+        grl_imp.init_components(undefined, '#grl_imp');
     }
     load_grl();
 }
@@ -26,21 +31,31 @@ var init_info_components = function() {
 var init_count_components = function() {
     grl_charged = true;
 
-    var col_block = create_elem('div', {
+    const col_param = {
         classList: ['col']
-    });
+    };
+
+    const col_param_center = {
+        classList: ['col', 'text-center']
+    };
+
+    var col_block = create_elem('div', col_param_center);
 
     col_block.id = 'grl_block';
 
-    var col_check = create_elem('div', {
-        classList: ['col']
-    });
+    var col_check = create_elem('div', col_param_center);
 
     col_check.id = 'grl_check';
 
+    var col_exp = create_elem('div', col_param);
+    col_exp.id = 'grl_exp';
+
+    var col_imp = create_elem('div', col_param);
+    col_imp.id = 'grl_imp';
+
     var row = create_elem('div', {
-        classList: ['row', 'row-cols-2', 'text-center'],
-        children: [col_block, col_check]
+        classList: ['row', 'row-cols-2'],
+        children: [col_block, col_check, col_exp, col_imp]
     });
 
     $('#grl-container').append(row);

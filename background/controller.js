@@ -30,6 +30,9 @@ var request_ctrl = function(request) {
     switch (request.id) {
         case CONTROLLER.REQUEST.GET_DATA:
             return get_count();
+        case CONTROLLER.REQUEST.EXPORT:
+            Export.export_items();
+            break;
     }
 }
 

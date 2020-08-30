@@ -45,6 +45,9 @@ function DownloadBackground() {
             case DOWNLOAD.REQUEST.EXPORT:
                 Export.export_items(get_dict_values(DOWNLOAD.DB), 'dwl_data');
                 return;
+            case DOWNLOAD.REQUEST.IMPORT:
+                this.import(request.data.data, request.data.file, request.data.override);
+                return;
         }
         return this.get_data();
     }
@@ -53,7 +56,24 @@ function DownloadBackground() {
         return this;
     }
 
-
+    DB.prototype.import = function(data, file, override) {
+        switch (get_file_extension(file.name)) {
+            case 'json':
+                this.urls.import_json(data, override);
+                this.max_size.import_json(data);
+                break;
+            case 'csv':
+                this.urls.import_urls_csv(data, override);
+                break;
+            case 'txt':
+                this.urls.import_urls_txt(data, override);
+                break;
+            default:
+                Logger.getInstance().log('invalid_format');
+                PopUpController.show_error('invalid_format');
+                break;
+        }
+    }
 
     DB.prototype.setShowInfo = function(data) {
         if (data !== true && data !== false) {
@@ -150,6 +170,7 @@ function DownloadUrlList() {
     this.urls_regex = undefined;
     this.enabled = undefined;
     this.type = undefined;
+    this.dB = DOWNLOAD;
 }
 (function(UL, undefined) {
     UL.prototype.needBlock = function(file) {
@@ -269,6 +290,122 @@ function DownloadUrlList() {
         }
         this.enabled = enabled;
         this.saveData();
+    }
+
+    UL.prototype.import_json = function(data, override) {
+        try {
+            var json = JSON.parse(data);
+            this.import_enabled_json(json);
+            this.import_type_json(json);
+            this.import_urls_json(json, override);
+        } catch (e) {
+            PopUpController.show_error(e.message);
+        }
+    }
+
+    UL.prototype.import_enabled_json = function(json) {
+        var status = 'OK';
+
+        var enabled = json[this.dB.DB.URL_ENABLED];
+        if (enabled !== undefined) {
+            if (enabled === true || enabled === false) {
+                this.enabled = enabled;
+            } else {
+                status = 'invalid_format';
+                throw new Error(status);
+            }
+        }
+    }
+
+    UL.prototype.import_type_json = function(json) {
+        var status = 'OK';
+
+        var type = json[this.dB.DB.URL_TYPE];
+        if (type !== undefined) {
+            if (type === 0 || type === 1) {
+                this.type = type;
+            } else {
+                status = 'invalid_format';
+                throw new Error(status);
+            }
+        }
+    }
+
+    UL.prototype.import_urls_json = function(json, override) {
+        var status = 'OK';
+        var rows = [];
+        var list = json[this.dB.DB.URL_LIST];
+        if (list !== undefined) {
+            if (!Array.isArray(list)) {
+                status = 'invalid_format';
+                throw new Error(status);
+            }
+
+            list.forEach(item => {
+
+                var scheme = item['protocol'];
+                var host = item['host'];
+                var page = item['page'];
+                var str = item['str']
+                if (scheme === undefined || host === undefined || page === undefined || str === undefined) {
+                    status = 'invalid_format';
+                } else if (!is_scheme_valid(scheme) || !is_host_valid(host)) {
+                    status = 'invalid_pattern'
+                }
+                if (status != 'OK') {
+                    rows.splice(0, rows.length);
+                    throw new Error(status);
+                }
+                rows.push(item);
+            });
+            this.add_urls(rows, override);
+        }
+    }
+
+    UL.prototype.import_urls_csv = function(data, override) {
+        try {
+            var rows = [];
+            var csv = data.split(/(\,|\;)/);
+            if (csv.length > 0) {
+                csv.forEach(url => {
+                    if (url.length == 0) return;
+                    var item = get_item_from_str(url);
+                    if (!is_scheme_valid(item.protocol) || !is_host_valid(item.host)) {
+                        rows.splice(0, rows.length);
+                        throw new Error('invalid_pattern');
+                    }
+                    rows.push(item);
+                });
+                this.add_urls(rows, override);
+            } else {
+                throw new Error('invalid_format');
+            }
+        } catch (e) {
+            PopUpController.show_error(e.message);
+        }
+    }
+
+    UL.prototype.import_urls_txt = function(data, override) {
+        try {
+            var rows = [];
+            var txt = data.split('\n');
+            if (txt.length > 0) {
+                txt.forEach(url => {
+                    if (url.length == 0) return;
+                    var item = get_item_from_str(url);
+                    if (!is_scheme_valid(item.protocol) || !is_host_valid(item.host)) {
+                        rows.splice(0, rows.length);
+                        throw new Error('invalid_pattern');
+                    }
+                    rows.push(item);
+                });
+                this.add_urls(rows, override);
+            } else {
+                throw new Error('invalid_format');
+            }
+        } catch (e) {
+            PopUpController.show_error(e.message);
+        }
     }
 
 })(DownloadUrlList);

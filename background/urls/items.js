@@ -18,6 +18,15 @@ function url_item(host, protocol = '*', page = '*') {
     };
 }
 
+function db_url_item(db, enabled = true, type = 1, list = []) {
+    var ret = {};
+    ret[db.DB.URL_ENABLED] = enabled;
+    ret[db.DB.URL_TYPE] = type;
+    ret[db.DB.URL_LIST] = list;
+
+    return ret;
+}
+
 function url_regex(item) {
     let str = "";
     str += str_regex(item.protocol);

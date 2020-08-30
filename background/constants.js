@@ -12,7 +12,8 @@ const DOWNLOAD = {
         ADD_URL: 'dwl_add_url',
         URL_SET_ENABLED_LITE: 'dwl_url_set_enabled_lite',
         SET_SHOW_INFO: 'dwl_set_show_info',
-        EXPORT: 'dwl_export'
+        EXPORT: 'dwl_export',
+        IMPORT: 'dwl_import'
     },
     DB: {
         URL_ENABLED: 'dwl_url_enabled',
@@ -34,7 +35,8 @@ const PAGE = {
         URL_ADD_URLS: 'pg_url_add_urls',
         URL_REMOVE_URLS: 'pg_url_remove_urls',
         SET_SHOW_INFO: 'pg_set_show_info',
-        EXPORT: 'pg_export'
+        EXPORT: 'pg_export',
+        IMPORT: 'pg_import'
     },
     DB: {
         URL_ENABLED: 'pg_url_enabled',
@@ -72,7 +74,8 @@ const TYPE = {
 
 const CONTROLLER = {
     REQUEST: {
-        GET_DATA: 'ctr_get_data'
+        GET_DATA: 'ctr_get_data',
+        EXPORT: 'ctr_export'
     }
 }
 
