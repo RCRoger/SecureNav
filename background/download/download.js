@@ -151,7 +151,7 @@ class DownloadBackground {
 
 }
 
-class DownloadUrlList extends UrlList {
+class DownloadUrlList extends UrlBackground {
     constructor() {
         super(DOWNLOAD);
     }

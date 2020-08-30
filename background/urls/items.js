@@ -54,6 +54,10 @@ function get_item_from_str(url) {
     return url_item(host, protocol, page);
 }
 
+function is_pattern_valid_item(item) {
+    return is_scheme_valid(item.protocol) && is_host_valid(item.host);
+}
+
 function is_pattern_valid(text) {
     var item = get_item_from_str(text);
 

@@ -6,5 +6,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         show_download();
     else if (e.target.id == 'general-tab') {
         show_general();
+    } else if (e.target.id == 'sites-tab') {
+        show_page();
     }
 });

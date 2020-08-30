@@ -7,7 +7,7 @@ class Logger {
     request(request) {
         switch (request.id) {
             case LOGGER.REQUEST.LAST_ROWS:
-                return { rows: this.get_last_n_rows() }
+                return { rows: this.get_last_n_rows(data.n) }
         }
     }
 
@@ -25,8 +25,8 @@ class Logger {
         return this.get_logger_obj(db).rows;
     }
 
-    get_last_n_rows(n, db = LOGGER.DB.LOG) {
-        return this.get_logger_obj(db).get_last_n_rows(LOGGER.N_ROWS);
+    get_last_n_rows(n = LOGGER.N_ROWS, db = LOGGER.DB.LOG) {
+        return this.get_logger_obj(db).get_last_n_rows(n);
     }
 
     get_logger_obj(db) {

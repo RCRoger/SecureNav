@@ -110,9 +110,13 @@ class PageBackground {
 
 }
 
-class PageUrlList extends UrlList {
+class PageUrlList extends UrlBackground {
     constructor() {
         super(PAGE);
+    }
+
+    getData(data) {
+        return { hasBlock: this.needBlock_all(data), type: this.type, enabled: this.enabled, url: data.url };
     }
 
     saveData() {
@@ -137,6 +141,13 @@ class PageUrlList extends UrlList {
         }
     }
 
+    needBlock_all(page) {
+        if (this.type == TYPE.WHITELIST) {
+            return !this.contains_url(page);
+        }
+        return this.contains_url(page);
+    }
+
 
     contains_url(page) {
         if (Array.isArray(this.urls_regex) && this.urls_regex.length) {
@@ -148,7 +159,7 @@ class PageUrlList extends UrlList {
         return false;
     }
 
-    need_block(page) {
+    needBlock(page) {
         if (this.type == TYPE.WHITELIST) {
             return !this.contains_url(page);
         }
@@ -163,7 +174,7 @@ function page_blocker(page) {
     pB.checks++;
     if (pages_unblockeables.includes(url.host))
         return no_block;
-    if (!pB.urls.need_block(page))
+    if (!pB.urls.needBlock(page))
         return no_block;
     Logger.getInstance().log('pg_block ' + page.url);
     pB.blocks++;

@@ -51,7 +51,7 @@
     "dwl_url_status_1": {
         "message": "  Les descàrregues estan habilitades en aquesta pàgina."
     },
-    "dwl_url_mode": {
+    "mode": {
         "message": "Mode actual: "
     },
     "block": {
@@ -88,10 +88,10 @@
         "message": "La següent pàgina ha estat bloquejada per SecNav"
     },
     "num_checked": {
-        "message": "Elements analitzats"
+        "message": "Analitzats"
     },
     "num_blocked": {
-        "message": "Elements bloquejats"
+        "message": "Bloquejats"
     },
     "invalid_pattern": {
         "message": "La url introduida no és vàlida, per més informació consulta https://developer.chrome.com/extensions/match_patterns ."
@@ -113,5 +113,11 @@
     },
     "override": {
         "message": "Sobreescriure"
+    },
+    "pg_url_status_0": {
+        "message": "  L'accés a aquesta URL està bloquejat."
+    },
+    "pg_url_status_1": {
+        "message": "  L'accés a aquesta URL està bloquejat."
     }
 }

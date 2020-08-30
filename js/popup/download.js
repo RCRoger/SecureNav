@@ -29,7 +29,7 @@ function init_urlist_components() {
 function show_url_info(data) {
 
     if (!data.enabled) {
-        $('#dwl-header-1').text(getMessageStr('dwl_url_mode') + getMessageStr('disabled'));
+        $('#dwl-header-1').text(getMessageStr('mode') + getMessageStr('disabled'));
         var btn = create_button('dwl-url-enable');
         btn.classList.add('btn-success');
         btn.innerHTML = getMessageStr('enable');
@@ -42,9 +42,9 @@ function show_url_info(data) {
     }
 
     if (data.type == 0) {
-        $('#dwl-header-1').text(getMessageStr('dwl_url_mode') + getMessageStr('whitelist'));
+        $('#dwl-header-1').text(getMessageStr('mode') + getMessageStr('whitelist'));
     } else if (data.type == 1) {
-        $('#dwl-header-1').text(getMessageStr('dwl_url_mode') + getMessageStr('blacklist'));
+        $('#dwl-header-1').text(getMessageStr('mode') + getMessageStr('blacklist'));
     }
 
     var msg = '';

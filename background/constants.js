@@ -24,6 +24,7 @@ const DOWNLOAD = {
         SHOW_INFO: 'dwl_show_info',
         CHECKS: 'dwl_checks',
         BLOCKS: 'dwl_blocks',
+
     }
 }
 
@@ -35,6 +36,9 @@ const PAGE = {
         URL_ADD_URLS: 'pg_url_add_urls',
         URL_REMOVE_URLS: 'pg_url_remove_urls',
         SET_SHOW_INFO: 'pg_set_show_info',
+        URL_GET_DATA: 'pg_url_get_data',
+        ADD_URL: 'pg_add_url',
+        URL_SET_ENABLED_LITE: 'pg_url_set_enabled_lite',
         EXPORT: 'pg_export',
         IMPORT: 'pg_import'
     },

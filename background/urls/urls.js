@@ -1,4 +1,4 @@
-class UrlList {
+class UrlBackground {
     constructor(db) {
         this.urls = undefined;
         this.enabled = undefined;
@@ -27,7 +27,7 @@ class UrlList {
                 return this.getData(request.data);
             case this.dB.REQUEST.URL_SET_ENABLED_LITE:
                 this.setEnabled(request.data);
-                return this.urls.getData(request.data);
+                return this.getData(request.data);
             default:
                 Logger.getInstance().log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
                 PopUpController.show_error('invalid_format');
@@ -84,8 +84,7 @@ class UrlList {
 
     add_url(protocol, host, page) {
         var item = url_item(host, protocol, page);
-        var includes = this.urls.includes(item);
-        if (!includes) {
+        if (!this.contains_url_str(item.str) && is_pattern_valid_item(item)) {
             this.urls.push(item);
             this.urls_regex.push(url_regex(item));
         }
@@ -93,7 +92,12 @@ class UrlList {
 
     add_url_from_str(data) {
         var item = get_item_from_str(data.url);
-        this.add_url(item.protocol, item.host, item.page);
+        if (is_pattern_valid_item(item)) {
+            this.add_url(item.protocol, item.host, item.page);
+        } else {
+            Logger.getInstance().log('invalid_pattern' + ' ' + item.str, LOGGER.DB.LOG_DEV);
+            PopUpController.show_error('invalid_pattern' + ' ' + item.str);
+        }
         this.saveData();
     }
 
@@ -250,6 +254,16 @@ class UrlList {
             Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
+    }
+
+    contains_url_str(url) {
+        if (Array.isArray(this.urls_regex) && this.urls_regex.length) {
+            return this.urls_regex.some(function(item) {
+                if (item.exec(url))
+                    return true;
+            });
+        }
+        return false;
     }
 
 }
