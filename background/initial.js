@@ -15,7 +15,7 @@ function init_db() {
             init_db_download();
         if (undefined === data[PAGE.DB.SHOW_INFO])
             init_db_page();
-        restart_services();
+        controller.restart_services();
     });
 }
 

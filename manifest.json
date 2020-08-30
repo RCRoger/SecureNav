@@ -16,6 +16,7 @@
     "background": {
         "scripts": [
             "background/constants.js",
+            "background/import/import.js",
             "background/export/export.js",
             "background/logger/initial.js",
             "background/logger/items.js",
@@ -23,6 +24,7 @@
             "background/popup-controller.js",
             "background/urls/initial.js",
             "background/urls/items.js",
+            "background/urls/urls.js",
             "background/download/items.js",
             "background/download/initial.js",
             "background/page/items.js",

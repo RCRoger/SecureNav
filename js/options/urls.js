@@ -164,11 +164,11 @@ function UrlCardController(section, dB) {
         $('#' + that.section + '-text-1').html(create_elem('div', {
             classList: ['spinner-border', 'text-primary']
         }));
+        $('#' + this.section + '_url_add').click(this.addRows);
 
     }
 
     UCC.prototype.show_url_events = function() {
-        $('#' + this.section + '_url_add').click(this.addRows);
         $('#' + this.section + '-table-1 .select-checkbox').click(function() {
             var rows_selected = $('#' + that.section + '-table-1 tbody .selected');
             if (rows_selected.length == 0) {

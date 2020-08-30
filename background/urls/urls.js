@@ -1,14 +1,44 @@
-function UrlList(db) {
-    this.urls = undefined;
-    this.enabled = undefined;
-    this.type = undefined;
-    this.db = db;
-}
+class UrlList {
+    constructor(db) {
+        this.urls = undefined;
+        this.enabled = undefined;
+        this.type = undefined;
+        this.dB = db;
+    }
 
-(function(UL, undefined) {
-    UL.prototype.edit_url = function(data) {
+    request(request) {
+        switch (request.id) {
+            case this.dB.REQUEST.URL_SET_TYPE:
+                this.setType(request.data);
+                break;
+            case this.dB.REQUEST.URL_SET_ENABLED:
+                this.setEnabled(request.data);
+                break;
+            case this.dB.REQUEST.URL_ADD_URLS:
+                this.add_urls(request.data.data, request.data.reset);
+                break;
+            case this.dB.REQUEST.URL_REMOVE_URLS:
+                this.remove_urls(request.data.data);
+                break;
+            case this.dB.REQUEST.URL_GET_DATA:
+                return this.getData(request.data);
+            case this.dB.REQUEST.ADD_URL:
+                this.add_url_from_str(request.data);
+                return this.getData(request.data);
+            case this.dB.REQUEST.URL_SET_ENABLED_LITE:
+                this.setEnabled(request.data);
+                return this.urls.getData(request.data);
+            default:
+                Logger.getInstance().log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
+                PopUpController.show_error('invalid_format');
+                return;
+        }
+        return { urls: this };
+    }
+
+    edit_url(data) {
         if (!data.index || data.index > this.urls.length || data.index) {
-            Logger.getInstance().log('invalid_format');
+            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error('invalid_format');
             return;
         }
@@ -28,22 +58,22 @@ function UrlList(db) {
         this.saveData();
     }
 
-    UL.prototype.loadData = function(data) {
+    loadData(data) {
         this.urls = [];
         this.urls_regex = [];
-        this.enabled = data[this.db.DB.URL_ENABLED];
-        this.type = data[this.db.DB.URL_TYPE];
-        data[this.db.DB.URL_LIST].forEach(item => {
+        this.enabled = data[this.dB.DB.URL_ENABLED];
+        this.type = data[this.dB.DB.URL_TYPE];
+        data[this.dB.DB.URL_LIST].forEach(item => {
             this.urls.push(item);
             this.urls_regex.push(url_regex(item));
         });
     }
 
-    UL.prototype.saveData = function() {
-        chrome.storage.local.set(db_url_item(this.db, this.enabled, this.type, this.urls));
+    saveData() {
+        chrome.storage.local.set(db_url_item(this.dB, this.enabled, this.type, this.urls));
     }
 
-    UL.prototype.add_urls = function(data, reset = false) {
+    add_urls(data, reset = false) {
         if (reset)
             this.urls = [];
         data.forEach(item => {
@@ -52,7 +82,7 @@ function UrlList(db) {
         this.saveData();
     }
 
-    UL.prototype.add_url = function(protocol, host, page) {
+    add_url(protocol, host, page) {
         var item = url_item(host, protocol, page);
         var includes = this.urls.includes(item);
         if (!includes) {
@@ -61,7 +91,7 @@ function UrlList(db) {
         }
     }
 
-    UL.prototype.add_url_from_str = function(data) {
+    add_url_from_str(data) {
         var item = get_item_from_str(data.url);
         this.add_url(item.protocol, item.host, item.page);
         this.saveData();
@@ -69,7 +99,7 @@ function UrlList(db) {
 
 
 
-    UL.prototype.remove_urls = function(urls) {
+    remove_urls(urls) {
         var corrector = 0;
         urls.forEach(index => {
             this.urls.splice(index - corrector, 1);
@@ -79,13 +109,13 @@ function UrlList(db) {
         this.saveData();
     }
 
-    UL.prototype.getData = function(data) {
+    getData(data) {
         return { hasBlock: this.needBlock(data), type: this.type, enabled: this.enabled, url: data.url };
     }
 
-    UL.prototype.setType = function(type) {
+    setType(type) {
         if (type != 0 && type != 1) {
-            Logger.getInstance().log('invalid_format');
+            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error('invalid_format');
             return;
         }
@@ -93,9 +123,9 @@ function UrlList(db) {
         this.saveData();
     }
 
-    UL.prototype.setEnabled = function(enabled) {
+    setEnabled(enabled) {
         if (enabled !== true && enabled !== false) {
-            Logger.getInstance().log('invalid_format');
+            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error('invalid_format');
             return;
         }
@@ -103,18 +133,19 @@ function UrlList(db) {
         this.saveData();
     }
 
-    UL.prototype.import_json = function(data, override) {
+    import_json(data, override) {
         try {
             var json = JSON.parse(data);
             this.import_enabled_json(json);
             this.import_type_json(json);
             this.import_urls_json(json, override);
         } catch (e) {
+            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
     }
 
-    UL.prototype.import_enabled_json = function(json) {
+    import_enabled_json(json) {
         var status = 'OK';
 
         var enabled = json[this.dB.DB.URL_ENABLED];
@@ -128,7 +159,7 @@ function UrlList(db) {
         }
     }
 
-    UL.prototype.import_type_json = function(json) {
+    import_type_json(json) {
         var status = 'OK';
 
         var type = json[this.dB.DB.URL_TYPE];
@@ -142,7 +173,7 @@ function UrlList(db) {
         }
     }
 
-    UL.prototype.import_urls_json = function(json, override) {
+    import_urls_json(json, override) {
         var status = 'OK';
         var rows = [];
         var list = json[this.dB.DB.URL_LIST];
@@ -173,7 +204,7 @@ function UrlList(db) {
         }
     }
 
-    UL.prototype.import_urls_csv = function(data, override) {
+    import_urls_csv(data, override) {
         try {
             var rows = [];
             var csv = data.split(/(\,|\;)/);
@@ -192,11 +223,12 @@ function UrlList(db) {
                 throw new Error('invalid_format');
             }
         } catch (e) {
+            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
     }
 
-    UL.prototype.import_urls_txt = function(data, override) {
+    import_urls_txt(data, override) {
         try {
             var rows = [];
             var txt = data.split('\n');
@@ -215,8 +247,9 @@ function UrlList(db) {
                 throw new Error('invalid_format');
             }
         } catch (e) {
+            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
     }
 
-})(DownloadUrlList);
+}

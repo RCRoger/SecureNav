@@ -4,7 +4,7 @@ var pg_section = 'pg';
 var pg_url = new UrlCardController(pg_section, PAGE);
 var pg_not = new NotiCardController(pg_section, PAGE, 2);
 var pg_exp = new ExportCardController(pg_section, PAGE, 3);
-var pg_imp = new ImportCardController(pg_section, PAGE, 4);
+var pg_imp = new ImportCardController(pg_section, PAGE, 4, pg_show_all);
 
 
 var init_pages = function() {
@@ -18,7 +18,7 @@ var show_page = function() {
         init_pg_components();
         pg_not.init_components('#pg-col-not');
         pg_exp.init_components('#pg-col-exp');
-        pg_imp.init_components(pg_import_data, '#pg-col-imp');
+        pg_imp.init_components('#pg-col-imp');
         pg_charged = true;
     }
     pg_load_all();

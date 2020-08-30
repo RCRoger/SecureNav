@@ -1,51 +1,69 @@
-var init_services = function() {
-    Logger.getInstance();
-    DownloadBackground.getInstance();
-    PageBackground.getInstance();
-    chrome.runtime.onMessage.addListener(request);
-}
+class Controller {
+    constructor() {
+        this.init_services();
+    }
+
+    init_services() {
+        this.logger = Logger.getInstance();
+        this.dwl = DownloadBackground.getInstance();
+        this.pg = PageBackground.getInstance();
+        chrome.runtime.onMessage.addListener(request);
+    }
 
 
-var restart_services = function() {
-    Logger.restart();
-    DownloadBackground.restart();
-    PageBackground.restart();
-    chrome.runtime.onMessage.removeListener(request);
-    chrome.runtime.onMessage.addListener(request);
-}
+    restart_services() {
+        Logger.restart();
+        DownloadBackground.restart();
+        PageBackground.restart();
+        chrome.runtime.onMessage.removeListener(request);
+        this.init_services();
+    }
 
-var count_blocks = function() {
-    return DownloadBackground.getInstance().blocks + PageBackground.getInstance().blocks;
-}
+    count_blocks() {
+        return this.dwl.blocks + this.pg.blocks;
+    }
 
-var count_checks = function() {
-    return DownloadBackground.getInstance().checks + PageBackground.getInstance().checks;
-}
+    count_checks() {
+        return this.dwl.checks + this.pg.checks;
+    }
 
-var get_count = function() {
-    return { blocks: count_blocks(), checks: count_checks() }
-}
+    get_count() {
+        return { blocks: this.count_blocks(), checks: this.count_checks() }
+    }
 
-var request_ctrl = function(request) {
-    switch (request.id) {
-        case CONTROLLER.REQUEST.GET_DATA:
-            return get_count();
-        case CONTROLLER.REQUEST.EXPORT:
-            Export.export_items();
-            break;
+    request_ctrl(request) {
+        switch (request.id) {
+            case CONTROLLER.REQUEST.GET_DATA:
+                return this.get_count();
+            case CONTROLLER.REQUEST.EXPORT:
+                Export.export_items();
+                break;
+            case CONTROLLER.REQUEST.IMPORT:
+                this.dwl.request(request);
+                this.pg.request(request);
+                break;
+            default:
+                this.logger.log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
+                PopUpController.show_error('invalid_format');
+                return;
+        }
+    }
+
+    request(request, sender, response) {
+        if (request && (request.id.toString().includes('dwl')))
+            response(this.dwl.request(request));
+        else if (request && (request.id.toString().includes('pg')))
+            response(this.pg.request(request));
+        else if (request && (request.id.toString().includes('log')))
+            response(this.logger.request(request));
+        else if (request && (request.id.toString().includes('ctr')))
+            response(this.request_ctrl(request));
+        return true;
     }
 }
 
-var request = function(request, sender, response) {
-    if (request && (request.id.toString().includes('dwl')))
-        response(DownloadBackground.getInstance().request(request));
-    else if (request && (request.id.toString().includes('pg')))
-        response(PageBackground.getInstance().request(request));
-    else if (request && (request.id.toString().includes('log')))
-        response(Logger.getInstance().request(request));
-    else if (request && (request.id.toString().includes('ctr')))
-        response(request_ctrl(request));
-    return true;
-}
+var controller = new Controller();
 
-init_services();
+function request(request, sender, response) {
+    controller.request(request, sender, response);
+}

@@ -3,7 +3,7 @@ var charged = false;
 var dwl_url = new UrlCardController(dwl_section, DOWNLOAD);
 var dwl_not = new NotiCardController(dwl_section, DOWNLOAD, 3);
 var dwl_exp = new ExportCardController(dwl_section, DOWNLOAD, 4);
-var dwl_imp = new ImportCardController(dwl_section, DOWNLOAD, 5);
+var dwl_imp = new ImportCardController(dwl_section, DOWNLOAD, 5, show_all);
 
 var show_download = function() {
     if (!charged) {
@@ -12,7 +12,7 @@ var show_download = function() {
         init_urlsize_components();
         dwl_not.init_components('#dwl-col-not');
         dwl_exp.init_components('#dwl-col-exp');
-        dwl_imp.init_components(dwl_import_data, '#dwl-col-imp');
+        dwl_imp.init_components('#dwl-col-imp');
 
     }
     load_all();
@@ -88,7 +88,7 @@ var init_urlsize_components = function() {
     getMessage(dwl_section + "_title_1", a.id);
 }
 
-var show_all = function(data) {
+function show_all(data) {
     dwl_url.show(data);
     show_size(data);
     dwl_not.show(data);

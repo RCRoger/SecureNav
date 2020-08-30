@@ -2,7 +2,7 @@ var grl_section = 'grl';
 var grl_charged = false;
 
 var grl_exp = new ExportCardController(grl_section, CONTROLLER, 4);
-var grl_imp = new ImportCardController(grl_section, CONTROLLER, 5);
+var grl_imp = new ImportCardController(grl_section, CONTROLLER, 5, load_grl);
 
 function init_gral() {
     getMessage("general_tab", "general-tab");
@@ -13,7 +13,7 @@ var show_general = function() {
         init_info_components();
         init_count_components();
         grl_exp.init_components('#grl_exp');
-        grl_imp.init_components(undefined, '#grl_imp');
+        grl_imp.init_components('#grl_imp');
     }
     load_grl();
 }
@@ -72,11 +72,11 @@ var init_count_components = function() {
 
 
 var load_grl = function() {
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: LOGGER.REQUEST.LAST_ROWS }, show);
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: LOGGER.REQUEST.LAST_ROWS }, show_grl_log);
     chrome.runtime.sendMessage(chrome.runtime.id, { id: CONTROLLER.REQUEST.GET_DATA }, show_grl_count);
 }
 
-var show = function(data) {
+var show_grl_log = function(data) {
 
     if (data.rows && data.rows.length > 0) {
         var div = create_elem('div', { classList: ['text-default', 'scrollbar', 'scrollbar-default'], attributes: [{ key: 'style', value: 'width:95%;' }] });

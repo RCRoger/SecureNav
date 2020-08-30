@@ -1,16 +1,17 @@
 var imp_that = undefined;
 
-function ImportCardController(section, dB, num) {
+function ImportCardController(section, dB, num, callback) {
     this.section = section;
     this.charged = false;
     this.dB = dB;
     this.num = num;
+    this.callback = callback;
     imp_that = this;
 }
 
 (function(ICC, undefined) {
 
-    ICC.prototype.init_components = function(callback, container = undefined) {
+    ICC.prototype.init_components = function(container = undefined) {
         if (this.charged)
             return;
         this.charged = true;
@@ -70,14 +71,14 @@ function ImportCardController(section, dB, num) {
         $('#' + input.id).change(function(e) {
             var override = $('#' + imp_that.section + "-imp-" + imp_that.num).is(':checked');
             if (this.files.length == 1) {
-                load_file(this.files[0], override, callback);
+                load_file(this.files[0], override, imp_that.send_import);
                 this.value = '';
             }
         });
     }
 
 
-    ICC.prototype.save_url_enabled = function() {
-        chrome.runtime.sendMessage(chrome.runtime.id, { id: imp_that.dB.REQUEST.URL_SET_ENABLED, data: this.checked });
+    ICC.prototype.send_import = function(data, file, override) {
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: imp_that.dB.REQUEST.IMPORT, data: { data: data, file: file.name, override: override } }, imp_that.callback);
     }
 })(ImportCardController);

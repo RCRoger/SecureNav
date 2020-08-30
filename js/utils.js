@@ -468,7 +468,3 @@ var load_file = function(file, override, callback) {
     };
     reader.readAsText(file);
 }
-
-var get_file_extension = function(filename) {
-    return filename.split('.').pop();
-}

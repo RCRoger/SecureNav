@@ -1,7 +1,6 @@
 class Import {
 
-    static load_file(file) {
-
-
+    static get_file_extension = function(filename) {
+        return filename.split('.').pop();
     }
 }
