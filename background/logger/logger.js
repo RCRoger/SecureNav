@@ -7,7 +7,7 @@ class Logger {
     request(request) {
         switch (request.id) {
             case LOGGER.REQUEST.LAST_ROWS:
-                return { rows: this.get_last_n_rows(data.n) }
+                return { rows: this.get_last_n_rows(request.data) }
         }
     }
 

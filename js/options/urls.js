@@ -74,6 +74,7 @@ function UrlCardController(section, dB) {
             $(this).remove();
         });
         that.send_urls_remove(data);
+        $(this).remove();
     }
 
     UCC.prototype.addRows = function() {

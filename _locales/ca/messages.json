@@ -118,6 +118,6 @@
         "message": "  L'accés a aquesta URL està bloquejat."
     },
     "pg_url_status_1": {
-        "message": "  L'accés a aquesta URL està bloquejat."
+        "message": "  L'accés a aquesta URL està permès."
     }
 }

@@ -22,12 +22,23 @@ function init_grl_components() {
 
     col_check.id = 'grl_check';
 
+    var col_log = create_elem('div', {
+        classList: ['col', 'text-truncate', 'text-default']
+    });
+
+    col_log.id = 'grl_log';
+
+    var pre_row = create_elem('div', {
+        classList: ['row'],
+        children: [col_log]
+    });
+
     var row = create_elem('div', {
         classList: ['row', 'row-cols-2', 'text-center'],
         children: [col_block, col_check]
     });
 
-    $('#grl-container').html(row);
+    $('#grl-container').append(pre_row, row);
 
     add_card('grl', 1, col_block);
     add_card('grl', 2, col_check);
@@ -41,6 +52,7 @@ function init_grl_components() {
 
 function load_grl_info() {
     chrome.runtime.sendMessage(chrome.runtime.id, { id: CONTROLLER.REQUEST.GET_DATA }, show_grl_info);
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: LOGGER.REQUEST.LAST_ROWS, data: 1 }, show_grl_log);
 }
 
 function show_grl_info(data) {
@@ -50,6 +62,17 @@ function show_grl_info(data) {
 
     if (data.checks !== undefined) {
         $('#grl-title-2').html(data.checks);
+    }
+}
+
+function show_grl_log(data) {
+    let elem = document.getElementById('grl_log');
+    if (data.rows && data.rows.length > 0) {
+        extract_message(elem, data.rows[0]);
+        elem.title = elem.innerText;
+        $(elem).tooltip({ boundary: 'window' });
+    } else {
+        $('#grl_log').text(getMessageStr('nothing'));
     }
 }
 

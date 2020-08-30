@@ -133,10 +133,14 @@ class PageUrlList extends UrlBackground {
             window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
             window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, all_urls, webRequestFlags);
         } else if (this.type == TYPE.BLACKLIST) {
+
+            window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
+            if (this.urls.length == 0) {
+                return;
+            }
             var urls_str = [];
             this.urls.forEach(item => urls_str.push(item.str));
             var filter = { 'urls': urls_str };
-            window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
             window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, filter, webRequestFlags);
         }
     }

@@ -442,9 +442,7 @@ function add_params(item, params) {
 
 var extract_message = function(elem, text) {
     var span = create_elem('span', { classList: ['text-dark'] });
-    var a = create_elem('a');
     elem.appendChild(span);
-    elem.appendChild(a);
     var i = text.indexOf(':', 17);
     var ret = '';
     if (i != -1) {
@@ -457,7 +455,7 @@ var extract_message = function(elem, text) {
                 ret += ' ' + key;
         });
     }
-    a.innerText = ret;
+    elem.appendChild(document.createTextNode(ret));
 }
 
 var load_file = function(file, override, callback) {
