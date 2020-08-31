@@ -125,5 +125,8 @@
     },
     "eme_url_status_1": {
         "message": "  Les finestres emergents derivades d'aquesta URL estan permeses."
+    },
+    "pop_up_blocked": {
+        "message": "S'ha bloquejat una finestra emergent."
     }
 }

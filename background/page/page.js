@@ -10,12 +10,10 @@ const no_block = { cancel: false };
 const pages_unblockeables = [chrome.runtime.id, 'use.fontawesome.com', 'fonts.googleapis.com'];
 
 
-class PageBackground {
+class PageBackground extends BackgroundObject {
     constructor() {
+        super(PAGE);
         this.urls = new PageUrlList();
-        this.blocks = 0;
-        this.checks = 0;
-        this.show_info = undefined;
         this.loadData(true);
     }
 
@@ -62,22 +60,8 @@ class PageBackground {
         }
     }
 
-    getData() {
-        return { urls: this.urls };
-    }
-
     add_listener() {
         this.urls.add_listener();
-    }
-
-    setShowInfo(data) {
-        if (data !== true && data !== false) {
-            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
-            PopUpController.show_error('invalid_format');
-            return;
-        }
-        this.show_info = data;
-        this.saveData();
     }
 
     loadData(first = undefined) {
@@ -90,10 +74,6 @@ class PageBackground {
             if (first)
                 that.add_listener();
         });
-    }
-
-    saveData() {
-        chrome.storage.local.set(page_item_lite(this.show_info, this.checks, this.blocks));
     }
 
     static restart() {

@@ -1,10 +1,8 @@
-class DownloadBackground {
+class DownloadBackground extends BackgroundObject {
     constructor() {
+        super(DOWNLOAD);
         this.urls = new DownloadUrlList();
         this.max_size = new DownloadMaxSize();
-        this.show_info = undefined;
-        this.checks = 0;
-        this.blocks = 0;
         this.loadData(true);
     }
 
@@ -14,7 +12,7 @@ class DownloadBackground {
         }
         switch (request.id) {
             case DOWNLOAD.REQUEST.GET_DATA:
-                return this.get_data();
+                return this.getData();
             case DOWNLOAD.REQUEST.SIZE_SET_ENABLED:
                 this.max_size.setEnabled(request.data);
                 break;
@@ -35,12 +33,10 @@ class DownloadBackground {
                 PopUpController.show_error('invalid_format');
                 return;
         }
-        return this.get_data();
+        return this.getData();
     }
 
-    get_data() {
-        return this;
-    }
+
 
     import (data, file, override) {
         switch (Import.get_file_extension(file)) {
@@ -61,15 +57,7 @@ class DownloadBackground {
         }
     }
 
-    setShowInfo(data) {
-        if (data !== true && data !== false) {
-            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
-            PopUpController.show_error('invalid_format');
-            return;
-        }
-        this.show_info = data;
-        this.saveDataLite();
-    }
+
 
     block_action(file) {
         chrome.downloads.pause(file.id);
@@ -100,7 +88,7 @@ class DownloadBackground {
             logger.log('dwl_resume', LOGGER.DB.LOG_DEV);
         }
 
-        this.saveDataLite();
+        this.saveData();
 
     }
 
@@ -133,9 +121,7 @@ class DownloadBackground {
         });
     }
 
-    saveDataLite() {
-        chrome.storage.local.set(download_item_lite(this.show_info, this.blocks, this.checks));
-    }
+
 
     static restart() {
         if (DownloadBackground.instance)

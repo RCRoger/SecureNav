@@ -74,8 +74,10 @@ class UrlBackground {
     }
 
     add_urls(data, reset = false) {
-        if (reset)
+        if (reset) {
             this.urls = [];
+            this.url_regex = [];
+        }
         data.forEach(item => {
             this.add_url(item.protocol, item.host, item.page);
         });

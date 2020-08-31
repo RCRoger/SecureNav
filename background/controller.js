@@ -22,11 +22,11 @@ class Controller {
     }
 
     count_blocks() {
-        return this.dwl.blocks + this.pg.blocks;
+        return this.dwl.blocks + this.pg.blocks + this.eme.blocks;
     }
 
     count_checks() {
-        return this.dwl.checks + this.pg.checks;
+        return this.dwl.checks + this.pg.checks + this.eme.blocks;
     }
 
     get_count() {
@@ -41,13 +41,23 @@ class Controller {
                 Export.export_items();
                 break;
             case CONTROLLER.REQUEST.IMPORT:
-                this.dwl.import(request.data.data, request.data.file, request.data.override);
-                this.dwl.import(request.data.data, request.data.file, request.data.override);
+                this.import(request.data.data, request.data.file, request.data.override);
                 break;
             default:
                 this.logger.log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
                 PopUpController.show_error('invalid_format');
                 return;
+        }
+    }
+
+    import (data, file, override) {
+        if (Import.get_file_ext(file) == 'json') {
+            this.dwl.import(data, file, override);
+            this.pg.import(data, file, override);
+            this.eme.import(data, file, override);
+        } else {
+            this.logger.log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
+            PopUpController.show_error('invalid_format');
         }
     }
 

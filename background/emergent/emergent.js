@@ -1,9 +1,7 @@
-class EmergentBackground {
+class EmergentBackground extends BackgroundObject {
     constructor() {
+        super(EMERGENT);
         this.urls = new EmergentUrlList();
-        this.blocks = 0;
-        this.checks = 0;
-        this.show_info = undefined;
         this.loadData(true);
     }
 
@@ -19,7 +17,7 @@ class EmergentBackground {
                 this.setShowInfo(request.data);
                 break;
             case EMERGENT.REQUEST.EXPORT:
-                Export.export_items(get_dict_values(EMERGENT.DB), 'pg_data');
+                Export.export_items(get_dict_values(EMERGENT.DB), 'eme_data');
                 break;
             case EMERGENT.REQUEST.IMPORT:
                 this.import(request.data.data, request.data.file, request.data.override);
@@ -50,38 +48,20 @@ class EmergentBackground {
         }
     }
 
-    getData() {
-        return { urls: this.urls };
-    }
-
     add_listener() {
         this.urls.add_listener();
     }
 
-    setShowInfo(data) {
-        if (data !== true && data !== false) {
-            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
-            PopUpController.show_error('invalid_format');
-            return;
-        }
-        this.show_info = data;
-        this.saveData();
-    }
-
     loadData(first = undefined) {
         var that = this;
-        chrome.storage.local.get([EMERGENT.DB.URL_LIST, EMERGENT.DB.URL_ENABLED, EMERGENT.DB.URL_TYPE, EMERGENT.DB.CHECKS, EMERGENT.DB.BLOCKS], function(data) {
+        chrome.storage.local.get(get_dict_values(EMERGENT.DB), function(data) {
             that.urls.loadData(data);
-            that.show_info = data.dwl_show_info;
+            that.show_info = data[EMERGENT.DB.SHOW_INFO];
             that.checks = data[EMERGENT.DB.CHECKS];
             that.blocks = data[EMERGENT.DB.BLOCKS];
             if (first)
                 that.add_listener();
         });
-    }
-
-    saveData() {
-        chrome.storage.local.set(emergent_item_lite(this.show_info, this.checks, this.blocks));
     }
 
     needBlock(tab) {
@@ -162,7 +142,8 @@ function pop_up_blocker(new_tab) {
         }
         var blocker = EmergentBackground.getInstance();
         chrome.tabs.get(new_tab.openerTabId, function(tab) {
-            if (tab.windowId !== new_tab.windowId && blocker.needBlock(tab)) {
+            //tab.windowId !== new_tab.windowId && 
+            if (blocker.needBlock(tab)) {
                 chrome.tabs.remove(new_tab.id);
             }
         });
