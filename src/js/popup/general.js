@@ -74,7 +74,7 @@ function show_grl_log(data) {
         $(elem).tooltip({ boundary: 'window' });
         $('#grl_log span').css('font-size', '10px');
     } else {
-        $('#grl_log').text(getMessageStr('nothing'));
+        $('#grl_log').text(getMessageStr('nothing_show'));
     }
 }
 

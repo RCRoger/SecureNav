@@ -133,19 +133,23 @@ class EmergentUrlList extends UrlBackground {
 }
 
 function pop_up_blocker(new_tab) {
-    if (new_tab.openerTabId) {
-        var a = new_tab.pendingUrl ? new_tab.pendingUrl : new_tab.url ? new_tab.url : undefined;
-        if (a) {
-            let item = get_item_from_str(a);
-            if (item.protocol == 'chrome' || item.protocol == 'chrome:extension')
-                return;
-        }
-        var blocker = EmergentBackground.getInstance();
-        chrome.tabs.get(new_tab.openerTabId, function(tab) {
-            //tab.windowId !== new_tab.windowId && 
-            if (blocker.needBlock(tab)) {
-                chrome.tabs.remove(new_tab.id);
+    try {
+        if (new_tab.openerTabId) {
+            var a = new_tab.pendingUrl ? new_tab.pendingUrl : new_tab.url ? new_tab.url : undefined;
+            if (a) {
+                let item = get_item_from_str(a);
+                if (item.protocol == 'chrome' || item.protocol == 'chrome:extension')
+                    return;
             }
-        });
+            var blocker = EmergentBackground.getInstance();
+            chrome.tabs.get(new_tab.openerTabId, function(tab) {
+                //tab.windowId !== new_tab.windowId && 
+                if (blocker.needBlock(tab)) {
+                    chrome.tabs.remove(new_tab.id);
+                }
+            });
+        }
+    } catch (e) {
+        Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
     }
 }

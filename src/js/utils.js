@@ -443,7 +443,7 @@ function add_params(item, params) {
 var extract_message = function(elem, text) {
     var span = create_elem('span', { classList: ['text-dark'] });
     elem.appendChild(span);
-    var i = text.indexOf(':', 17);
+    var i = text.indexOf(':', 15);
     var ret = '';
     if (i != -1) {
         span.innerHTML = text.substring(0, i + 1) + ' ';

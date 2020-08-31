@@ -153,16 +153,20 @@ class PageUrlList extends UrlBackground {
 
 
 function page_blocker(page) {
-    var url = get_item_from_str(page.url);
-    let pB = PageBackground.getInstance();
-    pB.checks++;
-    if (pages_unblockeables.includes(url.host))
-        return no_block;
-    if (!pB.urls.needBlock(page))
-        return no_block;
-    Logger.getInstance().log('pg_block ' + page.url);
-    pB.blocks++;
-    pB.saveData();
-    PopUpController.show_badge_text();
+    try {
+        var url = get_item_from_str(page.url);
+        let pB = PageBackground.getInstance();
+        pB.checks++;
+        if (pages_unblockeables.includes(url.host))
+            return no_block;
+        if (!pB.urls.needBlock(page))
+            return no_block;
+        Logger.getInstance().log('pg_block ' + page.url);
+        pB.blocks++;
+        pB.saveData();
+        PopUpController.show_badge_text();
+    } catch (e) {
+        Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+    }
     return block;
 }

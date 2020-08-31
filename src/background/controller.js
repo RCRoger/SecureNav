@@ -1,14 +1,16 @@
 class Controller {
-    constructor() {
-        this.init_services();
-    }
 
     init_services() {
-        this.logger = Logger.getInstance();
-        this.dwl = DownloadBackground.getInstance();
-        this.pg = PageBackground.getInstance();
-        this.eme = EmergentBackground.getInstance();
-        chrome.runtime.onMessage.addListener(request);
+        try {
+            this.logger = Logger.getInstance();
+            this.dwl = DownloadBackground.getInstance();
+            this.pg = PageBackground.getInstance();
+            this.eme = EmergentBackground.getInstance();
+            chrome.runtime.onMessage.addListener(request);
+        } catch (e) {
+            this.logger.log(e.message, LOGGER.DB.LOG_DEV);
+            this.restart_services();
+        }
     }
 
 
@@ -62,22 +64,30 @@ class Controller {
     }
 
     request(request, sender, response) {
-        if (request && (request.id.toString().includes('dwl')))
-            response(this.dwl.request(request));
-        else if (request && (request.id.toString().includes('pg')))
-            response(this.pg.request(request));
-        else if (request && (request.id.toString().includes('log')))
-            response(this.logger.request(request));
-        else if (request && (request.id.toString().includes('ctr')))
-            response(this.request_ctrl(request));
-        else if (request && (request.id.toString().includes('eme')))
-            response(this.eme.request(request));
+        try {
+            if (request && (request.id.toString().includes('dwl')))
+                response(this.dwl.request(request));
+            else if (request && (request.id.toString().includes('pg')))
+                response(this.pg.request(request));
+            else if (request && (request.id.toString().includes('log')))
+                response(this.logger.request(request));
+            else if (request && (request.id.toString().includes('ctr')))
+                response(this.request_ctrl(request));
+            else if (request && (request.id.toString().includes('eme')))
+                response(this.eme.request(request));
+        } catch (e) {
+            this.logger.log(e.message, LOGGER.DB.LOG_DEV);
+        }
         return true;
+    }
+
+    static getInstance() {
+        if (!Controller.instance)
+            Controller.instance = new Controller();
+        return Controller.instance;
     }
 }
 
-var controller = new Controller();
-
 function request(request, sender, response) {
-    controller.request(request, sender, response);
+    Controller.getInstance().request(request, sender, response);
 }

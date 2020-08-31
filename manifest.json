@@ -2,8 +2,8 @@
     "manifest_version": 2,
     "name": "SecNav",
     "default_locale": "ca",
-    "version": "0.1",
-    "description": "Intenta millorar la teva seguretat al navegar per la web.",
+    "version": "0.5",
+    "description": "Millora la teva seguretat al navegar per la web.",
     "permissions": [
         "storage",
         "webRequest",
@@ -15,59 +15,40 @@
     ],
     "background": {
         "scripts": [
-            "background/constants.js",
-            "background/items.js",
-            "background/import/import.js",
-            "background/backgroundObject.js",
-            "background/export/export.js",
-            "background/logger/initial.js",
-            "background/logger/items.js",
-            "background/logger/logger.js",
-            "background/popup-controller.js",
-            "background/urls/initial.js",
-            "background/urls/items.js",
-            "background/urls/urls.js",
-            "background/download/items.js",
-            "background/download/initial.js",
-            "background/page/items.js",
-            "background/page/initial.js",
-            "background/emergent/items.js",
-            "background/emergent/initial.js",
-            "background/emergent/emergent.js",
-            "background/download/download.js",
-            "background/page/page.js",
-            "background/controller.js",
-            "background/initial.js"
+            "src/background/constants.js",
+            "src/background/items.js",
+            "src/background/import/import.js",
+            "src/background/backgroundObject.js",
+            "src/background/export/export.js",
+            "src/background/logger/initial.js",
+            "src/background/logger/items.js",
+            "src/background/logger/logger.js",
+            "src/background/popup-controller.js",
+            "src/background/urls/initial.js",
+            "src/background/urls/items.js",
+            "src/background/urls/urls.js",
+            "src/background/download/items.js",
+            "src/background/download/initial.js",
+            "src/background/page/items.js",
+            "src/background/page/initial.js",
+            "src/background/emergent/items.js",
+            "src/background/emergent/initial.js",
+            "src/background/emergent/emergent.js",
+            "src/background/download/download.js",
+            "src/background/page/page.js",
+            "src/background/controller.js",
+            "src/background/initial.js"
         ],
         "persistent": true
     },
-    "content_scripts": [{
-        "matches": [
-            "*://*/*"
-        ],
-        "all_frames": true,
-        "css": [
-            "css/bootstrap.min.css",
-            "css/mdb.lite.min.css"
-        ],
-        "js": [
-            "js/jquery.min.js",
-            "js/bootstrap.min.js",
-            "js/mdb.min.js",
-            "background/constants.js",
-            "js/utils.js",
-            "content-scripts/popup.js"
-        ],
-        "run_at": "document_end"
-    }],
-    "options_page": "options/options.html",
+    "options_page": "src/options/options.html",
     "icons": {
-        "16": "secnav16.ico",
-        "48": "secnav48.ico",
-        "128": "secnav128.ico"
+        "16": "src/icons/secnav16.png",
+        "48": "src/icons/secnav48.png",
+        "128": "src/icons/secnav128.png"
     },
     "browser_action": {
-        "default_icon": "secnav128.png",
-        "default_popup": "popup/popup.html"
+        "default_icon": "src/icons/secnav128.png",
+        "default_popup": "src/popup/popup.html"
     }
 }

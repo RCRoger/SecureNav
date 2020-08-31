@@ -202,5 +202,9 @@ class DownloadMaxSize {
 }
 
 function dwl_listener(file) {
-    DownloadBackground.getInstance().block_action(file);
+    try {
+        DownloadBackground.getInstance().block_action(file);
+    } catch (e) {
+        Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+    }
 }
