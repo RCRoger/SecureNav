@@ -119,5 +119,11 @@
     },
     "pg_url_status_1": {
         "message": "  L'accés a aquesta URL està permès."
+    },
+    "eme_url_status_0": {
+        "message": "  Les finestres emergents derivades d'aquesta URL estan bloquejades."
+    },
+    "eme_url_status_1": {
+        "message": "  Les finestres emergents derivades d'aquesta URL estan permeses."
     }
 }

@@ -41,8 +41,8 @@ class Controller {
                 Export.export_items();
                 break;
             case CONTROLLER.REQUEST.IMPORT:
-                this.dwl.request(request);
-                this.pg.request(request);
+                this.dwl.import(request.data.data, request.data.file, request.data.override);
+                this.dwl.import(request.data.data, request.data.file, request.data.override);
                 break;
             default:
                 this.logger.log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);

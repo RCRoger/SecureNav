@@ -8,5 +8,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         show_general();
     } else if (e.target.id == 'sites-tab') {
         show_page();
+    } else if (e.target.id == 'popup-tab') {
+        show_emergent();
     }
 });
