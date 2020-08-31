@@ -23,7 +23,7 @@ function init_grl_components() {
     col_check.id = 'grl_check';
 
     var col_log = create_elem('div', {
-        classList: ['col', 'text-truncate', 'text-default']
+        classList: ['col', 'text-truncate', 'text-default', 'mt-5']
     });
 
     col_log.id = 'grl_log';
@@ -47,6 +47,7 @@ function init_grl_components() {
     $('#grl-header-2').html(getMessageStr('num_checked'));
     $('#grl-title-1').addClass('text-default');
     $('#grl-title-2').addClass('text-default');
+    $('#grl_log .text-dark').css('font-size', '12px');
 
 }
 
@@ -71,6 +72,7 @@ function show_grl_log(data) {
         extract_message(elem, data.rows[0]);
         elem.title = elem.innerText;
         $(elem).tooltip({ boundary: 'window' });
+        $('#grl_log span').css('font-size', '10px');
     } else {
         $('#grl_log').text(getMessageStr('nothing'));
     }

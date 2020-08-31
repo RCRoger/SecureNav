@@ -26,6 +26,7 @@ function ExportCardController(section, dB, num) {
         exp_btn.id = this.section + '-export';
 
         $('#' + this.section + '-header' + '-' + exp_that.num).html('Exportació');
+        $('#' + this.section + '-title' + '-' + exp_that.num).html('<br><br>');
         $('#' + this.section + '-text' + '-' + exp_that.num).addClass('text-center').html(exp_btn);
         $('#' + exp_btn.id).click(this.send_export_msg);
     }

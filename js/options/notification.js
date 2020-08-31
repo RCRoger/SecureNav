@@ -28,7 +28,7 @@ function NotiCardController(section, dB, num) {
         var a = create_elem('a');
         a.id = this.section + '-bell-label';
         var enabled_check = create_checkbox(this.section, 'enabled', this.num, []);
-        $('#' + this.section + '-header' + '-' + not_that.num).html(enabled_check);
+        $('#' + this.section + '-header' + '-' + not_that.num).css('max-height', '49px').html(enabled_check);
         $('#' + this.section + '-enabled-label' + '-' + not_that.num).removeClass().addClass('ml-0').append(notification_icon, '&nbsp;', a);
         $('#' + this.section + '-enabled' + '-' + not_that.num).change(this.save_enabled);
 

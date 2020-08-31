@@ -12,3 +12,16 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         show_emergent();
     }
 });
+
+function set_titles() {
+    $('#general-tab').prop('title', getMessageStr('general_tab'));
+    $('#download-tab').prop('title', getMessageStr('download_tab'));
+    $('#malware-tab').prop('title', getMessageStr('malware_tab'));
+    $('#sites-tab').prop('title', getMessageStr('sites_tab'));
+    $('#popup-tab').prop('title', getMessageStr('popup_tab'));
+    $('#super-tab').prop('title', getMessageStr('super_tab'));
+
+    $('a[data-toggle="tab"]').tooltip();
+}
+
+set_titles();

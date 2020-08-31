@@ -63,10 +63,10 @@ var init_count_components = function() {
     add_card('grl', 2, col_block);
     add_card('grl', 3, col_check);
 
+    $('#grl-title-1, #grl-text-2, #grl-text-3').remove();
     $('#grl-header-2').html(getMessageStr('num_blocked'));
     $('#grl-header-3').html(getMessageStr('num_checked'));
-    $('#grl-title-2').addClass('text-default');
-    $('#grl-title-3').addClass('text-default');
+    $('#grl-title-2, #grl-title-3').addClass('text-default').removeClass('mb-5');
 }
 
 

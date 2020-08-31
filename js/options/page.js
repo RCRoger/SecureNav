@@ -19,6 +19,7 @@ var show_page = function() {
         pg_not.init_components('#pg-col-not');
         pg_exp.init_components('#pg-col-exp');
         pg_imp.init_components('#pg-col-imp');
+        pg_visual_fixes();
         pg_charged = true;
     }
     pg_load_all();
@@ -62,4 +63,8 @@ var init_pg_components = function() {
 
     $('#' + pg_section + '-container').append(div);
 
+}
+
+function pg_visual_fixes() {
+    $('#pg-card-2 .card-body').css('min-height', '186px');
 }

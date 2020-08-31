@@ -19,6 +19,7 @@ var show_emergent = function() {
         eme_not.init_components('#eme-col-not');
         eme_exp.init_components('#eme-col-exp');
         eme_imp.init_components('#eme-col-imp');
+        eme_visual_fixes();
         eme_charged = true;
     }
     eme_load_all();
@@ -61,4 +62,8 @@ var init_eme_components = function() {
     div.appendChild(col3);
 
     $('#' + eme_section + '-container').append(div);
+}
+
+function eme_visual_fixes() {
+    $('#eme-card-2 .card-body').css('min-height', '186px');
 }

@@ -17,7 +17,7 @@ class BackgroundObject {
             return;
         }
         this.show_info = data;
-        this.saveDataLite();
+        this.saveData();
     }
 
     saveData() {

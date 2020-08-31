@@ -13,7 +13,7 @@ var show_download = function() {
         dwl_not.init_components('#dwl-col-not');
         dwl_exp.init_components('#dwl-col-exp');
         dwl_imp.init_components('#dwl-col-imp');
-
+        dwl_visual_fixes();
     }
     load_all();
 
@@ -86,6 +86,14 @@ var init_urlsize_components = function() {
     a.id = dwl_section + "-title-a-" + num;
     $('#' + dwl_section + '-title-' + num).append(a);
     getMessage(dwl_section + "_title_1", a.id);
+}
+
+function dwl_visual_fixes() {
+    let div = create_elem('div', {
+        classList: ['form-control', 'invisible']
+    });
+
+    $('#dwl-text-3').html(div);
 }
 
 function show_all(data) {
