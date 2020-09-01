@@ -179,6 +179,12 @@
     },
     "sp_pwd_minims": {
         "message": "La contrassenya ha d'incloure com a mínim 1 minúscula, 1 masjúscula, 1 número, 1 caràcter especial i 8 caràcters"
+    },
+    "export": {
+        "message": "Exportar"
+    },
+    "import": {
+        "message": "Importar"
     }
 
 }

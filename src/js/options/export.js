@@ -20,7 +20,7 @@ function ExportCardController(section, dB, num) {
 
         var exp_btn = create_button(this.section + '-export', {
             classList: ['btn-default', 'btn-md'],
-            innerHTML: 'Export'
+            innerHTML: getMessageStr('export')
         });
 
         exp_btn.id = this.section + '-export';

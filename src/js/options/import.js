@@ -32,7 +32,7 @@ function ImportCardController(section, dB, num, callback) {
             attributes: [
                 { key: 'for', value: input.id }
             ],
-            innerHTML: 'Import'
+            innerHTML: getMessageStr('import')
         });
 
         var override = create_checkbox(this.section, 'imp', this.num, ['custom-control', 'custom-checkbox', 'float-right']);

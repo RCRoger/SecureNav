@@ -164,7 +164,10 @@ function sp_show_logins(data) {
 }
 
 function singup() {
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: SUPER.REQUEST.CHANGE_PSW, data: { new: $('#' + sp_section + '-password-1').val() } }, sp_show_logins);
+    let pwd = $('#' + sp_section + '-password-1').val();
+    let pwd1 = $('#' + sp_section + '-password-2').val();
+    if (validate_pwd(pwd, pwd1))
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: SUPER.REQUEST.CHANGE_PSW, data: { new: pwd } }, sp_show_logins);
 }
 
 function change() {
@@ -192,7 +195,7 @@ function sp_show_enabled(data) {
 
 function save_sp_enabled() {
 
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: SUPER.REQUEST.SET_ENABLED, data: this.checked }, sp_show_enabled);
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: SUPER.REQUEST.SET_ENABLED, data: this.checked }, sp_show_all);
 
 }
 
