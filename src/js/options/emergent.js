@@ -7,8 +7,8 @@ var eme_exp = new ExportCardController(eme_section, EMERGENT, 3);
 var eme_imp = new ImportCardController(eme_section, EMERGENT, 4, eme_show_all);
 
 
-var init_pages = function() {
-    getMessage("popup", "popup-tab");
+var init_popup = function() {
+    getMessage("popup_tab", "popup-tab");
 
 }
 

@@ -2,8 +2,6 @@ $(document).ready(function() {
     init();
 
     getMessage("malware_tab", "malware-tab");
-    getMessage("popup_tab", "popup-tab");
-    getMessage("super_tab", "super-tab");
 
     show_general();
 
@@ -21,6 +19,9 @@ $(document).ready(function() {
             case 'popup-tab':
                 show_emergent();
                 break;
+            case 'super-tab':
+                show_super();
+                break;
         }
     });
 });
@@ -29,4 +30,6 @@ function init() {
     init_gral();
     init_download();
     init_pages();
+    init_popup();
+    init_super();
 }

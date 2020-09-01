@@ -128,5 +128,8 @@
     },
     "pop_up_blocked": {
         "message": "S'ha bloquejat una finestra emergent."
+    },
+    "sp_not_logged": {
+        "message": "Has d'iniciar sessió per a realitzar aquesta acció."
     }
 }

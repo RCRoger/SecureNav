@@ -13,12 +13,15 @@ class PopUpController {
             if (!tabs[0]) {
                 chrome.browserAction.setBadgeText({ text: '1' });
                 return;
-            }
-            PopUpController.inject_mdb_css(tabs[0].id);
-            PopUpController.inject_mdb_scripts(tabs[0].id);
-            chrome.tabs.executeScript(tabs[0].id, { file: '/src/content-scripts/popup.js' }, function() {
+            } else if (tabs[0].url.startsWith('chrome')) {
                 chrome.tabs.sendMessage(tabs[0].id, { id: POP_UP.REQUEST.SHOW_INFO, data: data }, options.response);
-            });
+            } else {
+                PopUpController.inject_mdb_css(tabs[0].id);
+                PopUpController.inject_mdb_scripts(tabs[0].id);
+                chrome.tabs.executeScript(tabs[0].id, { file: '/src/content-scripts/popup.js' }, function() {
+                    chrome.tabs.sendMessage(tabs[0].id, { id: POP_UP.REQUEST.SHOW_INFO, data: data }, options.response);
+                });
+            }
         });
     }
 
@@ -35,17 +38,28 @@ class PopUpController {
         chrome.tabs.insertCSS(tabId, { file: '/src/css/mdb.lite.min.css' });
     }
 
-    static show_error(data, response = undefined) {
+    static show_error(data, options = {}) {
+        if (options.tabId) {
+            PopUpController.inject_mdb_css(options.tabId);
+            PopUpController.inject_mdb_scripts(options.tabId);
+            chrome.tabs.executeScript(options.tabId, { file: '/src/content-scripts/popup.js' }, function() {
+                chrome.tabs.sendMessage(options.tabId, { id: POP_UP.REQUEST.SHOW_ERROR, data: data }, options.response);
+            });
+            return;
+        }
         chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
             if (!tabs[0]) {
                 chrome.browserAction.setBadgeText({ text: '1' });
                 return;
+            } else if (tabs[0].url.startsWith('chrome')) {
+                chrome.tabs.sendMessage(tabs[0].id, { id: POP_UP.REQUEST.SHOW_ERROR, data: data }, options.response);
+            } else {
+                PopUpController.inject_mdb_css(tabs[0].id);
+                PopUpController.inject_mdb_scripts(tabs[0].id);
+                chrome.tabs.executeScript(tabs[0].id, { file: '/src/content-scripts/popup.js' }, function() {
+                    chrome.tabs.sendMessage(tabs[0].id, { id: POP_UP.REQUEST.SHOW_ERROR, data: data }, options.response);
+                });
             }
-            PopUpController.inject_mdb_css(tabs[0].id);
-            PopUpController.inject_mdb_scripts(tabs[0].id);
-            chrome.tabs.executeScript(tabs[0].id, function() {
-                chrome.tabs.sendMessage(tabs[0].id, { id: POP_UP.REQUEST.SHOW_ERROR, data: data }, response);
-            });
         });
     }
 

@@ -2,19 +2,21 @@ class Controller {
 
     init_services() {
         try {
+            this.super = SuperBackground.getInstance();
             this.logger = Logger.getInstance();
             this.dwl = DownloadBackground.getInstance();
             this.pg = PageBackground.getInstance();
             this.eme = EmergentBackground.getInstance();
             chrome.runtime.onMessage.addListener(request);
         } catch (e) {
-            this.logger.log(e.message, LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
             this.restart_services();
         }
     }
 
 
     restart_services() {
+        SuperBackground.restart();
         Logger.restart();
         DownloadBackground.restart();
         PageBackground.restart();
@@ -66,15 +68,17 @@ class Controller {
     request(request, sender, response) {
         try {
             if (request && (request.id.toString().includes('dwl')))
-                response(this.dwl.request(request));
+                response(this.super.request_filter(request, this.dwl));
             else if (request && (request.id.toString().includes('pg')))
-                response(this.pg.request(request));
+                response(this.super.request_filter(request, this.pg));
             else if (request && (request.id.toString().includes('log')))
-                response(this.logger.request(request));
+                response(this.super.request_filter(request, this.logger));
             else if (request && (request.id.toString().includes('ctr')))
                 response(this.request_ctrl(request));
             else if (request && (request.id.toString().includes('eme')))
-                response(this.eme.request(request));
+                response(this.super.request_filter(request, this.eme));
+            else if (request && (request.id.toString().includes('sp')))
+                response(this.super.request_filter(request, this.super));
         } catch (e) {
             this.logger.log(e.message, LOGGER.DB.LOG_DEV);
         }

@@ -95,6 +95,21 @@ const LOGGER = {
     }
 }
 
+const SUPER = {
+    REQUEST: {
+        GET_DATA: 'sp_get_data',
+        LOGIN: 'sp_login',
+        LOGOUT: 'sp_logout',
+        SET_ENABLED: 'sp_set_enabled',
+        CHANGE_PSW: 'sp_set_psw'
+    },
+    MAX_TIME: 90,
+    DB: {
+        ENABLED: 'sp_enabled',
+        PSW: 'sp_psw'
+    }
+}
+
 const TYPE = {
     WHITELIST: 0,
     BLACKLIST: 1

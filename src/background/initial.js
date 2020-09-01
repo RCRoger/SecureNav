@@ -1,12 +1,3 @@
-function init_db_superadmin() {
-    chrome.storage.local.set({
-        'superadmin': {
-            'enabled': false,
-            'password': null
-        }
-    });
-}
-
 function init_db() {
     chrome.storage.local.get(null, function(data) {
         let load = true;
@@ -24,6 +15,10 @@ function init_db() {
         }
         if (undefined == data[EMERGENT.DB.SHOW_INFO]) {
             init_db_emergent();
+            load = false;
+        }
+        if (undefined == data[SUPER.DB.ENABLED]) {
+            init_db_super();
             load = false;
         }
         if (!load) {

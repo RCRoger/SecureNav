@@ -16,7 +16,12 @@
     "background": {
         "scripts": [
             "src/background/constants.js",
+            "src/background/ecrypt/md5.js",
+            "src/background/ecrypt/md5-min.js",
             "src/background/items.js",
+            "src/background/super/items.js",
+            "src/background/super/initial.js",
+            "src/background/super/super.js",
             "src/background/import/import.js",
             "src/background/backgroundObject.js",
             "src/background/export/export.js",

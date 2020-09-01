@@ -199,7 +199,7 @@ function UrlCardController(section, dB) {
     }
 
     UCC.prototype.send_url_enabled = function(data) {
-        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_ENABLED, data: data });
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_ENABLED, data: data }, this.show);
     }
 
     UCC.prototype.send_urls_add = function(data, reset) {
@@ -212,7 +212,7 @@ function UrlCardController(section, dB) {
     }
 
     UCC.prototype.send_url_type = function(data) {
-        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_TYPE, data: data });
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_TYPE, data: data }, this.show);
     }
 
     UCC.prototype.request_data = function() {
