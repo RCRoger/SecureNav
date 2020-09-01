@@ -67,17 +67,17 @@ class Controller {
 
     request(request, sender, response) {
         try {
-            if (request && (request.id.toString().includes('dwl')))
+            if (request && (request.id.toString().startsWith('dwl')))
                 response(this.super.request_filter(request, this.dwl));
-            else if (request && (request.id.toString().includes('pg')))
+            else if (request && (request.id.toString().startsWith('pg')))
                 response(this.super.request_filter(request, this.pg));
-            else if (request && (request.id.toString().includes('log')))
+            else if (request && (request.id.toString().startsWith('log')))
                 response(this.super.request_filter(request, this.logger));
-            else if (request && (request.id.toString().includes('ctr')))
+            else if (request && (request.id.toString().startsWith('ctr')))
                 response(this.request_ctrl(request));
-            else if (request && (request.id.toString().includes('eme')))
+            else if (request && (request.id.toString().startsWith('eme')))
                 response(this.super.request_filter(request, this.eme));
-            else if (request && (request.id.toString().includes('sp')))
+            else if (request && (request.id.toString().startsWith('sp')))
                 response(this.super.request_filter(request, this.super));
         } catch (e) {
             this.logger.log(e.message, LOGGER.DB.LOG_DEV);

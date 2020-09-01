@@ -131,5 +131,54 @@
     },
     "sp_not_logged": {
         "message": "Has d'iniciar sessió per a realitzar aquesta acció."
+    },
+    "password": {
+        "message": "Contrassenya"
+    },
+    "repeat_password": {
+        "message": "Repeteix la contrassenya"
+    },
+    "sp_singup_title": {
+        "message": "Registra una contrassenya"
+    },
+    "sp_logged": {
+        "message": "Canvi de contrassenya"
+    },
+    "sp_login_title": {
+        "message": "Inici de sessió"
+    },
+    "sp_logout": {
+        "message": "Tanca sessió"
+    },
+    "sp_login": {
+        "message": "Inicia sessió"
+    },
+    "sp_singup": {
+        "message": "Registra"
+    },
+    "sp_old_pwd": {
+        "message": "Contrassenya actual"
+    },
+    "sp_new_pwd": {
+        "message": "Contrassenya nova"
+    },
+    "sp_change": {
+        "message": "Canvia"
+    },
+    "sp_changed": {
+        "message": "La contrassenya s'ha canviat amb èxit"
+    },
+    "sp_description": {
+        "message": "La secció de superusuari al estar habilitada evita l'edició de les dades sempre i quan no s'hagi iniciat sessió, la duració d'aquesta és de 90 minuts, si s'està més temps s'haurà de tornar a iniciar sessió."
+    },
+    "description": {
+        "message": "Descripció"
+    },
+    "sp_pwd_invalid": {
+        "message": "La contrassenya no compleix els mínims establerts"
+    },
+    "sp_pwd_minims": {
+        "message": "La contrassenya ha d'incloure com a mínim 1 minúscula, 1 masjúscula, 1 número, 1 caràcter especial i 8 caràcters"
     }
+
 }

@@ -64,10 +64,11 @@ class SuperBackground {
         if (!new_psw || new_psw.length == 0) {
             PopUpController.show_error('invalid_format');
             Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
-        } else if (this.match(old_psw) || !this.hash) {
+        } else if (this.match(old_psw) || !this.hash && new_psw.length > 0) {
             this.hash = CryptoJS.MD5(new_psw).toString();
             this.logged = true;
             this.saveData();
+            PopUpController.show_info('sp_changed');
             return true;
         }
         return false;
@@ -87,7 +88,7 @@ class SuperBackground {
     }
 
     getData() {
-        return { logged: this.is_logged(), enabled: this.enabled };
+        return { logged: this.is_logged(), enabled: this.enabled, hasHash: this.hash !== undefined };
     }
 
     is_logged() {

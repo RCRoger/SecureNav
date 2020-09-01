@@ -33,12 +33,12 @@ function load_all() {
 }
 
 var save_size_val = function(data) {
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_VAL, data: data });
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_VAL, data: data }, show_size);
 }
 
 var save_size_enabled = function() {
     getMessage(this.checked ? "enabled" : "disabled", dwl_section + "-enabled-label-2");
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_ENABLED, data: this.checked });
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_ENABLED, data: this.checked }, show_size);
 }
 
 var init_dwl_components = function() {
