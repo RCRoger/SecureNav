@@ -13,7 +13,7 @@ var show_general = function() {
         init_info_components();
         init_count_components();
         grl_exp.init_components('#grl_exp');
-        grl_imp.init_components('#grl_imp');
+        grl_imp.init_components('#grl_imp', true);
     }
     load_grl();
 }

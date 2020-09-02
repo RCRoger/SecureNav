@@ -10,6 +10,8 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         show_page();
     } else if (e.target.id == 'popup-tab') {
         show_emergent();
+    } else if (e.target.id == 'super-tab') {
+        show_super(true);
     }
 });
 

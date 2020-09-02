@@ -25,6 +25,10 @@ class Controller {
         this.init_services();
     }
 
+    is_init() {
+        return this.eme !== undefined;
+    }
+
     count_blocks() {
         return this.dwl.blocks + this.pg.blocks + this.eme.blocks;
     }
@@ -93,5 +97,5 @@ class Controller {
 }
 
 function request(request, sender, response) {
-    Controller.getInstance().request(request, sender, response);
+    ctrl.request(request, sender, response);
 }

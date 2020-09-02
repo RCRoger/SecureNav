@@ -113,6 +113,9 @@ class SuperBackground {
             PopUpController.show_error('invalid_format');
             return;
         }
+        if (data == false) {
+            this.logout();
+        }
         this.enabled = data;
         this.saveData();
     }

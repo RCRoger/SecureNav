@@ -6,27 +6,32 @@ var init_super = function() {
 
 }
 
-var show_super = function() {
+var show_super = function(lite = false) {
     if (!sp_charged) {
-        init_sp_components();
+        init_sp_components(lite);
         sp_charged = true;
     }
     sp_load_all();
 
 }
 
-function init_sp_components() {
+function init_sp_components(lite = false) {
     let col_params = { classList: ['col'] }
     var col = create_elem('div', col_params);
-    var col2 = create_elem('div', col_params);
+    var children = [col];
+    if (!lite) {
+        var col2 = create_elem('div', col_params);
+        add_card(sp_section, 2, col2);
+        children.push(col2);
+    }
 
     var row = create_elem('div', {
         classList: ['row'],
-        children: [col, col2]
+        children: children
     });
 
     add_card(sp_section, 1, col);
-    add_card(sp_section, 2, col2);
+
 
     $('#' + sp_section + '-container').append(row);
 
@@ -36,10 +41,15 @@ function init_sp_components() {
 
     $('#' + sp_section + '-card-1').append(footer);
     $('#' + sp_section + '-header-1').html(enabled_check);
-    $('#' + sp_section + '-header-2').html(getMessageStr('description'));
-    $('#' + sp_section + '-title-2').remove();
-    $('#' + sp_section + '-text-2').html(getMessageStr('sp_description'));
+
     $('#' + sp_section + '-enabled-1').change(save_sp_enabled);
+
+    if (!lite) {
+
+        $('#' + sp_section + '-header-2').html(getMessageStr('description'));
+        $('#' + sp_section + '-title-2').remove();
+        $('#' + sp_section + '-text-2').html(getMessageStr('sp_description'));
+    }
 }
 
 function sp_load_all() {

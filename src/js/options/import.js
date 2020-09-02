@@ -11,7 +11,7 @@ function ImportCardController(section, dB, num, callback) {
 
 (function(ICC, undefined) {
 
-    ICC.prototype.init_components = function(container = undefined) {
+    ICC.prototype.init_components = function(container = undefined, onlyJSON = false) {
         if (this.charged)
             return;
         this.charged = true;
@@ -19,12 +19,16 @@ function ImportCardController(section, dB, num, callback) {
         add_card(this.section, this.num, container);
         $('#' + this.section + '-header' + '-' + imp_that.num).html('Importació');
 
+        var accept = { key: 'accept', value: '.txt, .json, .csv' };
+        if (onlyJSON)
+            accept = { key: 'accept', value: '.json' }
+
         var input = create_elem('input', {
             classList: ['invisible'],
             attributes: [{
                 key: 'type',
                 value: 'file'
-            }, { key: 'accept', value: '.txt, .json, .csv' }, { key: 'style', value: 'position: absolute;' }]
+            }, accept, { key: 'style', value: 'position: absolute;' }]
         });
         input.id = this.section + '-import-button';
         var label = create_elem('label', {
@@ -57,10 +61,21 @@ function ImportCardController(section, dB, num, callback) {
             innerHTML: 'txt'
         });
 
+        var children = [
+            document.createTextNode(getMessageStr('import_title')), create_elem('br')
+        ];
+        if (onlyJSON) {
+            children.push(help_json);
+        } else {
+            children.push(help_json);
+            children.push(document.createTextNode(', '));
+            children.push(help_csv);
+            children.push(document.createTextNode(', '));
+            children.push(help_txt);
+        }
+
         var div_title = create_elem('div', {
-            children: [
-                document.createTextNode(getMessageStr('import_title')), create_elem('br'), help_json, document.createTextNode(', '), help_csv, document.createTextNode(', '), help_txt
-            ]
+            children: children
         });
         $('#' + this.section + '-header' + '-' + imp_that.num).append(override);
         $('#' + this.section + '-title' + '-' + imp_that.num).html(div_title);

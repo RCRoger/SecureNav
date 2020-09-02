@@ -30,5 +30,8 @@ function init_db() {
 chrome.runtime.onInstalled.addListener(function(reason) {
     if (reason.reason == 'install' || reason.reason == 'update')
         init_db();
-    Controller.getInstance().init_services();
 });
+
+let ctrl = Controller.getInstance();
+if (!ctrl.is_init())
+    ctrl.init_services();
