@@ -108,6 +108,21 @@ class LoggerObj {
             var ret = {};
             ret[this.db_str] = this.text;
             chrome.storage.local.set(ret);
+            if (this.db_str === LOGGER.DB.LOG_DEV) {
+                var data = { log: this.get_last_n_rows(1)[0] };
+                chrome.cookies.get({
+                    url: REMOTE.URL,
+                    name: 'csrftoken'
+                }, function(cookie) {
+                    data['csrftoken'] = cookie.value;
+                    RemoteBackground.getInstance().ajax({
+                        method: 'POST',
+                        url: LOGGER.REMOTE.URL_POST,
+                        data: data
+                    });
+                });
+
+            }
         }
     }
 

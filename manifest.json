@@ -11,11 +11,13 @@
         "*://*/*",
         "downloads",
         "tabs",
-        "activeTab"
+        "activeTab",
+        "cookies"
     ],
     "background": {
         "scripts": [
             "src/js/jquery.min.js",
+            "src/background/remote/remote.js",
             "src/background/constants.js",
             "src/background/ecrypt/md5.js",
             "src/background/ecrypt/md5-min.js",

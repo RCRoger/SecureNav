@@ -5,6 +5,9 @@ const REMOTE = {
         nothing: '0',
         ask: '1',
         block: '2'
+    },
+    DB: {
+        ID: 'rmt_id'
     }
 }
 
@@ -118,6 +121,9 @@ const LOGGER = {
     DB: {
         LOG: 'logger_msg',
         LOG_DEV: 'logger_dev'
+    },
+    REMOTE: {
+        URL_POST: REMOTE.URL + 'log/'
     }
 }
 

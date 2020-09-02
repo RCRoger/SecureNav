@@ -276,7 +276,7 @@ class UrlBackground {
 
     getRemote(item) {
         var item_lite = { protocol: item.protocol, host: item.host };
-        var response = $.ajax({
+        var response = RemoteBackground.getInstance().ajax({
             type: "GET",
             url: this.dB.REMOTE.URL,
             data: item_lite,

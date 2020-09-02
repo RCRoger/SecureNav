@@ -2,6 +2,7 @@ class Controller {
 
     init_services() {
         try {
+            this.rem = RemoteBackground.getInstance();
             this.super = SuperBackground.getInstance();
             this.logger = Logger.getInstance();
             this.dwl = DownloadBackground.getInstance();
@@ -16,6 +17,7 @@ class Controller {
     }
 
     restart_services() {
+        RemoteBackground.restart();
         SuperBackground.restart();
         Logger.restart();
         DownloadBackground.restart();

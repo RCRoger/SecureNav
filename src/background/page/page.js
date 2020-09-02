@@ -156,13 +156,13 @@ class PageUrlList extends UrlBackground {
 
             if (item.action === REMOTE.ACTION.ask) {
                 PopUpController.show_ask({ data: 'pg_pending ' + item.description, req: this.dB.REQUEST.URL_ASK_QUESTION, url: page.url, host: url_item });
-                this.urls_remote.push(url_item.host);
                 return true;
             } else if (item.action === REMOTE.ACTION.block) {
                 this.urls_block.push(url_item.host);
                 logger.log('pg_block ' + item.description + ' ' + url_item.str);
                 return true;
             }
+            this.urls_remote.push(url_item.host);
         }
         return false;
     }
@@ -183,6 +183,7 @@ function page_blocker(page) {
         PopUpController.show_badge_text();
     } catch (e) {
         Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+        return no_block;
     }
     return block;
 }
