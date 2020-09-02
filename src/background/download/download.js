@@ -62,7 +62,7 @@ class DownloadBackground extends BackgroundObject {
     block_action(file) {
         chrome.downloads.pause(file.id);
         let logger = Logger.getInstance();
-        logger.log('dwl_paused', LOGGER.DB.LOG_DEV);
+        logger.log('dwl_paused ' + file.url, LOGGER.DB.LOG_DEV);
         this.checks++;
         var need_block = false;
         let status = '';
@@ -77,7 +77,7 @@ class DownloadBackground extends BackgroundObject {
         if (need_block) {
             chrome.downloads.cancel(file.id);
             this.blocks++;
-            logger.log('dwl_cancel ' + status, LOGGER.DB.LOG_DEV);
+            logger.log('dwl_cancel ' + status + ' ' + file.url, LOGGER.DB.LOG_DEV);
             logger.log('dwl_cancel ' + status);
             if (this.show_info)
                 PopUpController.show_info('dwl_cancel ' + status);
