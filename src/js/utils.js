@@ -49,6 +49,15 @@ function create_table(id, headers, rows) {
     return tbl;
 }
 
+function get_msg(text) {
+    var split = text.split(' ');
+    var msg = '';
+    split.forEach(item => {
+        msg += getMessageStr(item) + ' ';
+    });
+    return msg;
+}
+
 function add_row_table($tableID, rows) {
     var tr = $('<tr>');
     rows.forEach(col => {

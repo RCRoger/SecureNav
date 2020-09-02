@@ -6,6 +6,11 @@ class Export {
     }
 
     static exporter(data, filename = 'secnav_data') {
+
+        if (data[SUPER.DB.PSW]) {
+            delete data[SUPER.DB.PSW];
+            delete data[SUPER.DB.ENABLED];
+        }
         var result = JSON.stringify(data);
 
         var url = 'data:application/json;base64,' + btoa(result);

@@ -1,3 +1,12 @@
+const REMOTE = {
+    URL: 'http://127.0.0.1:8000/secnav/',
+    ACTION: {
+        nothing: '0',
+        ask: '1',
+        block: '2'
+    }
+}
+
 const DOWNLOAD = {
     REQUEST: {
         DWL_UPDATE: 'dwl_update',
@@ -13,7 +22,8 @@ const DOWNLOAD = {
         URL_SET_ENABLED_LITE: 'dwl_url_set_enabled_lite',
         SET_SHOW_INFO: 'dwl_set_show_info',
         EXPORT: 'dwl_export',
-        IMPORT: 'dwl_import'
+        IMPORT: 'dwl_import',
+        URL_ASK_QUESTION: 'pg_url_question',
     },
     DB: {
         URL_ENABLED: 'dwl_url_enabled',
@@ -25,6 +35,9 @@ const DOWNLOAD = {
         CHECKS: 'dwl_checks',
         BLOCKS: 'dwl_blocks',
 
+    },
+    REMOTE: {
+        URL: REMOTE.URL + 'downloads/',
     }
 }
 
@@ -40,7 +53,8 @@ const PAGE = {
         ADD_URL: 'pg_add_url',
         URL_SET_ENABLED_LITE: 'pg_url_set_enabled_lite',
         EXPORT: 'pg_export',
-        IMPORT: 'pg_import'
+        IMPORT: 'pg_import',
+        URL_ASK_QUESTION: 'pg_url_question',
     },
     DB: {
         URL_ENABLED: 'pg_url_enabled',
@@ -49,6 +63,9 @@ const PAGE = {
         SHOW_INFO: 'pg_show_info',
         BLOCKS: 'pg_blocks',
         CHECKS: 'pg_checks'
+    },
+    REMOTE: {
+        URL: REMOTE.URL + 'pages/',
     }
 }
 
@@ -64,7 +81,8 @@ const EMERGENT = {
         ADD_URL: 'eme_add_url',
         URL_SET_ENABLED_LITE: 'eme_url_set_enabled_lite',
         EXPORT: 'eme_export',
-        IMPORT: 'eme_import'
+        IMPORT: 'eme_import',
+        URL_ASK_QUESTION: 'pg_url_question',
     },
     DB: {
         URL_ENABLED: 'eme_url_enabled',
@@ -73,13 +91,17 @@ const EMERGENT = {
         SHOW_INFO: 'eme_show_info',
         BLOCKS: 'eme_blocks',
         CHECKS: 'eme_checks'
+    },
+    REMOTE: {
+        URL: REMOTE.URL + 'emergents/',
     }
 }
 
 const POP_UP = {
     REQUEST: {
         SHOW_INFO: 'pop_up_show_info',
-        SHOW_ERROR: 'pop_up_show_error'
+        SHOW_ERROR: 'pop_up_show_error',
+        SHOW_ASK: 'pop_up_show_ask'
     }
 }
 
@@ -107,6 +129,24 @@ const SUPER = {
     DB: {
         ENABLED: 'sp_enabled',
         PSW: 'sp_psw'
+    }
+}
+
+const ELEMENT = {
+    REQUEST: {
+        GET_DATA: 'ele_get_data',
+        LIST_GET_DATA: 'ele_get_list',
+        LIST_SET_ENABLED: 'ele_list_set_enabled',
+        LIST_ADD_ELEMENT: 'ele_list_add_element',
+        LIST_REMOVE_ELEMENT: 'ele_list_remove_element',
+        LIST_REMOVE_URL: 'ele_list_remove_url'
+    },
+    DB: {
+        LIST_ENABLED: 'ele_list_enabled',
+        LIST: 'ele_list',
+        BLOCKS: 'ele_blocks',
+        CHECKS: 'ele_checks',
+        SHOW_INFO: 'ele_show_info'
     }
 }
 

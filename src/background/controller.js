@@ -7,6 +7,7 @@ class Controller {
             this.dwl = DownloadBackground.getInstance();
             this.pg = PageBackground.getInstance();
             this.eme = EmergentBackground.getInstance();
+            this.ele = ElementsBackground.getInstance();
             chrome.runtime.onMessage.addListener(request);
         } catch (e) {
             Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
@@ -14,13 +15,13 @@ class Controller {
         }
     }
 
-
     restart_services() {
         SuperBackground.restart();
         Logger.restart();
         DownloadBackground.restart();
         PageBackground.restart();
         EmergentBackground.restart();
+        ElementsBackground.restart();
         chrome.runtime.onMessage.removeListener(request);
         this.init_services();
     }
@@ -30,11 +31,11 @@ class Controller {
     }
 
     count_blocks() {
-        return this.dwl.blocks + this.pg.blocks + this.eme.blocks;
+        return this.dwl.blocks + this.pg.blocks + this.eme.blocks + this.ele.blocks;
     }
 
     count_checks() {
-        return this.dwl.checks + this.pg.checks + this.eme.blocks;
+        return this.dwl.checks + this.pg.checks + this.eme.blocks + this.ele.blocks;
     }
 
     get_count() {
@@ -63,6 +64,7 @@ class Controller {
             this.dwl.import(data, file, override);
             this.pg.import(data, file, override);
             this.eme.import(data, file, override);
+            this.ele.import(data, file, override);
         } else {
             this.logger.log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
             PopUpController.show_error('invalid_format');
@@ -87,6 +89,10 @@ class Controller {
             this.logger.log(e.message, LOGGER.DB.LOG_DEV);
         }
         return true;
+    }
+
+    static reset_db() {
+        chrome.storage.local.clear();
     }
 
     static getInstance() {

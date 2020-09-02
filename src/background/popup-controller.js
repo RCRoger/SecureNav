@@ -63,6 +63,17 @@ class PopUpController {
         });
     }
 
+    static show_ask(data, options = {}) {
+        chrome.tabs.create({ url: '/src/errors/messages.html' }, function(tab) {
+            chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
+                if (info.status === 'complete' && tabId === tab.id) {
+                    chrome.tabs.onUpdated.removeListener(listener);
+                    chrome.tabs.sendMessage(tabId, { id: POP_UP.REQUEST.SHOW_ASK, data: data }, options.response);
+                }
+            });
+        });
+    }
+
     static show_badge_text(data, response = undefined) {
         chrome.browserAction.setBadgeText({ text: '1' });
     }

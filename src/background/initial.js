@@ -21,6 +21,10 @@ function init_db() {
             init_db_super();
             load = false;
         }
+        if (undefined == data[ELEMENT.DB.SHOW_INFO]) {
+            init_db_element();
+            load = false;
+        }
         if (!load) {
             Controller.getInstance().restart_services();
         }
@@ -28,6 +32,8 @@ function init_db() {
 }
 
 chrome.runtime.onInstalled.addListener(function(reason) {
+    if (reason.reason == 'install')
+        Controller.reset_db();
     if (reason.reason == 'install' || reason.reason == 'update')
         init_db();
 });

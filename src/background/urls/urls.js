@@ -1,6 +1,9 @@
 class UrlBackground {
     constructor(db) {
         this.urls = undefined;
+        this.urls_remote = [];
+        this.urls_session = [];
+        this.urls_block = [];
         this.enabled = undefined;
         this.type = undefined;
         this.dB = db;
@@ -28,6 +31,9 @@ class UrlBackground {
             case this.dB.REQUEST.URL_SET_ENABLED_LITE:
                 this.setEnabled(request.data);
                 return this.getData(request.data);
+            case this.dB.REQUEST.URL_ASK_QUESTION:
+                this.responsed(request.data.url, request.data.action);
+                break;
             default:
                 Logger.getInstance().log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
                 PopUpController.show_error('invalid_format');
@@ -268,4 +274,24 @@ class UrlBackground {
         return false;
     }
 
+    getRemote(item) {
+        var response = $.ajax({
+            type: "GET",
+            url: this.dB.REMOTE.URL,
+            data: item,
+            async: false
+        }).responseText;
+        return JSON.parse(response);
+    }
+
+    responsed(url, action) {
+        var index = this.urls_remote.indexOf(url.host);
+        if (index != -1)
+            this.urls_remote.splice(index, 1);
+        if (action == REMOTE.ACTION.block) {
+            this.urls_block.push(url.host);
+        } else if (action == REMOTE.ACTION.nothing) {
+            this.urls_session.push(url.host);
+        }
+    }
 }

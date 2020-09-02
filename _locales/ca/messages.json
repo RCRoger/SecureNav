@@ -185,6 +185,20 @@
     },
     "import": {
         "message": "Importar"
+    },
+    "pg_pending": {
+        "message": "Segur que vols continuar a aquesta pàgina?."
+    },
+    "Phishing": {
+        "message": "Aquesta pàgina ha estat catalogada com a perillosa per 'phishing'."
+    },
+    "continue": {
+        "message": "Continuar"
+    },
+    "cancel": {
+        "message": "Cancelar"
+    },
+    "notification_pg_blocked": {
+        "message": "La pàgina ha estat bloquejada després de preguntar a l'usuari sobre el seu accés"
     }
-
 }

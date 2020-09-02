@@ -15,6 +15,7 @@
     ],
     "background": {
         "scripts": [
+            "src/js/jquery.min.js",
             "src/background/constants.js",
             "src/background/ecrypt/md5.js",
             "src/background/ecrypt/md5-min.js",
@@ -29,6 +30,9 @@
             "src/background/logger/items.js",
             "src/background/logger/logger.js",
             "src/background/popup-controller.js",
+            "src/background/elements/items.js",
+            "src/background/elements/initial.js",
+            "src/background/elements/elements.js",
             "src/background/urls/initial.js",
             "src/background/urls/items.js",
             "src/background/urls/urls.js",

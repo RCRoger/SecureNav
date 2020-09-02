@@ -109,20 +109,7 @@ class PageUrlList extends UrlBackground {
             window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
             return;
         }
-        if (this.type == TYPE.WHITELIST) {
-            window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
-            window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, all_urls, webRequestFlags);
-        } else if (this.type == TYPE.BLACKLIST) {
-
-            window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
-            if (this.urls.length == 0) {
-                return;
-            }
-            var urls_str = [];
-            this.urls.forEach(item => urls_str.push(item.str));
-            var filter = { 'urls': urls_str };
-            window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, filter, webRequestFlags);
-        }
+        window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, all_urls, webRequestFlags);
     }
 
     needBlock_all(page) {
@@ -144,10 +131,40 @@ class PageUrlList extends UrlBackground {
     }
 
     needBlock(page) {
+        var logger = Logger.getInstance();
+        var url_item = get_item_from_str(page.url);
         if (this.type == TYPE.WHITELIST) {
-            return !this.contains_url(page);
+            if (!this.contains_url(page)) {
+                logger.log('pg_block ' + page.url);
+                return true;
+            }
+        } else if (this.type == TYPE.BLACKLIST) {
+            if (this.contains_url(page)) {
+                logger.log('pg_block ' + page.url);
+                return true;
+            }
         }
-        return true;
+        if (this.urls_session.includes(url_item.host)) {
+            return false;
+        } else if (this.urls_block.includes(url_item.host)) {
+            logger.log('pg_block notification_pg_blocked ' + url_item.str);
+            return true;
+        } else if (!this.urls_remote.includes(url_item.host)) {
+            var item = this.getRemote(url_item);
+            if (item.length > 0)
+                item = item[0];
+
+            if (item.action === REMOTE.ACTION.ask) {
+                PopUpController.show_ask({ data: 'pg_pending ' + item.description, req: this.dB.REQUEST.URL_ASK_QUESTION, url: page.url, host: url_item });
+                this.urls_remote.push(url_item.host);
+                return true;
+            } else if (item.action === REMOTE.ACTION.block) {
+                this.urls_block.push(url_item.host);
+                logger.log('pg_block ' + item.description + ' ' + url_item.str);
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -161,7 +178,6 @@ function page_blocker(page) {
             return no_block;
         if (!pB.urls.needBlock(page))
             return no_block;
-        Logger.getInstance().log('pg_block ' + page.url);
         pB.blocks++;
         pB.saveData();
         PopUpController.show_badge_text();

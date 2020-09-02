@@ -69,7 +69,7 @@ function show_grl_info(data) {
 function show_grl_log(data) {
     let elem = document.getElementById('grl_log');
     if (data.rows && data.rows.length > 0) {
-        extract_message(elem, data.rows[0]);
+        elem.innerHTML = get_msg(data.rows[0]);
         elem.title = elem.innerText;
         $(elem).tooltip({ boundary: 'window' });
         $('#grl_log span').css('font-size', '10px');
