@@ -7,7 +7,7 @@ const all_urls = { 'urls': ["<all_urls>"] };
 const block = { cancel: true };
 const no_block = { cancel: false };
 
-const pages_unblockeables = [chrome.runtime.id, 'use.fontawesome.com', 'fonts.googleapis.com'];
+const pages_unblockeables = [chrome.runtime.id, 'use.fontawesome.com', 'fonts.googleapis.com', REMOTE.HOST];
 
 
 class PageBackground extends BackgroundObject {

@@ -1,4 +1,5 @@
 const REMOTE = {
+    HOST: '127.0.0.1:8000',
     URL: 'http://127.0.0.1:8000/secnav/',
     ACTION: {
         nothing: '0',
@@ -38,6 +39,7 @@ const DOWNLOAD = {
     },
     REMOTE: {
         URL: REMOTE.URL + 'downloads/',
+        URL_DEFAULT: REMOTE.URL + 'default/downloads',
     }
 }
 
@@ -66,6 +68,7 @@ const PAGE = {
     },
     REMOTE: {
         URL: REMOTE.URL + 'pages/',
+        URL_DEFAULT: REMOTE.URL + 'default/pages/'
     }
 }
 
@@ -94,6 +97,7 @@ const EMERGENT = {
     },
     REMOTE: {
         URL: REMOTE.URL + 'emergents/',
+        URL_DEFAULT: REMOTE.URL + 'default/emergents/'
     }
 }
 

@@ -275,10 +275,11 @@ class UrlBackground {
     }
 
     getRemote(item) {
+        var item_lite = { protocol: item.protocol, host: item.host };
         var response = $.ajax({
             type: "GET",
             url: this.dB.REMOTE.URL,
-            data: item,
+            data: item_lite,
             async: false
         }).responseText;
         return JSON.parse(response);

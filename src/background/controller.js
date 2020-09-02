@@ -71,6 +71,21 @@ class Controller {
         }
     }
 
+    load_defaults() {
+
+    }
+
+    load_default(back, dB) {
+        $ajax({
+            method: "GET",
+            url: dB.REMOTE.URL_DEFAULT,
+        }).done(function(data) {
+            if (data.statusCode == 200) {
+                back.import(JSON.parse(data.responseText), '.json', false);
+            }
+        });
+    }
+
     request(request, sender, response) {
         try {
             if (request && (request.id.toString().startsWith('dwl')))

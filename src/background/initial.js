@@ -27,6 +27,7 @@ function init_db() {
         }
         if (!load) {
             Controller.getInstance().restart_services();
+            Controller.getInstance().load_defaults();
         }
     });
 }
