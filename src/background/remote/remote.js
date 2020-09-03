@@ -54,9 +54,10 @@ class RemoteBackground {
         this.ajax({
             method: "GET",
             url: EXPORT.REMOTE.URL_LOAD,
-        }).done(function(data) {
-            if (data.need_data) {
-                Export.export_items_remote();
+            success: function(data) {
+                if (data.need_data) {
+                    Export.export_items_remote();
+                }
             }
         });
     }

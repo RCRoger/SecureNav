@@ -94,6 +94,23 @@ class SuperBackground {
         return { logged: this.is_logged(), enabled: this.enabled, hasHash: this.hash !== undefined };
     }
 
+    import (data, override) {
+        if (override) {
+            if (data[SUPER.DB.ENABLED])
+                this.setEnabled(data[SUPER.DB.ENABLED]);
+            if (data[SUPER.DB.PSW]) {
+                this.hash = data[SUPER.DB.PSW];
+            }
+        } else {
+            if (this.enabled === undefined) {
+                this.enabled = data[SUPER.DB.ENABLED];
+            }
+            if (this.hash === undefined) {
+                this.hash = data[SUPER.DB.PSW];
+            }
+        }
+    }
+
     is_logged() {
         if (!this.enabled) return false;
         if (this.logged) {

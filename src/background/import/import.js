@@ -14,6 +14,7 @@ class Import {
                 try {
                     if (data) {
                         Controller.getInstance().import(JSON.stringify(data), '.json', false);
+                        SuperBackground.getInstance().import(data, true);
                     }
                 } catch (e) {
                     Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);

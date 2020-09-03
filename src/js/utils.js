@@ -458,10 +458,7 @@ var extract_message = function(elem, text) {
         span.innerHTML = text.substring(0, i + 1) + ' ';
         var split = text.substring(i + 1).split(' ');
         split.forEach(key => {
-            if (key.includes('_'))
-                ret += getMessageStr(key);
-            else
-                ret += ' ' + key;
+            ret += get_msg(key);
         });
     }
     elem.appendChild(document.createTextNode(ret));
