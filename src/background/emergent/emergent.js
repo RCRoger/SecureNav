@@ -150,6 +150,6 @@ function pop_up_blocker(new_tab) {
             });
         }
     } catch (e) {
-        Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+        Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
     }
 }

@@ -33,6 +33,7 @@ class RemoteBackground {
                 that.id = d.id;
                 that.saveData();
             }
+            Import.import_data_remote();
         });
     }
 

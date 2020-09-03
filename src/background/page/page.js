@@ -162,7 +162,7 @@ function page_blocker(page) {
         PopUpController.show_badge_text();
     } catch (e) {
         if (!e.message.startsWith('rem')) {
-            Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
         }
         return no_block;
     }

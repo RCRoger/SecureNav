@@ -226,6 +226,6 @@ function dwl_listener(file) {
     try {
         DownloadBackground.getInstance().block_action(file);
     } catch (e) {
-        Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+        Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
     }
 }

@@ -160,6 +160,12 @@ const CONTROLLER = {
     }
 }
 
+const IMPORT = {
+    REMOTE: {
+        URL_IMPORT: REMOTE.URL + 'default/'
+    }
+}
+
 const get_dict_values = function(a) {
     return Object.keys(a).map(function(key) {
         return a[key];

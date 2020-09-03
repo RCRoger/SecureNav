@@ -152,7 +152,7 @@ class UrlBackground {
             this.import_type_json(json);
             this.import_urls_json(json, override);
         } catch (e) {
-            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
     }
@@ -200,8 +200,7 @@ class UrlBackground {
                 var scheme = item['protocol'];
                 var host = item['host'];
                 var page = item['page'];
-                var str = item['str']
-                if (scheme === undefined || host === undefined || page === undefined || str === undefined) {
+                if (scheme === undefined || host === undefined || page === undefined) {
                     status = 'invalid_format';
                 } else if (!is_scheme_valid(scheme) || !is_host_valid(host)) {
                     status = 'invalid_pattern'
@@ -210,7 +209,7 @@ class UrlBackground {
                     rows.splice(0, rows.length);
                     throw new Error(status);
                 }
-                rows.push(item);
+                rows.push(url_item(host, scheme, page));
             });
             this.add_urls(rows, override);
         }
@@ -235,7 +234,7 @@ class UrlBackground {
                 throw new Error('invalid_format');
             }
         } catch (e) {
-            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
     }
@@ -259,7 +258,7 @@ class UrlBackground {
                 throw new Error('invalid_format');
             }
         } catch (e) {
-            Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
             PopUpController.show_error(e.message);
         }
     }
@@ -318,7 +317,7 @@ class UrlBackground {
                 }
                 this.urls_remote.push(url_item.host);
             } catch (e) {
-                Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+                Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
             }
         }
         return false;

@@ -23,15 +23,16 @@ function init_db() {
         }
         if (!load) {
             Controller.getInstance().restart_services();
-            Controller.getInstance().load_defaults();
         }
     });
 }
 
 chrome.runtime.onInstalled.addListener(function(reason) {
-    if (reason.reason == 'install')
+    if (reason.reason == 'install') {
         Controller.reset_db();
-    if (reason.reason == 'install' || reason.reason == 'update')
+        init_db();
+    }
+    if (reason.reason == 'update')
         init_db();
 });
 

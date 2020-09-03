@@ -10,7 +10,7 @@ class Controller {
             this.eme = EmergentBackground.getInstance();
             chrome.runtime.onMessage.addListener(request);
         } catch (e) {
-            Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+            Logger.getInstance().log(e.stack, LOGGER.DB.LOG_DEV);
             this.restart_services();
         }
     }
@@ -31,11 +31,11 @@ class Controller {
     }
 
     count_blocks() {
-        return this.dwl.blocks + this.pg.blocks + this.eme.blocks + this.ele.blocks;
+        return this.dwl.blocks + this.pg.blocks + this.eme.blocks;
     }
 
     count_checks() {
-        return this.dwl.checks + this.pg.checks + this.eme.blocks + this.ele.blocks;
+        return this.dwl.checks + this.pg.checks + this.eme.checks;
     }
 
     get_count() {
@@ -60,30 +60,14 @@ class Controller {
     }
 
     import (data, file, override) {
-        if (Import.get_file_ext(file) == 'json') {
+        if (Import.get_file_extension(file) == 'json') {
             this.dwl.import(data, file, override);
             this.pg.import(data, file, override);
             this.eme.import(data, file, override);
-            this.ele.import(data, file, override);
         } else {
             this.logger.log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
             PopUpController.show_error('invalid_format');
         }
-    }
-
-    load_defaults() {
-
-    }
-
-    load_default(back, dB) {
-        $ajax({
-            method: "GET",
-            url: dB.REMOTE.URL_DEFAULT,
-        }).done(function(data) {
-            if (data.statusCode == 200) {
-                back.import(JSON.parse(data.responseText), '.json', false);
-            }
-        });
     }
 
     request(request, sender, response) {
@@ -101,7 +85,7 @@ class Controller {
             else if (request && (request.id.toString().startsWith('sp')))
                 response(this.super.request_filter(request, this.super));
         } catch (e) {
-            this.logger.log(e.message, LOGGER.DB.LOG_DEV);
+            this.logger.log(e.stack, LOGGER.DB.LOG_DEV);
         }
         return true;
     }
