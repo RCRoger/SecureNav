@@ -1,4 +1,8 @@
-chrome.browserAction.setBadgeText({ text: '' });
+chrome.browserAction.getBadgeText({}, function(data) {
+    if (data != '!') {
+        chrome.browserAction.setBadgeText({ text: '' });
+    }
+});
 
 
 $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {

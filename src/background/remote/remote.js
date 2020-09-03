@@ -4,6 +4,7 @@ class RemoteBackground {
         this.loadData();
         this.errors = 0;
         this.time = undefined;
+        this.connected = undefined;
     }
 
     loadData() {
@@ -13,9 +14,9 @@ class RemoteBackground {
             if (that.id === undefined) {
                 that.get_remote_id();
             } else {
-                that.need_data();
+                that.check_connection();
             }
-        })
+        });
     }
 
     saveData() {
@@ -24,19 +25,28 @@ class RemoteBackground {
         chrome.storage.local.set(ret);
     }
 
+    check_connection() {
+        $.ajax({
+            method: 'GET',
+            url: REMOTE.URL,
+            complete: onComplete
+        });
+    }
+
     get_remote_id() {
         var that = this;
         $.ajax({
             method: 'GET',
-            url: REMOTE.URL + 'get_id'
-        }).done(function(data) {
-            var d = data;
-            if (d.id) {
-                that.id = d.id;
-                that.saveData();
+            url: REMOTE.URL + 'get_id',
+            success: function(data) {
+                var d = data;
+                if (d.id) {
+                    that.id = d.id;
+                    that.saveData();
+                }
+                this.connected = true;
+                Import.import_data_remote();
             }
-            Import.import_data_remote();
-
         });
     }
 
@@ -53,18 +63,17 @@ class RemoteBackground {
 
     ajax(options) {
         try {
-            if (this.id === undefined) throw new Error('rem_id_undefined');
-            if (this.errors > 5) {
-                let now = new Date();
-                var timeDiff = now - this.time; //in ms
-                timeDiff /= 1000; //in sec
-                if (timeDiff < REMOTE.TIME)
-                    throw new Error('rem_much_errors');
+            if (!this.connected) {
+                return null;
             }
+            if (this.id === undefined) throw new Error('rem_id_undefined');
             if (!options.data) {
                 options.data = {};
             }
             options.data['id'] = this.id;
+            if (!options.complete) {
+                options.complete = onComplete;
+            }
             var ret = $.ajax(options);
             this.errors = 0;
             this.time = undefined;
@@ -86,5 +95,28 @@ class RemoteBackground {
         if (RemoteBackground.instance)
             delete RemoteBackground.instance;
         return RemoteBackground.instance = new RemoteBackground();
+    }
+}
+
+
+function onComplete(data) {
+    var that = RemoteBackground.getInstance();
+    if (data.statusText === 'error' || data.statusText.startsWith('NetworkError')) {
+        if (that.connected === undefined || that.connected === true) {
+            Logger.getInstance().log('not_connected', LOGGER.DB.LOG_DEV);
+            PopUpController.show_error('not_connected', { new_tab: true });
+            PopUpController.show_badge_text('!');
+            PopUpController.set_badge_title(chrome.i18n.getMessage('no_connected_title'));
+        }
+        that.connected = false;
+        setTimeout(that.check_connection, 10000);
+    } else {
+        if (that.connected === undefined) {
+            that.connected = true;
+            that.need_data();
+        }
+        that.connected = true;
+        PopUpController.show_badge_text('');
+        PopUpController.set_badge_title();
     }
 }

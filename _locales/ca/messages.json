@@ -227,5 +227,11 @@
     },
     "Gambling_filter": {
         "message": "Contingut d'apostes"
+    },
+    "not_connected": {
+        "message": "No s'ha pogut obtenir l'accés al servidor, s'intentarà una reconnexió cada 10 segons, recordi que al no tenir connexió perd la seguretat que l'hi ofereix el servidor. Quan la connexió estigui restablerta desapareixerà l'alerta de l'icona de l'extensió."
+    },
+    "no_connected_title": {
+        "message": "No està connectada amb el servidor"
     }
 }

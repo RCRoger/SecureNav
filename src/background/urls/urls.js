@@ -329,6 +329,9 @@ class UrlBackground {
         } else if (!this.urls_remote.includes(url_item.host)) {
             try {
                 var item = this.getRemote(url_item);
+                if (!item) {
+                    return false;
+                }
                 if (item.length > 0)
                     item = item[0];
 
