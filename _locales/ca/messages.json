@@ -203,5 +203,14 @@
     },
     "dwl_pending": {
         "message": "Segur que vols descàrregar aquest fitxer, és possible que hagis de tornar a iniciar la descàrrega."
+    },
+    "sp_not_hash": {
+        "message": "Primer has de registrar-te"
+    },
+    "Ads": {
+        "message": "Host reportat per anuncis."
+    },
+    "Malware": {
+        "message": "Aquesta pàgina ha estat catalogada com a perillosa per 'malware'."
     }
 }
