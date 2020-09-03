@@ -1,9 +1,10 @@
 var that = undefined;
 
-function UrlCardController(section, dB) {
+function UrlCardController(section, dB, filters = true) {
     this.section = section;
     this.charged = false;
     this.dB = dB;
+    this.filters = filters;
     that = this;
 }
 
@@ -59,6 +60,17 @@ function UrlCardController(section, dB) {
         //FIX visual bug;
         $('#' + that.section + '-table-1').find('th').removeClass('select-checkbox select-checkbox-all');
         that.show_url_events();
+
+        if (that.filters) {
+            for (let i = 0; i < REMOTE.FILTERS.length; i++) {
+                const element = REMOTE.FILTERS[i];
+                if (data.urls.urls_filters.includes(element)) {
+                    $('#' + that.section + '-filter-' + i).prop('checked', true);
+                }
+            }
+        }
+
+
 
     }
 
@@ -140,6 +152,10 @@ function UrlCardController(section, dB) {
         });
     }
 
+    UCC.prototype.save_filters = function() {
+        that.send_filters($(this).val());
+    }
+
     UCC.prototype.init_components = function() {
         if (this.charged)
             return;
@@ -166,7 +182,30 @@ function UrlCardController(section, dB) {
             classList: ['spinner-border', 'text-primary']
         }));
         $('#' + this.section + '_url_add').click(this.addRows);
+        if (this.filters) {
+            add_card(this.section, 10);
+            $('#' + this.section + '-header-10').html(getMessageStr('filters'));
+            let items = [];
+            let num = 0;
+            REMOTE.FILTERS.forEach(i => {
+                var check = create_checkbox(this.section, 'filter', num++, ['custom-checkbox']);
+                $(check).find('input').change(this.save_filters);
+                $(check).find('input').val(i);
+                $(check).find('label').text(getMessageStr(i + '_filter'));
+                items.push(create_elem('div', {
+                    classList: ['col'],
+                    children: [check],
+                }));
+                let row = create_elem('div', {
+                    classList: ['row'],
+                    children: items
+                });
+                $('#' + this.section + '-text-10').html(row);
+                $('#' + this.section + '-title-10').remove();
+            });
 
+
+        }
     }
 
     UCC.prototype.show_url_events = function() {
@@ -191,6 +230,10 @@ function UrlCardController(section, dB) {
             }
         });
 
+    }
+
+    UCC.prototype.send_filters = function(data) {
+        chrome.runtime.sendMessage(chrome.runtime.id, { id: that.dB.REQUEST.URL_SET_FILTERS, data: data }, this.show_filters);
     }
 
     UCC.prototype.save_url_enabled = function() {

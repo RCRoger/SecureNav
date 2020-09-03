@@ -17,7 +17,7 @@ function init_db() {
             init_db_emergent();
             load = false;
         }
-        if (undefined == data[SUPER.DB.ENABLED]) {
+        if (undefined == data[SUPER.DB.PSW]) {
             init_db_super();
             load = false;
         }

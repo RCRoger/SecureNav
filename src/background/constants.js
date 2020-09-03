@@ -9,7 +9,8 @@ const REMOTE = {
     DB: {
         ID: 'rmt_id'
     },
-    TIME: 120
+    TIME: 120,
+    FILTERS: ['Adult', 'Gambling', 'Ads']
 }
 
 const DOWNLOAD = {
@@ -29,6 +30,7 @@ const DOWNLOAD = {
         EXPORT: 'dwl_export',
         IMPORT: 'dwl_import',
         URL_ASK_QUESTION: 'dwl_url_question',
+        URL_SET_FILTERS: 'dwl_url_set_filters'
     },
     DB: {
         URL_ENABLED: 'dwl_url_enabled',
@@ -39,6 +41,7 @@ const DOWNLOAD = {
         SHOW_INFO: 'dwl_show_info',
         CHECKS: 'dwl_checks',
         BLOCKS: 'dwl_blocks',
+        URL_FILTERS: 'dwl_url_filters'
 
     },
     REMOTE: {
@@ -62,6 +65,7 @@ const PAGE = {
         EXPORT: 'pg_export',
         IMPORT: 'pg_import',
         URL_ASK_QUESTION: 'pg_url_question',
+        URL_SET_FILTERS: 'pg_url_set_filters'
     },
     DB: {
         URL_ENABLED: 'pg_url_enabled',
@@ -69,7 +73,8 @@ const PAGE = {
         URL_LIST: 'pg_url_list',
         SHOW_INFO: 'pg_show_info',
         BLOCKS: 'pg_blocks',
-        CHECKS: 'pg_checks'
+        CHECKS: 'pg_checks',
+        URL_FILTERS: 'pg_url_filters'
     },
     REMOTE: {
         URL: REMOTE.URL + 'pages/',

@@ -4,6 +4,7 @@ class UrlBackground {
         this.urls_remote = [];
         this.urls_session = [];
         this.urls_block = [];
+        this.urls_filters = [];
         this.enabled = undefined;
         this.type = undefined;
         this.dB = db;
@@ -34,12 +35,25 @@ class UrlBackground {
             case this.dB.REQUEST.URL_ASK_QUESTION:
                 this.responsed(request.data.url, request.data.action);
                 break;
+            case this.dB.REQUEST.URL_SET_FILTERS:
+                this.set_filters(request.data);
+                break;
             default:
                 Logger.getInstance().log('invalid_format' + ' ' + request.id, LOGGER.DB.LOG_DEV);
                 PopUpController.show_error('invalid_format');
                 return;
         }
         return { urls: this };
+    }
+
+    set_filters(data) {
+        let index = this.urls_filters.indexOf(data);
+        if (index == -1) {
+            this.urls_filters.push(data);
+        } else {
+            this.urls_filters.splice(index, 1);
+        }
+        this.saveData();
     }
 
     edit_url(data) {
@@ -73,10 +87,13 @@ class UrlBackground {
             this.urls.push(item);
             this.urls_regex.push(url_regex(item));
         });
+        if (data[this.dB.DB.URL_FILTERS]) {
+            this.urls_filters = data[this.dB.DB.URL_FILTERS];
+        }
     }
 
     saveData() {
-        chrome.storage.local.set(db_url_item(this.dB, this.enabled, this.type, this.urls));
+        chrome.storage.local.set(db_url_item(this.dB, this.enabled, this.type, this.urls, this.urls_filters));
     }
 
     add_urls(data, reset = false) {
@@ -122,7 +139,7 @@ class UrlBackground {
     }
 
     getData(data) {
-        return { hasBlock: this.needBlock(data), type: this.type, enabled: this.enabled, url: data.url };
+        return { hasBlock: this.needBlock(data), type: this.type, enabled: this.enabled, url: data.url, filters: this.urls_filters };
     }
 
     setType(type) {
@@ -275,6 +292,12 @@ class UrlBackground {
 
     getRemote(item) {
         var item_lite = { protocol: item.protocol, host: item.host };
+        if (this.urls_filters) {
+            for (let i = 0; i < this.urls_filters.length; i++) {
+                const element = this.urls_filters[i];
+                item_lite['filter' + i] = element;
+            }
+        }
         var response = RemoteBackground.getInstance().ajax({
             type: "GET",
             url: this.dB.REMOTE.URL,

@@ -99,17 +99,7 @@ class DownloadBackground extends BackgroundObject {
 
     loadData(first = undefined) {
         var that = this;
-        var params = [
-            DOWNLOAD.DB.URL_ENABLED,
-            DOWNLOAD.DB.URL_TYPE,
-            DOWNLOAD.DB.URL_LIST,
-            DOWNLOAD.DB.SIZE_ENABLED,
-            DOWNLOAD.DB.MAX_SIZE,
-            DOWNLOAD.DB.SHOW_INFO,
-            DOWNLOAD.DB.BLOCKS,
-            DOWNLOAD.DB.CHECKS
-        ];
-        chrome.storage.local.get(params, function(data) {
+        chrome.storage.local.get(get_dict_values(DOWNLOAD.DB), function(data) {
             that.urls.loadData(data);
             that.max_size.loadData(data);
             that.show_info = data.dwl_show_info;

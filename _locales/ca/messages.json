@@ -208,9 +208,24 @@
         "message": "Primer has de registrar-te"
     },
     "Ads": {
-        "message": "Host reportat per anuncis."
+        "message": "Aquesta url conté anuncis"
     },
     "Malware": {
         "message": "Aquesta pàgina ha estat catalogada com a perillosa per 'malware'."
+    },
+    "filters": {
+        "message": "Filtres adicionals"
+    },
+    "Adult": {
+        "message": "Aquesta pàgina té contingut +18"
+    },
+    "Ads_filter": {
+        "message": "Anuncis"
+    },
+    "Adult_filter": {
+        "message": "Contingut sexual"
+    },
+    "Gambling_filter": {
+        "message": "Contingut d'apostes"
     }
 }

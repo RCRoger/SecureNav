@@ -66,7 +66,7 @@ class PageBackground extends BackgroundObject {
 
     loadData(first = undefined) {
         var that = this;
-        chrome.storage.local.get([PAGE.DB.URL_LIST, PAGE.DB.URL_ENABLED, PAGE.DB.URL_TYPE, PAGE.DB.CHECKS, PAGE.DB.BLOCKS], function(data) {
+        chrome.storage.local.get(get_dict_values(PAGE.DB), function(data) {
             that.urls.loadData(data);
             that.show_info = data.dwl_show_info;
             that.checks = data[PAGE.DB.CHECKS];

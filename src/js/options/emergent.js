@@ -1,7 +1,7 @@
 var eme_charged = false;
 var eme_section = 'eme';
 
-var eme_url = new UrlCardController(eme_section, EMERGENT);
+var eme_url = new UrlCardController(eme_section, EMERGENT, false);
 var eme_not = new NotiCardController(eme_section, EMERGENT, 2);
 var eme_exp = new ExportCardController(eme_section, EMERGENT, 3);
 var eme_imp = new ImportCardController(eme_section, EMERGENT, 4, eme_show_all);

@@ -18,11 +18,14 @@ function url_item(host, protocol = '*', page = '*') {
     };
 }
 
-function db_url_item(db, enabled = true, type = 1, list = []) {
+function db_url_item(db, enabled = true, type = 1, list = [], filters = undefined) {
     var ret = {};
     ret[db.DB.URL_ENABLED] = enabled;
     ret[db.DB.URL_TYPE] = type;
     ret[db.DB.URL_LIST] = list;
+    if (filters) {
+        ret[db.DB.URL_FILTERS] = filters;
+    }
 
     return ret;
 }

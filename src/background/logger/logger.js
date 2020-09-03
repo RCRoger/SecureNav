@@ -91,12 +91,12 @@ class LoggerObj {
         var ret = [];
         if (this.rows) {
             if (this.rows.length > n) {
-                for (let index = this.rows.length - 1; index > this.rows.length - 1 - n; index--) {
+                for (let index = 0; index < n; index++) {
                     const element = this.rows[index];
                     ret.push(element);
                 }
             } else {
-                ret = this.rows.slice(0).reverse();
+                ret = this.rows;
             }
         }
         return ret;
@@ -138,7 +138,7 @@ class LoggerObj {
             this.temp.push(text);
         } else {
             this.text = text + '\n' + this.text;
-            this.rows.push(text);
+            this.rows.unshift(text);
             this.saveData();
         }
     }
