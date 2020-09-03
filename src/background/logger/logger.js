@@ -77,6 +77,13 @@ class LoggerObj {
                 that.saveData();
                 that.temp = [];
             }
+            for (let i = 0; i < that.rows.length; i++) {
+                const row = that.rows[i];
+                if (row.length == 0) {
+                    that.rows.splice(i, 1);
+                    i--;
+                }
+            }
         });
     }
 
