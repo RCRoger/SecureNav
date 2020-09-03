@@ -305,8 +305,10 @@ class UrlBackground {
             url: this.dB.REMOTE.URL,
             data: item_lite,
             async: false
-        }).responseText;
-        return JSON.parse(response);
+        });
+        if (response !== null)
+            return JSON.parse(response.responseText);
+        return null;
     }
 
     responsed(url, action) {

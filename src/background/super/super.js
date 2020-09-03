@@ -60,8 +60,7 @@ class SuperBackground {
     }
 
     change(old_psw, new_psw) {
-        if (!this.enabled) return false;
-        let reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,} /;
+        let reg = /^(?=.*\d)(?=.*[a-z])(?=.*[^a-zA-Z1-9])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}/;
         if (!reg.exec(new_psw)) {
             PopUpController.show_error('sp_pwd_invalid');
         } else if (!new_psw || new_psw.length == 0) {

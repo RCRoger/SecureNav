@@ -71,6 +71,7 @@ function sp_show_logins(data) {
         var text1 = getMessageStr('password');
 
         var val1 = add_prepend_text(pre1, text1);
+        val1.title = getMessageStr('sp_pwd_minims');
 
         var psw1 = add_group_input(sp_section + '-password-1', group1, 'password');
         psw1.placeholder = getMessageStr('password');
@@ -83,6 +84,7 @@ function sp_show_logins(data) {
         var text2 = getMessageStr('password');
 
         var val2 = add_prepend_text(pre2, text2);
+        val2.title = getMessageStr('sp_pwd_minims');
 
         var psw2 = add_group_input(sp_section + '-password-2', group2, 'password');
         psw2.placeholder = getMessageStr('repeat_password');
@@ -95,6 +97,7 @@ function sp_show_logins(data) {
             innerHTML: getMessageStr('sp_singup')
         }));
         $('#' + sp_section + '-singup-btn').click(singup);
+        $('#' + sp_section + '-card-1 span').tooltip();
 
     } else if (data.logged) {
 
@@ -210,7 +213,7 @@ function save_sp_enabled() {
 }
 
 function validate_pwd(pwd, pwd1) {
-    let reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,} /;
+    let reg = /^(?=.*\d)(?=.*[a-z])(?=.*[^a-zA-Z1-9])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}/;
     if (pwd == pwd1 && reg.exec(pwd))
         return true;
     popUpController.create_error_msg('sp_pwd_invalid');
