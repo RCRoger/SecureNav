@@ -16,7 +16,7 @@
         "message": "Control de emergents"
     },
     "super_tab": {
-        "message": "Superusuari"
+        "message": "Bloquejador"
     },
     "grl_title": {
         "message": "Notificacions"
@@ -169,7 +169,7 @@
         "message": "La contrassenya s'ha canviat amb èxit"
     },
     "sp_description": {
-        "message": "La secció de superusuari al estar habilitada evita l'edició de les dades sempre i quan no s'hagi iniciat sessió, la duració d'aquesta és de 90 minuts, si s'està més temps s'haurà de tornar a iniciar sessió."
+        "message": "La secció de bloquejador al estar habilitada evita l'edició de les dades sempre i quan no s'hagi iniciat sessió, la duració d'aquesta és de 90 minuts, si s'està més temps s'haurà de tornar a iniciar sessió."
     },
     "description": {
         "message": "Descripció"

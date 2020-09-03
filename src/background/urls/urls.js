@@ -83,10 +83,12 @@ class UrlBackground {
         this.urls_regex = [];
         this.enabled = data[this.dB.DB.URL_ENABLED];
         this.type = data[this.dB.DB.URL_TYPE];
-        data[this.dB.DB.URL_LIST].forEach(item => {
-            this.urls.push(item);
-            this.urls_regex.push(url_regex(item));
-        });
+        if (data[this.dB.DB.URL_LIST]) {
+            data[this.dB.DB.URL_LIST].forEach(item => {
+                this.urls.push(item);
+                this.urls_regex.push(url_regex(item));
+            });
+        }
         if (data[this.dB.DB.URL_FILTERS]) {
             this.urls_filters = data[this.dB.DB.URL_FILTERS];
         }
