@@ -8,7 +8,6 @@ class Controller {
             this.dwl = DownloadBackground.getInstance();
             this.pg = PageBackground.getInstance();
             this.eme = EmergentBackground.getInstance();
-            this.ele = ElementsBackground.getInstance();
             chrome.runtime.onMessage.addListener(request);
         } catch (e) {
             Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
@@ -23,7 +22,6 @@ class Controller {
         DownloadBackground.restart();
         PageBackground.restart();
         EmergentBackground.restart();
-        ElementsBackground.restart();
         chrome.runtime.onMessage.removeListener(request);
         this.init_services();
     }

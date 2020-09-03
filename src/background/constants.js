@@ -148,24 +148,6 @@ const SUPER = {
     ALIAS: 'sp'
 }
 
-const ELEMENT = {
-    REQUEST: {
-        GET_DATA: 'ele_get_data',
-        LIST_GET_DATA: 'ele_get_list',
-        LIST_SET_ENABLED: 'ele_list_set_enabled',
-        LIST_ADD_ELEMENT: 'ele_list_add_element',
-        LIST_REMOVE_ELEMENT: 'ele_list_remove_element',
-        LIST_REMOVE_URL: 'ele_list_remove_url'
-    },
-    DB: {
-        LIST_ENABLED: 'ele_list_enabled',
-        LIST: 'ele_list',
-        BLOCKS: 'ele_blocks',
-        CHECKS: 'ele_checks',
-        SHOW_INFO: 'ele_show_info'
-    }
-}
-
 const TYPE = {
     WHITELIST: 0,
     BLACKLIST: 1

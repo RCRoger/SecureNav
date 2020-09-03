@@ -21,10 +21,6 @@ function init_db() {
             init_db_super();
             load = false;
         }
-        if (undefined == data[ELEMENT.DB.SHOW_INFO]) {
-            init_db_element();
-            load = false;
-        }
         if (!load) {
             Controller.getInstance().restart_services();
             Controller.getInstance().load_defaults();
