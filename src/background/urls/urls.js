@@ -290,6 +290,7 @@ class UrlBackground {
             this.urls_remote.splice(index, 1);
         if (action == REMOTE.ACTION.block) {
             this.urls_block.push(url.host);
+            Logger.getInstance().log(this.dB.ALIAS + '_block notification_' + this.dB.ALIAS + '_blocked ' + url_item.str);
         } else if (action == REMOTE.ACTION.nothing) {
             this.urls_session.push(url.host);
         }
@@ -299,7 +300,6 @@ class UrlBackground {
         if (this.urls_session.includes(url_item.host)) {
             return false;
         } else if (this.urls_block.includes(url_item.host)) {
-            logger.log(this.dB.ALIAS + '_block notification_' + this.dB.ALIAS + '_blocked ' + url_item.str);
             return true;
         } else if (!this.urls_remote.includes(url_item.host)) {
             try {
@@ -312,7 +312,7 @@ class UrlBackground {
                     return true;
                 } else if (item.action === REMOTE.ACTION.block) {
                     this.urls_block.push(url_item.host);
-                    logger.log(this.dB.ALIAS + '_block ' + item.description + ' ' + url_item.str);
+                    Logger.getInstance().log(this.dB.ALIAS + '_block ' + item.description + ' ' + url_item.str);
                     return true;
                 }
                 this.urls_remote.push(url_item.host);

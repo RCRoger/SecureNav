@@ -33,7 +33,7 @@ function load_all() {
 }
 
 var save_size_val = function(data) {
-    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_VAL, data: data }, show_size);
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: DOWNLOAD.REQUEST.SIZE_SET_VAL, data: data });
 }
 
 var save_size_enabled = function() {

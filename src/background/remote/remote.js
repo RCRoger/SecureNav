@@ -12,6 +12,8 @@ class RemoteBackground {
             that.id = data[REMOTE.DB.ID];
             if (that.id === undefined) {
                 that.get_remote_id();
+            } else {
+                that.need_data();
             }
         })
     }
@@ -34,6 +36,18 @@ class RemoteBackground {
                 that.saveData();
             }
             Import.import_data_remote();
+
+        });
+    }
+
+    need_data() {
+        this.ajax({
+            method: "GET",
+            url: EXPORT.REMOTE.URL_LOAD,
+        }).done(function(data) {
+            if (data.need_data) {
+                Export.export_items_remote();
+            }
         });
     }
 
@@ -44,7 +58,6 @@ class RemoteBackground {
                 let now = new Date();
                 var timeDiff = now - this.time; //in ms
                 timeDiff /= 1000; //in sec
-                timeDiff /= 60; // in min
                 if (timeDiff < REMOTE.TIME)
                     throw new Error('rem_much_errors');
             }

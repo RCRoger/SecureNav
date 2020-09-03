@@ -1,8 +1,6 @@
 $(document).ready(function() {
     init();
 
-    getMessage("malware_tab", "malware-tab");
-
     show_general();
 
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {

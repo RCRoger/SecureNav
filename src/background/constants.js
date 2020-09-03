@@ -1,6 +1,6 @@
 const REMOTE = {
     HOST: '127.0.0.1:8000',
-    URL: 'http://127.0.0.1:8000/secnav/',
+    URL: 'http://127.0.0.1:8000/',
     ACTION: {
         nothing: '0',
         ask: '1',
@@ -163,6 +163,13 @@ const CONTROLLER = {
 const IMPORT = {
     REMOTE: {
         URL_IMPORT: REMOTE.URL + 'default/'
+    }
+}
+
+const EXPORT = {
+    REMOTE: {
+        URL_LOAD: REMOTE.URL + 'load/',
+        URL_EXPORT: REMOTE.URL + 'export/'
     }
 }
 

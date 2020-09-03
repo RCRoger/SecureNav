@@ -112,6 +112,10 @@ class SuperBackground {
             Logger.getInstance().log('invalid_format', LOGGER.DB.LOG_DEV);
             PopUpController.show_error('invalid_format');
             return;
+        } else if (this.hash === undefined) {
+            Logger.getInstance().log('sp_not_hash', LOGGER.DB.LOG_DEV);
+            PopUpController.show_error('sp_not_hash');
+            return;
         }
         if (data == false) {
             this.logout();

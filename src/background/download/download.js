@@ -85,7 +85,7 @@ class DownloadBackground extends BackgroundObject {
         } else {
             chrome.downloads.resume(file.id);
 
-            logger.log('dwl_resume', LOGGER.DB.LOG_DEV);
+            logger.log('dwl_resume' + ' ' + file.url, LOGGER.DB.LOG_DEV);
         }
 
         this.saveData();
@@ -143,17 +143,17 @@ class DownloadUrlList extends UrlBackground {
     }
 
     needBlock(file) {
-        if (!this.enabled)
-            return false;
         if (file.url.startsWith('data:application'))
             return false;
-        if (this.type == 0) {
-            if (!this.contains_url(file)) {
-                return true;
-            }
-        } else if (this.type == 1) {
-            if (this.contains_url(file)) {
-                return true;
+        if (this.enabled) {
+            if (this.type == 0) {
+                if (!this.contains_url(file)) {
+                    return true;
+                }
+            } else if (this.type == 1) {
+                if (this.contains_url(file)) {
+                    return true;
+                }
             }
         }
         if (file.url) {

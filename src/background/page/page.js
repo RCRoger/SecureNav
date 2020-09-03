@@ -105,10 +105,6 @@ class PageUrlList extends UrlBackground {
     }
 
     add_listener() {
-        if (!this.enabled) {
-            window.chrome.webRequest.onBeforeRequest.removeListener(page_blocker);
-            return;
-        }
         window.chrome.webRequest.onBeforeRequest.addListener(page_blocker, all_urls, webRequestFlags);
     }
 
@@ -131,16 +127,18 @@ class PageUrlList extends UrlBackground {
     }
 
     needBlock(page) {
-        var logger = Logger.getInstance();
-        if (this.type == TYPE.WHITELIST) {
-            if (!this.contains_url(page)) {
-                logger.log('pg_block ' + page.url);
-                return true;
-            }
-        } else if (this.type == TYPE.BLACKLIST) {
-            if (this.contains_url(page)) {
-                logger.log('pg_block ' + page.url);
-                return true;
+        if (this.enabled) {
+            var logger = Logger.getInstance();
+            if (this.type == TYPE.WHITELIST) {
+                if (!this.contains_url(page)) {
+                    logger.log('pg_block ' + page.url);
+                    return true;
+                }
+            } else if (this.type == TYPE.BLACKLIST) {
+                if (this.contains_url(page)) {
+                    logger.log('pg_block ' + page.url);
+                    return true;
+                }
             }
         }
         return super.needBlock(get_item_from_str(page.url));
