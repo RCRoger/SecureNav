@@ -2,6 +2,8 @@ class RemoteBackground {
     constructor() {
         this.id = undefined;
         this.loadData();
+        this.errors = 0;
+        this.time = undefined;
     }
 
     loadData() {
@@ -35,12 +37,29 @@ class RemoteBackground {
     }
 
     ajax(options) {
-        if (this.id === undefined) throw new Error('rem_id_undefined');
-        if (!options.data) {
-            options.data = {};
+        try {
+            if (this.id === undefined) throw new Error('rem_id_undefined');
+            if (this.errors > 5) {
+                let now = new Date();
+                var timeDiff = now - this.time; //in ms
+                timeDiff /= 1000; //in sec
+                timeDiff /= 60; // in min
+                if (timeDiff < REMOTE.TIME)
+                    throw new Error('rem_much_errors');
+            }
+            if (!options.data) {
+                options.data = {};
+            }
+            options.data['id'] = this.id;
+            var ret = $.ajax(options);
+            this.errors = 0;
+            this.time = undefined;
+            return ret
+        } catch (e) {
+            this.errors++;
+            this.time = new Date();
         }
-        options.data['id'] = this.id;
-        return $.ajax(options);
+        return null;
     }
 
     static getInstance() {

@@ -130,7 +130,7 @@ class LoggerObj {
         if (this.text === undefined) {
             this.temp.push(text);
         } else {
-            this.text += '\n' + text;
+            this.text = text + '\n' + this.text;
             this.rows.push(text);
             this.saveData();
         }

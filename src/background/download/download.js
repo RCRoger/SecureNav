@@ -141,15 +141,36 @@ class DownloadUrlList extends UrlBackground {
     constructor() {
         super(DOWNLOAD);
     }
+
     needBlock(file) {
         if (!this.enabled)
             return false;
         if (file.url.startsWith('data:application'))
             return false;
-        if (this.type == 0)
-            return !this.contains_url(file);
-
-        return this.contains_url(file);
+        if (this.type == 0) {
+            if (!this.contains_url(file)) {
+                return true;
+            }
+        } else if (this.type == 1) {
+            if (this.contains_url(file)) {
+                return true;
+            }
+        }
+        if (file.url) {
+            if (super.needBlock(get_item_from_str(file.url))) {
+                return true;
+            }
+        }
+        if (file.referrer) {
+            if (super.needBlock(get_item_from_str(file.referrer))) {
+                return true;
+            }
+        }
+        if (file.finalUrl) {
+            if (super.needBlock(get_item_from_str(file.finalUrl)))
+                return true;
+        }
+        return false;
 
     }
 

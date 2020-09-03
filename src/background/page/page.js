@@ -132,7 +132,6 @@ class PageUrlList extends UrlBackground {
 
     needBlock(page) {
         var logger = Logger.getInstance();
-        var url_item = get_item_from_str(page.url);
         if (this.type == TYPE.WHITELIST) {
             if (!this.contains_url(page)) {
                 logger.log('pg_block ' + page.url);
@@ -144,27 +143,7 @@ class PageUrlList extends UrlBackground {
                 return true;
             }
         }
-        if (this.urls_session.includes(url_item.host)) {
-            return false;
-        } else if (this.urls_block.includes(url_item.host)) {
-            logger.log('pg_block notification_pg_blocked ' + url_item.str);
-            return true;
-        } else if (!this.urls_remote.includes(url_item.host)) {
-            var item = this.getRemote(url_item);
-            if (item.length > 0)
-                item = item[0];
-
-            if (item.action === REMOTE.ACTION.ask) {
-                PopUpController.show_ask({ data: 'pg_pending ' + item.description, req: this.dB.REQUEST.URL_ASK_QUESTION, url: page.url, host: url_item });
-                return true;
-            } else if (item.action === REMOTE.ACTION.block) {
-                this.urls_block.push(url_item.host);
-                logger.log('pg_block ' + item.description + ' ' + url_item.str);
-                return true;
-            }
-            this.urls_remote.push(url_item.host);
-        }
-        return false;
+        return super.needBlock(get_item_from_str(page.url));
     }
 }
 
@@ -182,7 +161,9 @@ function page_blocker(page) {
         pB.saveData();
         PopUpController.show_badge_text();
     } catch (e) {
-        Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+        if (!e.message.startsWith('rem')) {
+            Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+        }
         return no_block;
     }
     return block;

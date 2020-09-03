@@ -8,7 +8,8 @@ const REMOTE = {
     },
     DB: {
         ID: 'rmt_id'
-    }
+    },
+    TIME: 120
 }
 
 const DOWNLOAD = {
@@ -27,7 +28,7 @@ const DOWNLOAD = {
         SET_SHOW_INFO: 'dwl_set_show_info',
         EXPORT: 'dwl_export',
         IMPORT: 'dwl_import',
-        URL_ASK_QUESTION: 'pg_url_question',
+        URL_ASK_QUESTION: 'dwl_url_question',
     },
     DB: {
         URL_ENABLED: 'dwl_url_enabled',
@@ -43,7 +44,8 @@ const DOWNLOAD = {
     REMOTE: {
         URL: REMOTE.URL + 'downloads/',
         URL_DEFAULT: REMOTE.URL + 'default/downloads',
-    }
+    },
+    ALIAS: 'dwl'
 }
 
 const PAGE = {
@@ -72,7 +74,8 @@ const PAGE = {
     REMOTE: {
         URL: REMOTE.URL + 'pages/',
         URL_DEFAULT: REMOTE.URL + 'default/pages/'
-    }
+    },
+    ALIAS: 'pg'
 }
 
 const EMERGENT = {
@@ -88,7 +91,7 @@ const EMERGENT = {
         URL_SET_ENABLED_LITE: 'eme_url_set_enabled_lite',
         EXPORT: 'eme_export',
         IMPORT: 'eme_import',
-        URL_ASK_QUESTION: 'pg_url_question',
+        URL_ASK_QUESTION: 'eme_url_question',
     },
     DB: {
         URL_ENABLED: 'eme_url_enabled',
@@ -101,7 +104,8 @@ const EMERGENT = {
     REMOTE: {
         URL: REMOTE.URL + 'emergents/',
         URL_DEFAULT: REMOTE.URL + 'default/emergents/'
-    }
+    },
+    ALIAS: 'eme'
 }
 
 const POP_UP = {
@@ -109,7 +113,8 @@ const POP_UP = {
         SHOW_INFO: 'pop_up_show_info',
         SHOW_ERROR: 'pop_up_show_error',
         SHOW_ASK: 'pop_up_show_ask'
-    }
+    },
+    ALIAS: 'pop_up'
 }
 
 const LOGGER = {
@@ -139,7 +144,8 @@ const SUPER = {
     DB: {
         ENABLED: 'sp_enabled',
         PSW: 'sp_psw'
-    }
+    },
+    ALIAS: 'sp'
 }
 
 const ELEMENT = {

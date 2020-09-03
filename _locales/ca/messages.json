@@ -200,5 +200,8 @@
     },
     "notification_pg_blocked": {
         "message": "La pàgina ha estat bloquejada després de preguntar a l'usuari sobre el seu accés"
+    },
+    "dwl_pending": {
+        "message": "Segur que vols descàrregar aquest fitxer, hauràs de tornar a iniciar l'acció de descàrrega."
     }
 }

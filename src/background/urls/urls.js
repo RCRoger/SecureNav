@@ -295,4 +295,32 @@ class UrlBackground {
             this.urls_session.push(url.host);
         }
     }
+
+    needBlock(url_item) {
+        if (this.urls_session.includes(url_item.host)) {
+            return false;
+        } else if (this.urls_block.includes(url_item.host)) {
+            logger.log(this.dB.ALIAS + '_block notification_' + this.dB.ALIAS + '_blocked ' + url_item.str);
+            return true;
+        } else if (!this.urls_remote.includes(url_item.host)) {
+            try {
+                var item = this.getRemote(url_item);
+                if (item.length > 0)
+                    item = item[0];
+
+                if (item.action === REMOTE.ACTION.ask) {
+                    PopUpController.show_ask({ data: this.dB.ALIAS + '_pending ' + item.description, req: this.dB.REQUEST.URL_ASK_QUESTION, url: url_item.str, host: url_item });
+                    return true;
+                } else if (item.action === REMOTE.ACTION.block) {
+                    this.urls_block.push(url_item.host);
+                    logger.log(this.dB.ALIAS + '_block ' + item.description + ' ' + url_item.str);
+                    return true;
+                }
+                this.urls_remote.push(url_item.host);
+            } catch (e) {
+                Logger.getInstance().log(e.message, LOGGER.DB.LOG_DEV);
+            }
+        }
+        return false;
+    }
 }
