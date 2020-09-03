@@ -7,13 +7,22 @@ class RemoteBackground {
         this.connected = undefined;
     }
 
+    request(request) {
+        switch (request.id) {
+            case REMOTE.REQUEST.ID:
+                PopUpController.show_info(this.id);
+                break;
+        }
+    }
+
     loadData() {
         var that = this;
         chrome.storage.local.get(REMOTE.DB.ID, function(data) {
             that.id = data[REMOTE.DB.ID];
-            if (that.id === undefined) {
+            if (that.id === undefined && !RemoteBackground.requested) {
+                RemoteBackground.requested = true;
                 that.get_remote_id();
-            } else {
+            } else if (that.id !== undefined) {
                 that.check_connection();
             }
         });
@@ -34,17 +43,18 @@ class RemoteBackground {
     }
 
     get_remote_id() {
-        var that = this;
         $.ajax({
             method: 'GET',
             url: REMOTE.URL + 'get_id',
             success: function(data) {
+                var that = RemoteBackground.getInstance();
                 var d = data;
                 if (d.id) {
                     that.id = d.id;
                     that.saveData();
                 }
-                this.connected = true;
+                RemoteBackground.requested = false;
+                that.connected = true;
                 Import.import_data_remote();
             }
         });
@@ -57,6 +67,9 @@ class RemoteBackground {
             success: function(data) {
                 if (data.need_data) {
                     Export.export_items_remote();
+                }
+                if (data.need_import) {
+                    Import.import_data_remote();
                 }
             }
         });
@@ -97,6 +110,8 @@ class RemoteBackground {
             delete RemoteBackground.instance;
         return RemoteBackground.instance = new RemoteBackground();
     }
+
+    static requested = false;
 }
 
 

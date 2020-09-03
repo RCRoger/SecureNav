@@ -32,8 +32,9 @@ chrome.runtime.onInstalled.addListener(function(reason) {
         Controller.reset_db();
         init_db();
     }
-    if (reason.reason == 'update')
+    if (reason.reason == 'update') {
         init_db();
+    }
 });
 
 let ctrl = Controller.getInstance();

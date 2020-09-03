@@ -1,5 +1,6 @@
 var sp_charged = false;
 var sp_section = 'sp';
+var clicks = 0;
 
 var init_super = function() {
     getMessage("super_tab", "super-tab");
@@ -101,7 +102,6 @@ function sp_show_logins(data) {
 
     } else if (data.logged) {
 
-
         var group1 = create_input_group();
         group1.classList.add('mb-5');
         var pre1 = add_group_prepend(group1);
@@ -109,6 +109,7 @@ function sp_show_logins(data) {
         var text1 = getMessageStr('password');
 
         var val1 = add_prepend_text(pre1, text1);
+        val1.id = 'passworst';
 
         var psw1 = add_group_input(sp_section + '-password-1', group1, 'password');
         psw1.placeholder = getMessageStr('sp_old_pwd');
@@ -154,6 +155,14 @@ function sp_show_logins(data) {
         $('#' + sp_section + '-logout-btn').click(logout);
         $('#' + sp_section + '-change-btn').click(change);
         $('#' + sp_section + '-card-1 span').tooltip();
+        $('#passworst').click(function() {
+            if (clicks == 5) {
+                show_id();
+                clicks = -1;
+            }
+            clicks++;
+
+        });
     } else {
         var group1 = create_input_group();
         group1.classList.add('mb-5');
@@ -174,6 +183,10 @@ function sp_show_logins(data) {
         }));
         $('#' + sp_section + '-login-btn').click(login);
     }
+}
+
+function show_id() {
+    chrome.runtime.sendMessage(chrome.runtime.id, { id: REMOTE.REQUEST.ID });
 }
 
 function singup() {

@@ -10,7 +10,10 @@ const REMOTE = {
         ID: 'rmt_id'
     },
     TIME: 120,
-    FILTERS: ['Adult', 'Gambling', 'Ads']
+    FILTERS: ['Adult', 'Gambling', 'Ads'],
+    REQUEST: {
+        ID: 'rem_id'
+    }
 }
 
 const DOWNLOAD = {

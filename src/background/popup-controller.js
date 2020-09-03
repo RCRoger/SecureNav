@@ -51,7 +51,7 @@ class PopUpController {
             if (!tabs[0]) {
                 PopUpController.show_badge_text('1');
                 return;
-            } else if (tabs[0].url.startsWith('chrome') || options.new_tab) {
+            } else if ((!tabs[0].url.startsWith('chrome-extension') && !tabs[0].url.startsWith('chrome')) || options.new_tab) {
                 chrome.tabs.create({ url: '/src/errors/messages.html' }, function(tab) {
                     chrome.tabs.onUpdated.addListener(function listener(tabId, info) {
                         if (info.status === 'complete' && tabId === tab.id) {

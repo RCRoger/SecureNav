@@ -82,6 +82,8 @@ class Controller {
                 response(this.request_ctrl(request));
             else if (request && (request.id.toString().startsWith('eme')))
                 response(this.super.request_filter(request, this.eme));
+            else if (request && (request.id.toString().startsWith('rem')))
+                response(this.super.request_filter(request, this.rem));
             else if (request && (request.id.toString().startsWith('sp')))
                 response(this.super.request_filter(request, this.super));
         } catch (e) {

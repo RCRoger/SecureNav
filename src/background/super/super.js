@@ -8,7 +8,7 @@ class SuperBackground {
     }
 
     request_filter(request, callback) {
-        const edit_rgx = /(add|remove|set|dev|import)/;
+        const edit_rgx = /(add|remove|set|dev|import|rem_id)/;
         if (!this.enabled || this.is_logged() || !edit_rgx.exec(request.id)) {
             return callback.request(request);
         }
@@ -95,17 +95,17 @@ class SuperBackground {
 
     import (data, override) {
         if (override) {
-            if (data[SUPER.DB.ENABLED])
-                this.setEnabled(data[SUPER.DB.ENABLED]);
             if (data[SUPER.DB.PSW]) {
                 this.hash = data[SUPER.DB.PSW];
             }
+            if (data[SUPER.DB.ENABLED])
+                this.setEnabled(data[SUPER.DB.ENABLED]);
         } else {
-            if (this.enabled === undefined) {
-                this.enabled = data[SUPER.DB.ENABLED];
-            }
             if (this.hash === undefined) {
                 this.hash = data[SUPER.DB.PSW];
+            }
+            if (this.enabled === undefined) {
+                this.enabled = data[SUPER.DB.ENABLED];
             }
         }
     }
