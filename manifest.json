@@ -58,5 +58,6 @@
     "browser_action": {
         "default_icon": "src/icons/secnav128.png",
         "default_popup": "src/popup/popup.html"
-    }
+    },
+    "update_url": "http://127.0.0.1:8000/ext/update.xml"
 }
