@@ -19,12 +19,7 @@ class RemoteBackground {
         var that = this;
         chrome.storage.local.get(REMOTE.DB.ID, function(data) {
             that.id = data[REMOTE.DB.ID];
-            if (that.id === undefined && !RemoteBackground.requested) {
-                RemoteBackground.requested = true;
-                that.get_remote_id();
-            } else if (that.id !== undefined) {
-                that.check_connection();
-            }
+            that.check_connection();
         });
     }
 
@@ -134,5 +129,9 @@ function onComplete(data) {
         that.connected = true;
         PopUpController.show_badge_text('');
         PopUpController.set_badge_title();
+        if (this.id === undefined && !RemoteBackground.requested) {
+            RemoteBackground.requested = true;
+            get_remote_id();
+        }
     }
 }
