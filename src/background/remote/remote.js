@@ -30,9 +30,13 @@ class RemoteBackground {
     }
 
     check_connection() {
+        let that = RemoteBackground.getInstance();
+        if (that.id)
+            var data = { id: that.id };
         $.ajax({
             method: 'GET',
             url: REMOTE.URL,
+            data: data,
             complete: onComplete
         });
     }
@@ -121,6 +125,12 @@ function onComplete(data) {
         }
         that.connected = false;
         setTimeout(that.check_connection, 10000);
+    } else if (data.status === 204) {
+        that.id = undefined;
+        if (!RemoteBackground.requested) {
+            RemoteBackground.requested = true;
+            that.get_remote_id();
+        }
     } else {
         if (that.connected === undefined) {
             that.connected = true;
