@@ -1,0 +1,234 @@
+{
+    "general_tab": {
+        "message": "General",
+        "description": "Nom per a la tab de configuració general"
+    },
+    "download_tab": {
+        "message": "Control de descargas"
+    },
+    "sites_tab": {
+        "message": "Control de sitios web"
+    },
+    "popup_tab": {
+        "message": "Control de emergentes"
+    },
+    "super_tab": {
+        "message": "Bloqueador"
+    },
+    "grl_title": {
+        "message": "Notificaciones"
+    },
+    "url_title": {
+        "message": "Lista d'URLs"
+    },
+    "dwl_title_1": {
+        "message": "Tamaño máximo de archivo"
+    },
+    "enabled": {
+        "message": "Habilitado"
+    },
+    "disabled": {
+        "message": "Deshabilitado"
+    },
+    "enable": {
+        "message": "Habilita"
+    },
+    "disable": {
+        "message": "Deshabilita"
+    },
+    "whitelist": {
+        "message": "Lista blanca"
+    },
+    "blacklist": {
+        "message": "Lista negra"
+    },
+    "dwl_url_status_0": {
+        "message": "  Las descargas están bloqueadas es este sitio web."
+    },
+    "dwl_url_status_1": {
+        "message": "  Las descargas están habilitadas en este sitio web"
+    },
+    "mode": {
+        "message": "Modo actual: "
+    },
+    "block": {
+        "message": "Bloquea"
+    },
+    "unblock": {
+        "message": "Desbloquea"
+    },
+    "dwl_cancel": {
+        "message": "La descarga ha sido bloqueada: "
+    },
+    "size_block": {
+        "message": "El archivo excede el tamaño máximo permitido por SecNav."
+    },
+    "url_block": {
+        "message": "El archivo se está intentando descargar des de URL no autoritada por SecNav."
+    },
+    "unable_notifications": {
+        "message": "Las notificaciones se pueden desactivar des de el apartado de configuración de SecNav."
+    },
+    "notification_title": {
+        "message": "Notificaciones"
+    },
+    "recent_logs": {
+        "message": "Actividad reciente"
+    },
+    "acc_stats": {
+        "message": "Actividad acumulada"
+    },
+    "nothing_show": {
+        "message": "No hay nada que ver aquí... De momento."
+    },
+    "pg_block": {
+        "message": "La siguiente página ha sido bloqueada por SecNav"
+    },
+    "num_checked": {
+        "message": "Analizados"
+    },
+    "num_blocked": {
+        "message": "Bloqueados"
+    },
+    "invalid_pattern": {
+        "message": "La url introducida no es válida, para más información consulta: https://developer.chrome.com/extensions/match_patterns ."
+    },
+    "invalid_format": {
+        "message": "Parece que el dato aportado no tiene el formato que se esperaba."
+    },
+    "help_json": {
+        "message": "El archivo JSON debe tener la misma estructura que el JSON d'exportación"
+    },
+    "help_csv": {
+        "message": "El archivo con formato csv solo permite importar las URL que deben de estar separadas por ',' o por ';'."
+    },
+    "help_txt": {
+        "message": "El archivo con formato csv solo permite importar las URL que, como máximo, puede tener 1 por fila."
+    },
+    "import_title": {
+        "message": "Los formatos de archivo aceptados son: "
+    },
+    "override": {
+        "message": "Sobreescribir"
+    },
+    "pg_url_status_0": {
+        "message": "  El acceso a este sitio web está bloqueado."
+    },
+    "pg_url_status_1": {
+        "message": "  El acceso a este sitio web está permitido"
+    },
+    "eme_url_status_0": {
+        "message": "  Las ventanas emergentes derivades de este sitio web estan bloqueadas."
+    },
+    "eme_url_status_1": {
+        "message": "  Las ventanas emergentes derivades de este sitio web estan permitidas."
+    },
+    "pop_up_blocked": {
+        "message": "Se ha bloqueado una ventana emergente."
+    },
+    "sp_not_logged": {
+        "message": "Para realizar está acción tienes que haber iniciado sesión préviamente."
+    },
+    "password": {
+        "message": "Contraseña"
+    },
+    "repeat_password": {
+        "message": "Repite la contraseña"
+    },
+    "sp_singup_title": {
+        "message": "Registra una contraseña"
+    },
+    "sp_logged": {
+        "message": "Cambio de contraseña"
+    },
+    "sp_login_title": {
+        "message": "Inicio de sesión"
+    },
+    "sp_logout": {
+        "message": "Cierra sesión"
+    },
+    "sp_login": {
+        "message": "Inicia sesión"
+    },
+    "sp_singup": {
+        "message": "Registra"
+    },
+    "sp_old_pwd": {
+        "message": "Contraseña actual"
+    },
+    "sp_new_pwd": {
+        "message": "Contraseña nova"
+    },
+    "sp_change": {
+        "message": "Cambia"
+    },
+    "sp_changed": {
+        "message": "La Contraseña se ha cambiado con éxito."
+    },
+    "sp_description": {
+        "message": "La sección Bloqueador permite bloquear el cambio de datos al estar habilitada a no ser de haber iniciado sesión previamente, la duración de esta es de 90 minutos, si pasa más tiempo habrá que volver a iniciar sesión."
+    },
+    "description": {
+        "message": "Descripción"
+    },
+    "sp_pwd_invalid": {
+        "message": "La Contraseña no cumple los mínimos establecidos"
+    },
+    "sp_pwd_minims": {
+        "message": "La Contraseña debe incluir como mínimo 1 minúscula, 1 masyúscula, 1 número, 1 carácter especial i 8 carácteres en total"
+    },
+    "export": {
+        "message": "Exportar"
+    },
+    "import": {
+        "message": "Importar"
+    },
+    "pg_pending": {
+        "message": "¿Seguro que deseas continuar a aqueste sitio web?."
+    },
+    "Phishing": {
+        "message": "Esta página ha sido catalogada como peligrosa por 'phishing'."
+    },
+    "continue": {
+        "message": "Continuar"
+    },
+    "cancel": {
+        "message": "Cancelar"
+    },
+    "notification_pg_blocked": {
+        "message": "El sitio web ha sido bloqueado después de preguntar al usuario sobre su acceso."
+    },
+    "dwl_pending": {
+        "message": "¿Está seguro que quiere descargar este archivo? Es possble que deba volver a iniciar la descárga."
+    },
+    "sp_not_hash": {
+        "message": "Primero debe registrar-te"
+    },
+    "Ads": {
+        "message": "Esta url contiene anuncios"
+    },
+    "Malware": {
+        "message": "Esta página ha sido catalogada como peligrosa por 'malware'."
+    },
+    "filters": {
+        "message": "Filtres adicionals"
+    },
+    "Adult": {
+        "message": "Esta página contiene contenido +18"
+    },
+    "Ads_filter": {
+        "message": "Anuncios"
+    },
+    "Adult_filter": {
+        "message": "Contenido sexual"
+    },
+    "Gambling_filter": {
+        "message": "Contenido d'apostes"
+    },
+    "not_connected": {
+        "message": "No se ha podido obtener acceso al servidor, se intentará una reconexión cada 10 segundos, recuerde que al perder la conexión con el servidor pierda la seguridad que le aportaba. Cuando la conexión se reestablezca desaparecerá la alerta de el icono de la extensión."
+    },
+    "no_connected_title": {
+        "message": "SecNav no está conectada con el servidor."
+    }
+}

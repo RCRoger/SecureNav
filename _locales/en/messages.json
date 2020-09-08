@@ -1,0 +1,234 @@
+{
+    "general_tab": {
+        "message": "General",
+        "description": "Nom per a la tab de configuració general"
+    },
+    "download_tab": {
+        "message": "Downloads managment"
+    },
+    "sites_tab": {
+        "message": "Sites managment"
+    },
+    "popup_tab": {
+        "message": "Emergents managment"
+    },
+    "super_tab": {
+        "message": "Blocker"
+    },
+    "grl_title": {
+        "message": "Notifications"
+    },
+    "url_title": {
+        "message": "URLs' list"
+    },
+    "dwl_title_1": {
+        "message": "Maximum size for a file"
+    },
+    "enabled": {
+        "message": "Enabled"
+    },
+    "disabled": {
+        "message": "Disabled"
+    },
+    "enable": {
+        "message": "Enable"
+    },
+    "disable": {
+        "message": "Disable"
+    },
+    "whitelist": {
+        "message": "Whitelist"
+    },
+    "blacklist": {
+        "message": "Blacklist"
+    },
+    "dwl_url_status_0": {
+        "message": "  Downloads are blocked for this site."
+    },
+    "dwl_url_status_1": {
+        "message": "  Downloads are available for this site."
+    },
+    "mode": {
+        "message": "Actual mode: "
+    },
+    "block": {
+        "message": "Block"
+    },
+    "unblock": {
+        "message": "Unblock"
+    },
+    "dwl_cancel": {
+        "message": "Download has been blocked: "
+    },
+    "size_block": {
+        "message": "File surpass the max size supported by SecNav."
+    },
+    "url_block": {
+        "message": "SecNav doesn't authorize this URLto download files."
+    },
+    "unable_notifications": {
+        "message": "Notifications can be turned off from SecNav options."
+    },
+    "notification_title": {
+        "message": "Notifications"
+    },
+    "recent_logs": {
+        "message": "Recent activity"
+    },
+    "acc_stats": {
+        "message": "Activity"
+    },
+    "nothing_show": {
+        "message": "There is nothing to show..."
+    },
+    "pg_block": {
+        "message": "This site has been blocked by SecNav"
+    },
+    "num_checked": {
+        "message": "Checkeds"
+    },
+    "num_blocked": {
+        "message": "Blockeds"
+    },
+    "invalid_pattern": {
+        "message": "Url introduced is not correct, for more information check https://developer.chrome.com/extensions/match_patterns ."
+    },
+    "invalid_format": {
+        "message": "Seems like the data sent has not the correct format."
+    },
+    "help_json": {
+        "message": "JSON file has to have the same structure as export file."
+    },
+    "help_csv": {
+        "message": "CSV file can only import URLs, these ones have to be separated by ',' or ';'."
+    },
+    "help_txt": {
+        "message": "TXT file can only import URLs, maximum 1 by row."
+    },
+    "import_title": {
+        "message": "File formats permited are: "
+    },
+    "override": {
+        "message": "Overwrite"
+    },
+    "pg_url_status_0": {
+        "message": "  The access to this site is blocked."
+    },
+    "pg_url_status_1": {
+        "message": "  The access to this site is allowed."
+    },
+    "eme_url_status_0": {
+        "message": " PopUps are blocked by SecNav."
+    },
+    "eme_url_status_1": {
+        "message": "  PopUps are allowed by SecNav."
+    },
+    "pop_up_blocked": {
+        "message": "A PopUp has been blocked."
+    },
+    "sp_not_logged": {
+        "message": "To do this action you need to be logged."
+    },
+    "password": {
+        "message": "Password"
+    },
+    "repeat_password": {
+        "message": "Repeat password"
+    },
+    "sp_singup_title": {
+        "message": "Register a password"
+    },
+    "sp_logged": {
+        "message": "Change your password"
+    },
+    "sp_login_title": {
+        "message": "Login page"
+    },
+    "sp_logout": {
+        "message": "Logout"
+    },
+    "sp_login": {
+        "message": "Login"
+    },
+    "sp_singup": {
+        "message": "Sing Up"
+    },
+    "sp_old_pwd": {
+        "message": "Actual password"
+    },
+    "sp_new_pwd": {
+        "message": "New password"
+    },
+    "sp_change": {
+        "message": "Change"
+    },
+    "sp_changed": {
+        "message": "Password has been changed"
+    },
+    "sp_description": {
+        "message": "This section allows the user to block any change of local data of the extension, to change data you will need to be logged, the session lasts 90 minutes, after that time you will need to log in again."
+    },
+    "description": {
+        "message": "Description"
+    },
+    "sp_pwd_invalid": {
+        "message": "This password does not achieve the minimum requeriments"
+    },
+    "sp_pwd_minims": {
+        "message": "Passwors needs to include 1 lowercase, 1 uppercase, 1 number, 1 special character and 8 characters"
+    },
+    "export": {
+        "message": "Export"
+    },
+    "import": {
+        "message": "Import"
+    },
+    "pg_pending": {
+        "message": "Are you sure that you want to continue into this site?."
+    },
+    "Phishing": {
+        "message": "Page has been classified as 'phishing'."
+    },
+    "continue": {
+        "message": "Continue"
+    },
+    "cancel": {
+        "message": "Cancel"
+    },
+    "notification_pg_blocked": {
+        "message": "Page has been blocked after the user election."
+    },
+    "dwl_pending": {
+        "message": "Are you sure that you want to download this file?, You may have to donwload it again."
+    },
+    "sp_not_hash": {
+        "message": "You need to register first."
+    },
+    "Ads": {
+        "message": "This site contains ads"
+    },
+    "Malware": {
+        "message": "Page has been classified dangerous because of 'malware'."
+    },
+    "filters": {
+        "message": "Aditional filters"
+    },
+    "Adult": {
+        "message": "This page contains +18 content"
+    },
+    "Ads_filter": {
+        "message": "Ads"
+    },
+    "Adult_filter": {
+        "message": "Sexual content"
+    },
+    "Gambling_filter": {
+        "message": "Gambling content"
+    },
+    "not_connected": {
+        "message": "SecNav could not connect with server, it will try to reconnect every 10 seconds, remember that you are not protected by the server until SecNav reconnects again. The alert next to extension's icon will disappear when the reconnection were succesful."
+    },
+    "no_connected_title": {
+        "message": "Connection lost"
+    }
+}

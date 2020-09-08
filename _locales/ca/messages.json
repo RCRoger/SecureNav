@@ -6,9 +6,6 @@
     "download_tab": {
         "message": "Control de descàrregues"
     },
-    "malware_tab": {
-        "message": "Control d'elements"
-    },
     "sites_tab": {
         "message": "Control de llocs web"
     },
@@ -196,7 +193,7 @@
         "message": "Continuar"
     },
     "cancel": {
-        "message": "Cancelar"
+        "message": "Cancel·lar"
     },
     "notification_pg_blocked": {
         "message": "La pàgina ha estat bloquejada després de preguntar a l'usuari sobre el seu accés"
