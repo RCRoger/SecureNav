@@ -132,11 +132,13 @@ class PageUrlList extends UrlBackground {
             if (this.type == TYPE.WHITELIST) {
                 if (!this.contains_url(page)) {
                     logger.log('pg_block ' + page.url);
+                    logger.log('pg_block ' + page.url, LOGGER.DB.LOG_DEV);
                     return true;
                 }
             } else if (this.type == TYPE.BLACKLIST) {
                 if (this.contains_url(page)) {
                     logger.log('pg_block ' + page.url);
+                    logger.log('pg_block ' + page.url, LOGGER.DB.LOG_DEV);
                     return true;
                 }
             }

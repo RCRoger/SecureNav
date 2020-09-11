@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "SecNav",
-    "default_locale": "ca",
-    "version": "0.9",
+    "default_locale": "en",
+    "version": "0.9.1",
     "description": "Millora la teva seguretat al navegar per la web.",
     "permissions": [
         "storage",
